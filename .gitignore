@@ -1,0 +1,23 @@
+# ... Eclipse-specific
+.metadata/
+.project/
+.settings/
+.classpath
+.project
+# ... IntelliJ IDEA-specific
+.idea/
+*.iml
+# ... maven-specific
+build/
+target/
+# ... vim-specific
+.swp
+*~
+# ... others
+# TestNG
+test-output/
+# SVN
+.svn/
+# scripts (in root dir)
+/*.bat
+/*.sh

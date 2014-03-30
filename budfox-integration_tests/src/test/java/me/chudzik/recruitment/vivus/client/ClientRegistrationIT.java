@@ -1,5 +1,6 @@
 package me.chudzik.recruitment.vivus.client;
 
+import static me.chudzik.recruitment.vivus.utils.JsonUtils.convertObjectToJsonBytes;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -40,8 +41,7 @@ public class ClientRegistrationIT extends AbstractTestNGSpringContextTests {
 
         mockMvc.perform(
                 post("/clients")
-                    // FIXME-ach: provide JSON representatiton
-                    .content(client.toString())
+                    .content(convertObjectToJsonBytes(client))
                     .contentType(APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(APPLICATION_JSON))

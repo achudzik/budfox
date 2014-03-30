@@ -15,6 +15,7 @@
 
     <properties>
         <fest-assert.version>2.0M10</fest-assert.version>
+        <json-path.version>0.9.1</json-path.version>
     </properties>
 
     <dependencies>
@@ -34,6 +35,13 @@
             <groupId>org.easytesting</groupId>
             <artifactId>fest-assert-core</artifactId>
             <version>${fest-assert.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path</artifactId>
+            <version>${json-path.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

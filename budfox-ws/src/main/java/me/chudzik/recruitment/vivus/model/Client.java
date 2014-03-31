@@ -31,6 +31,11 @@ public class Client {
 
         private final Client client = new Client();
 
+        public Builder id(Long id) {
+            client.id = id;
+            return this;
+        }
+
         public Builder identificationNumber(String identificationNumber) {
             client.identificationNumber = identificationNumber;
             return this;

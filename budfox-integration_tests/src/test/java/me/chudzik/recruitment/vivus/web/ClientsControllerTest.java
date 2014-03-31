@@ -1,10 +1,12 @@
 package me.chudzik.recruitment.vivus.web;
 
-import static me.chudzik.recruitment.vivus.utils.Constants.APPLICATION_JSON_WITH_UTF8;
 import static me.chudzik.recruitment.vivus.utils.JsonUtils.convertObjectToJsonBytes;
 import static org.fest.assertions.api.Assertions.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import me.chudzik.recruitment.vivus.model.Client;
 import me.chudzik.recruitment.vivus.repository.ClientRepository;
 
@@ -12,6 +14,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.testng.annotations.BeforeMethod;
@@ -43,7 +46,7 @@ public class ClientsControllerTest {
         mockMvc.perform(
                 post("/clients")
                     .content(convertObjectToJsonBytes(client))
-                    .contentType(APPLICATION_JSON_WITH_UTF8));
+                    .contentType(MediaType.APPLICATION_JSON));
 
         // assert
         ArgumentCaptor<Client> argument = ArgumentCaptor.forClass(Client.class);
@@ -51,4 +54,19 @@ public class ClientsControllerTest {
         assertThat(argument).isEqualsToByComparingFields(argument);
     }
 
+    @Test
+    public void shouldNotSaveAlreadyPersistedEntityByPut() throws Exception {
+        // arrange
+        Client client = new Client.Builder().id(1l).identificationNumber("68092005286").build();
+
+        // act / assert
+        mockMvc.perform(
+                post("/clients")
+                    .content(convertObjectToJsonBytes(client))
+                    .contentType(MediaType.APPLICATION_JSON))
+                // TODO-ach: split into two tests? First check how many methods will throw IllegalStateExceptions 
+                .andExpect(status().isBadRequest());
+
+        verify(repository, never()).save(any(Client.class));
+    }
 }

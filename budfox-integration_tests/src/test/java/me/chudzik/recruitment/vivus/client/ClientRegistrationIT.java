@@ -1,6 +1,5 @@
 package me.chudzik.recruitment.vivus.client;
 
-import static me.chudzik.recruitment.vivus.utils.Constants.APPLICATION_JSON_WITH_UTF8;
 import static me.chudzik.recruitment.vivus.utils.JsonUtils.convertObjectToJsonBytes;
 import static org.mockito.internal.matchers.NotNull.NOT_NULL;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -12,6 +11,7 @@ import me.chudzik.recruitment.vivus.model.Client;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -43,9 +43,9 @@ public class ClientRegistrationIT extends AbstractTestNGSpringContextTests {
         mockMvc.perform(
                 post("/clients")
                     .content(convertObjectToJsonBytes(client))
-                    .contentType(APPLICATION_JSON_WITH_UTF8))
+                    .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
-                .andExpect(content().contentType(APPLICATION_JSON_WITH_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("id").value(NOT_NULL))
                 .andExpect(jsonPath("identificationNumber").value(client.getIdentificationNumber()));
     }

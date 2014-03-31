@@ -14,8 +14,10 @@
     <description>Integration tests for project</description>
 
     <properties>
+        <dbunit.version>2.4.9</dbunit.version>
         <fest-assert.version>2.0M10</fest-assert.version>
         <json-path.version>0.9.1</json-path.version>
+        <spring-test-dbunit.version>1.1.0</spring-test-dbunit.version>
     </properties>
 
     <dependencies>
@@ -42,6 +44,21 @@
             <groupId>com.jayway.jsonpath</groupId>
             <artifactId>json-path</artifactId>
             <version>${json-path.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- ... DBUnit .................................................... -->
+        <dependency>
+            <groupId>org.dbunit</groupId>
+            <artifactId>dbunit</artifactId>
+            <version>${dbunit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.springtestdbunit</groupId>
+            <artifactId>spring-test-dbunit</artifactId>
+            <version>${spring-test-dbunit.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

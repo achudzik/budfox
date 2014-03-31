@@ -5,20 +5,26 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 @Entity
+@Table(name = "clients")
 public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @NotNull
-    @Column(unique = true)
+    @Column(name = "identification_number", nullable = false, unique = true)
     private String identificationNumber;
+
+    @Version
+    private long version;
 
 
     public Client() { }
@@ -29,6 +35,10 @@ public class Client {
 
     public String getIdentificationNumber() {
         return identificationNumber;
+    }
+
+    public long getVersion() {
+        return version;
     }
 
     @Override

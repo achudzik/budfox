@@ -13,7 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.springframework.test.context.web.ServletTestExecutionListener;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -21,9 +26,21 @@ import org.springframework.web.context.WebApplicationContext;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import com.github.springtestdbunit.DbUnitTestExecutionListener;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.github.springtestdbunit.annotation.ExpectedDatabase;
+import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
+
 @WebAppConfiguration
 @SpringApplicationConfiguration(classes = Application.class)
 @ActiveProfiles("nomanagement")
+@TestExecutionListeners({
+        ServletTestExecutionListener.class,
+        DependencyInjectionTestExecutionListener.class,
+        DirtiesContextTestExecutionListener.class,
+        TransactionalTestExecutionListener.class,
+        DbUnitTestExecutionListener.class })
+@DatabaseSetup("clientData.xml")
 public class ClientRegistrationIT extends AbstractTestNGSpringContextTests {
 
     @Autowired
@@ -37,6 +54,7 @@ public class ClientRegistrationIT extends AbstractTestNGSpringContextTests {
     }
 
     @Test
+    @ExpectedDatabase(value = "clientData-add-expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
     public void shouldAllowRegisteringNewUser() throws Exception {
         Client client = new Client.Builder().identificationNumber("68092005286").build(); 
 
@@ -49,4 +67,5 @@ public class ClientRegistrationIT extends AbstractTestNGSpringContextTests {
                 .andExpect(jsonPath("id").value(NOT_NULL))
                 .andExpect(jsonPath("identificationNumber").value(client.getIdentificationNumber()));
     }
+
 }

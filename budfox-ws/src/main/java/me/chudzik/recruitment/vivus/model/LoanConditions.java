@@ -9,6 +9,8 @@ import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.hibernate.annotations.Columns;
+import org.hibernate.annotations.Type;
 import org.joda.money.Money;
 import org.joda.time.DateTime;
 
@@ -18,6 +20,8 @@ public class LoanConditions {
     @NotNull
     private BigDecimal interest;
     @NotNull
+    @Columns(columns = { @Column(name = "currency", length = 3), @Column(name = "amount") })
+    @Type(type = "org.jadira.usertype.moneyandcurrency.joda.PersistentMoneyAmountAndCurrency")
     private Money amount;
     @Future
     @Column(name = "maturity_date", nullable = false)

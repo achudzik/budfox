@@ -45,6 +45,8 @@ public class LoanApplication {
         private Money amount;
         private Period term;
 
+        private Builder() {}
+
         public Builder client(Client client) {
             this.client = client;
             return this;

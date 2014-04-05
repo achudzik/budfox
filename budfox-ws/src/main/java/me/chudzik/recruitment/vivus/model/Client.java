@@ -74,6 +74,8 @@ public class Client extends AbstractPersistable<Long> {
         private Long id;
         private String identificationNumber;
 
+        private Builder() {}
+
         public Builder id(Long id) {
             this.id = id;
             return this;

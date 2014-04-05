@@ -68,26 +68,38 @@ public class Activity extends AbstractPersistable<Long> {
     }
 
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
     public static class Builder {
 
-        private final Activity activity = new Activity();
+        private Client client;
+        private ActivityType type;
+        private String ipAddress;
+
+        private Builder() { }
 
         public Builder client(Client client) {
-            activity.client = client;
+            this.client = client;
             return this;
         }
 
         public Builder type(ActivityType type) {
-            activity.type = type;
+            this.type = type;
             return this;
         }
 
         public Builder ipAddress(String ipAddress) {
-            activity.ipAddress = ipAddress;
+            this.ipAddress = ipAddress;
             return this;
         }
 
         public Activity build() {
+            Activity activity = new Activity();
+            activity.client = this.client;
+            activity.ipAddress = this.ipAddress;
+            activity.type = this.type;
             return activity;
         }
 

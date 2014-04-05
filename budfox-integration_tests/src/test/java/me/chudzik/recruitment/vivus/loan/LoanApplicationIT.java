@@ -58,7 +58,7 @@ public class LoanApplicationIT extends AbstractTestNGSpringContextTests {
     @Test
     @ExpectedDatabase(value = "loanData-issue-expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
     public void shouldAllowTakingNewLoans() throws Exception {
-        LoanApplication application = new LoanApplication.Builder()
+        LoanApplication application = LoanApplication.builder()
                 .client(VALID_CLIENT)
                 .term(THREE_WEEKS_PERIOD)
                 .amount(THREE_PLN)

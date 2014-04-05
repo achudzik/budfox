@@ -56,7 +56,7 @@ public class ClientRegistrationIT extends AbstractTestNGSpringContextTests {
     @Test
     @ExpectedDatabase(value = "clientData-add-expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
     public void shouldAllowRegisteringNewUser() throws Exception {
-        Client client = new Client.Builder().identificationNumber("68092005286").build(); 
+        Client client = Client.builder().identificationNumber("68092005286").build(); 
 
         mockMvc.perform(
                 post("/clients")

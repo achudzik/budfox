@@ -40,7 +40,7 @@ public class ClientsControllerTest {
     @Test
     public void shouldSaveNewEntityToDb() throws Exception {
         // arrange
-        Client client = new Client.Builder().identificationNumber("68092005286").build();
+        Client client = Client.builder().identificationNumber("68092005286").build();
 
         // act
         mockMvc.perform(
@@ -57,7 +57,7 @@ public class ClientsControllerTest {
     @Test
     public void shouldNotSaveAlreadyPersistedEntityByPut() throws Exception {
         // arrange
-        Client client = new Client.Builder().id(1l).identificationNumber("68092005286").build();
+        Client client = Client.builder().id(1l).identificationNumber("68092005286").build();
 
         // act / assert
         mockMvc.perform(

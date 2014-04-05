@@ -27,6 +27,8 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <java.version>1.7</java.version>
+
+        <fest-assert.version>2.0M10</fest-assert.version>
         <testng.version>6.8.8</testng.version>
     </properties>
 
@@ -35,6 +37,13 @@
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>${testng.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.easytesting</groupId>
+            <artifactId>fest-assert-core</artifactId>
+            <version>${fest-assert.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

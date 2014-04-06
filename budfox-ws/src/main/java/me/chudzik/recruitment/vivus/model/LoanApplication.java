@@ -5,21 +5,29 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.joda.money.Money;
 import org.joda.time.Period;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 
+@JsonAutoDetect(fieldVisibility = Visibility.ANY, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
 public class LoanApplication {
 
+    /* TODO-ach: in Jackson 2.4 will be added support for ObjectIdResolver, which will allow deserialization to objects solely on base of id (but ONLY with it).
+     * Details: https://github.com/FasterXML/jackson-databind/issues/138
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
     private Client client;
+     */
+    private Long client;
     private Money amount;
     private Period term;
 
-
+    /**
+     *
+     * @return client with only id property set
+     */
     public Client getClient() {
-        return client;
+        // TODO-ach: replace with client constructed internally by Jackson
+        return Client.builder().id(client).build();
     }
 
     public Money getAmount() {
@@ -67,7 +75,8 @@ public class LoanApplication {
         public LoanApplication build() {
             LoanApplication application = new LoanApplication();
             application.amount = this.amount;
-            application.client = this.client;
+            // TODO-ach: change from Long to Client after introducing above mentioned resolver
+            application.client = this.client.getId();
             application.term = this.term;
             return application;
         }

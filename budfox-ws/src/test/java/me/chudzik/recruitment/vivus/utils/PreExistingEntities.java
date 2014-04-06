@@ -2,13 +2,15 @@ package me.chudzik.recruitment.vivus.utils;
 
 import java.math.BigDecimal;
 
+import me.chudzik.recruitment.vivus.model.Client;
+import me.chudzik.recruitment.vivus.model.Loan;
+import me.chudzik.recruitment.vivus.model.LoanApplication;
+import me.chudzik.recruitment.vivus.model.LoanConditions;
+
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
-
-import me.chudzik.recruitment.vivus.model.Client;
-import me.chudzik.recruitment.vivus.model.LoanApplication;
 
 public class PreExistingEntities {
 
@@ -34,4 +36,16 @@ public class PreExistingEntities {
             .term(THREE_WEEKS_PERIOD)
             .build();
 
+    public static final BigDecimal BASIC_INTEREST = new BigDecimal("10.0");
+
+    public static final LoanConditions VALID_LOAN_CONDITIONS = LoanConditions.builder()
+            .amount(THREE_PLN)
+            .interest(BASIC_INTEREST)
+            .maturityDate(MONTH_LATER)
+            .build();
+
+    public static final Loan VALID_LOAN = Loan.builder()
+            .client(VALID_CLIENT)
+            .conditions(VALID_LOAN_CONDITIONS)
+            .build();
 }

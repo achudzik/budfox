@@ -3,6 +3,7 @@ package me.chudzik.recruitment.vivus.model;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.joda.money.Money;
+import org.joda.time.DateTime;
 import org.joda.time.Period;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -19,6 +20,7 @@ public class LoanApplication {
      */
     private Long client;
     private Money amount;
+    private DateTime maturityDate;
     private Period term;
 
     /**
@@ -32,6 +34,10 @@ public class LoanApplication {
 
     public Money getAmount() {
         return amount;
+    }
+
+    public DateTime getMaturityDate() {
+        return maturityDate;
     }
 
     public Period getTerm() {
@@ -53,6 +59,7 @@ public class LoanApplication {
 
         private Client client;
         private Money amount;
+        private DateTime maturityDate;
         private Period term;
 
         private Builder() {}
@@ -67,6 +74,11 @@ public class LoanApplication {
             return this;
         }
 
+        public Builder maturityDate(DateTime maturityDate) {
+            this.maturityDate = maturityDate;
+            return this;
+        }
+
         public Builder term(Period term) {
             this.term = term;
             return this;
@@ -77,6 +89,7 @@ public class LoanApplication {
             application.amount = this.amount;
             // TODO-ach: change from Long to Client after introducing above mentioned resolver
             application.client = this.client.getId();
+            application.maturityDate = this.maturityDate;
             application.term = this.term;
             return application;
         }

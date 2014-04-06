@@ -14,8 +14,11 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.joda.time.DateTime;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "activities")
+@JsonIgnoreProperties("new")
 public class Activity extends AbstractPersistable<Long> {
 
     private static final long serialVersionUID = -115892659003310229L;

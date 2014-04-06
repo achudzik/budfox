@@ -20,8 +20,11 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "clients")
+@JsonIgnoreProperties("new")
 public class Client extends AbstractPersistable<Long> {
 
     private static final long serialVersionUID = -8738990609586826604L;

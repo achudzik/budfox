@@ -2,9 +2,8 @@ package me.chudzik.recruitment.vivus.web;
 
 import static me.chudzik.recruitment.vivus.utils.JsonUtils.convertObjectToJsonBytes;
 import static org.fest.assertions.api.Assertions.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import me.chudzik.recruitment.vivus.model.Client;
@@ -64,9 +63,9 @@ public class ClientsControllerTest {
                 post("/clients")
                     .content(convertObjectToJsonBytes(client))
                     .contentType(MediaType.APPLICATION_JSON))
-                // TODO-ach: split into two tests? First check how many methods will throw IllegalStateExceptions 
+                // TODO-ach: split into two tests? First check how many methods will throw IllegalStateExceptions
                 .andExpect(status().isBadRequest());
 
-        verify(repository, never()).save(any(Client.class));
+        verifyZeroInteractions(repository);
     }
 }

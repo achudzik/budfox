@@ -1,6 +1,7 @@
 package me.chudzik.recruitment.vivus.web;
 
 import static me.chudzik.recruitment.vivus.utils.JsonUtils.convertObjectToJsonBytes;
+import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.VALID_PESEL;
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
@@ -8,7 +9,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import me.chudzik.recruitment.vivus.model.Client;
 import me.chudzik.recruitment.vivus.repository.ClientRepository;
-import me.chudzik.recruitment.vivus.utils.JsonUtils;
 
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
@@ -36,14 +36,13 @@ public class ClientsControllerTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(sut).build();
-        
     }
 
     @Test
     public void shouldSaveNewEntityToDb() throws Exception {
         // arrange
-        Client client = Client.builder().identificationNumber("68092005286").build();
-        String json = JsonUtils.convertObjectToJsonString(client);
+        Client client = Client.builder().identificationNumber(VALID_PESEL).build();
+
         // act
         mockMvc.perform(
                 post("/clients")
@@ -54,21 +53,19 @@ public class ClientsControllerTest {
         // assert
         ArgumentCaptor<Client> argument = ArgumentCaptor.forClass(Client.class);
         verify(repository).save(argument.capture());
-        assertThat(argument).isEqualsToByComparingFields(argument);
+        assertThat(argument.getValue()).isEqualsToByComparingFields(client);
     }
 
     @Test
     public void shouldNotSaveAlreadyPersistedEntityByPut() throws Exception {
         // arrange
-        Client client = Client.builder().id(1l).identificationNumber("68092005286").build();
+        Client client = Client.builder().id(1l).identificationNumber(VALID_PESEL).build();
 
         // act / assert
         mockMvc.perform(
                 post("/clients")
                     .content(convertObjectToJsonBytes(client))
                     .contentType(MediaType.APPLICATION_JSON))
-                // TODO-ach: split into two tests? First check how many methods will throw IllegalStateExceptions
-                .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isBadRequest());
 
         verifyZeroInteractions(repository);

@@ -15,6 +15,7 @@ import org.joda.time.DateTime;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -28,6 +29,8 @@ public class Loan extends AbstractPersistable<Long> {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id", nullable = false)
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
     private Client client;
     private LoanConditions conditions;
     @Column(name = "creation_time", nullable = false)
@@ -97,6 +100,7 @@ public class Loan extends AbstractPersistable<Long> {
             Loan loan = new Loan();
             loan.setClient(this.client);
             loan.conditions = this.conditions;
+            loan.creationTime = DateTime.now();
             return loan;
         }
 

@@ -10,18 +10,23 @@ import javax.validation.constraints.NotNull;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.annotations.Columns;
-import org.hibernate.annotations.Type;
+import org.jadira.usertype.moneyandcurrency.joda.PersistentMoneyAmountAndCurrency;
 import org.joda.money.Money;
 import org.joda.time.DateTime;
 
 @Embeddable
+// XXX-ach: Move to package-info.java after fix to https://jira.spring.io/browse/SPR-10910
+@org.hibernate.annotations.TypeDefs({
+    @org.hibernate.annotations.TypeDef(
+            defaultForType = Money.class,
+            typeClass = PersistentMoneyAmountAndCurrency.class)
+})
 public class LoanConditions {
 
     @NotNull
     private BigDecimal interest;
     @NotNull
     @Columns(columns = { @Column(name = "currency", length = 3), @Column(name = "amount") })
-    @Type(type = "org.jadira.usertype.moneyandcurrency.joda.PersistentMoneyAmountAndCurrency")
     private Money amount;
     @Future
     @Column(name = "maturity_date", nullable = false)

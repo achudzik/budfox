@@ -81,6 +81,8 @@ public class Loan extends AbstractPersistable<Long> {
         private Client client;
         private LoanConditions conditions;
 
+        private Builder() { }
+
         public Builder client(Client client) {
             this.client = client;
             return this;

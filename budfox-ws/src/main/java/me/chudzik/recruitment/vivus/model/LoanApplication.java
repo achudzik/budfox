@@ -5,8 +5,14 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.joda.money.Money;
 import org.joda.time.Period;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 public class LoanApplication {
 
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
     private Client client;
     private Money amount;
     private Period term;

@@ -14,8 +14,12 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.joda.time.DateTime;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Table(name = "loans")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Loan extends AbstractPersistable<Long> {
 
     private static final long serialVersionUID = 1240565067423749483L;

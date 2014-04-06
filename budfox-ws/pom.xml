@@ -3,27 +3,72 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>me.chudzik.recruitment.vivus</groupId>
-        <artifactId>budfox-parent</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-    </parent>
-
+    <groupId>me.chudzik.recruitment.vivus</groupId>
     <artifactId>budfox-ws</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
 
     <name>budfox :: web service</name>
+    <description>Micro-lending app | Web service</description>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.0.0.RC5</version>
+    </parent>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.7</java.version>
+
         <start-class>me.chudzik.recruitment.vivus.Application</start-class>
 
+        <!-- ... Compile dependencies versions ............................. -->
         <commons-lang3.version>3.3.1</commons-lang3.version>
         <guava.version>16.0.1</guava.version>
         <joda-money.version>0.9.1</joda-money.version>
         <usertype.core.version>3.1.0.GA</usertype.core.version>
         <validation-api.version>1.1.0.Final</validation-api.version>
+        <!-- ... Test dependencies versions ................................ -->
+        <dbunit.version>2.4.9</dbunit.version>
+        <fest-assert.version>2.0M10</fest-assert.version>
+        <json-path.version>0.9.1</json-path.version>
+        <spring-test-dbunit.version>1.1.0</spring-test-dbunit.version>
+        <testng.version>6.8.8</testng.version>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>http://repo.spring.io/snapshot</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>http://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>http://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
     <dependencies>
+        <!-- ... Spring Boot ............................................... -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -88,6 +133,47 @@
             <groupId>org.jadira.usertype</groupId>
             <artifactId>usertype.core</artifactId>
             <version>${usertype.core.version}</version>
+        </dependency>
+
+        <!-- ... Testing ................................................... -->
+        <dependency>
+            <groupId>org.dbunit</groupId>
+            <artifactId>dbunit</artifactId>
+            <version>${dbunit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.easytesting</groupId>
+            <artifactId>fest-assert-core</artifactId>
+            <version>${fest-assert.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path</artifactId>
+            <version>${json-path.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.springtestdbunit</groupId>
+            <artifactId>spring-test-dbunit</artifactId>
+            <version>${spring-test-dbunit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${testng.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <!-- ... Utils ..................................................... -->

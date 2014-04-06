@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
     <activities/>
-    <clients id="1" identification_number="68092005286"/
+    <clients id="1" identification_number="68092005286" version="0"/>
     <loans/>
 </dataset>

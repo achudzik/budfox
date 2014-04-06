@@ -22,10 +22,6 @@ public class LoanApplication {
         return client;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
     public Money getAmount() {
         return amount;
     }
@@ -71,7 +67,7 @@ public class LoanApplication {
         public LoanApplication build() {
             LoanApplication application = new LoanApplication();
             application.amount = this.amount;
-            application.setClient(this.client);
+            application.client = this.client;
             application.term = this.term;
             return application;
         }

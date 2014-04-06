@@ -13,7 +13,6 @@ import me.chudzik.recruitment.vivus.model.LoanApplication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
@@ -35,7 +34,6 @@ import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 
 @WebAppConfiguration
 @SpringApplicationConfiguration(classes = Application.class)
-@ActiveProfiles("nomanagement")
 @TestExecutionListeners({
         ServletTestExecutionListener.class,
         DependencyInjectionTestExecutionListener.class,

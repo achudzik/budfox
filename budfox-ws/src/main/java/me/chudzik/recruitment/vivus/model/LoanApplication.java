@@ -1,5 +1,9 @@
 package me.chudzik.recruitment.vivus.model;
 
+import javax.validation.constraints.Future;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.joda.money.Money;
@@ -18,9 +22,14 @@ public class LoanApplication {
     @JsonIdentityReference(alwaysAsId = true)
     private Client client;
      */
+    @NotNull
+    @Min(0)
     private Long client;
+    @NotNull
     private Money amount;
+    @Future
     private DateTime maturityDate;
+    @NotNull
     private Period term;
 
     /**

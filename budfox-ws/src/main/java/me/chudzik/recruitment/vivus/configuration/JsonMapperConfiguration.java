@@ -27,7 +27,8 @@ public class JsonMapperConfiguration {
                         SerializationFeature.FAIL_ON_EMPTY_BEANS,
                         SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
                 .disable(
-                        DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES
-                );
+                        DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+                .enable(
+                        DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS);
     }
 }

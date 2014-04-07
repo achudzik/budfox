@@ -2,5 +2,5 @@
 <dataset>
     <activities id="1" client_id="1" type="LOAN_APPLICATION" ip_address="127.0.0.1"/>
     <clients id="1" identification_number="68092005286"/>
-    <loans id="1" client_id="1" currency="pln" amount="3.00" cinterest="15.00"/>
+    <loans id="1" currency="PLN" amount="3.00" interest="10.00" maturity_date="2014-05-07 11:05:00.0" client_id="1"/>
 </dataset>

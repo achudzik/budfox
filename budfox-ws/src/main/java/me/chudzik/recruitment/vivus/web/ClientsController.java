@@ -21,7 +21,7 @@ import com.google.common.base.Preconditions;
 @RequestMapping("/clients")
 public class ClientsController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ClientsController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClientsController.class);
 
     private ClientRepository clientRepository;
 
@@ -44,7 +44,7 @@ public class ClientsController {
     @ExceptionHandler(IllegalStateException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public void handleIllegalStateException(IllegalStateException ex) {
-        LOG.warn(ex.getMessage());
+        LOGGER.warn(ex.getMessage());
     }
 
 }

@@ -8,6 +8,7 @@ import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.VALID_CLIEN
 import static me.chudzik.recruitment.vivus.utils.matchers.JsonPathMatchers.isEqualTo;
 import static me.chudzik.recruitment.vivus.utils.matchers.JsonPathMatchers.isIdAsHas;
 import static org.mockito.internal.matchers.NotNull.NOT_NULL;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -21,7 +22,6 @@ import me.chudzik.recruitment.vivus.model.LoanApplication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
@@ -79,11 +79,11 @@ public class LoanApplicationIT extends AbstractTestNGSpringContextTests {
         mockMvc.perform(
                 post("/loans")
                     .content(convertObjectToJsonBytes(application))
-                    .contentType(MediaType.APPLICATION_JSON))
+                    .contentType(APPLICATION_JSON))
                 //.andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
         // assert
                 .andExpect(status().isCreated())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("id").value(NOT_NULL))
                 .andExpect(jsonPath("client").value(isIdAsHas(VALID_CLIENT)))
                 .andExpect(jsonPath("conditions.amount").value(isEqualTo(THREE_PLN)))

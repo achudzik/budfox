@@ -23,6 +23,8 @@ public class PreExistingEntities {
 
     public static final DateTime TODAY = new DateTime(2014, 4, 7, 13, 5);
 
+    public static final DateTime YESTERDAY = TODAY.minusDays(1);
+
     public static final DateTime MONTH_LATER = TODAY.plusMonths(1);
 
     public static final Period THREE_WEEKS_PERIOD = Period.weeks(3);

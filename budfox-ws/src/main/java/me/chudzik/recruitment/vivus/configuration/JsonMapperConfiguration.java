@@ -14,7 +14,7 @@ import com.fasterxml.jackson.datatype.joda.JodaModule;
 public class JsonMapperConfiguration {
 
     @Bean
-    public ObjectMapper objectMapper() {
+    public ObjectMapper jacksonObjectMapper() {
         return buildObjectMapper();
     }
 

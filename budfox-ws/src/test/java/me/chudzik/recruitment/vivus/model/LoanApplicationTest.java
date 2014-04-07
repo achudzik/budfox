@@ -5,6 +5,7 @@ import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.THREE_PLN;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.THREE_WEEKS_PERIOD;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.VALID_CLIENT;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.VALID_PESEL;
+import static me.chudzik.recruitment.vivus.utils.matchers.JsonPathMatchers.isIdAsHas;
 import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
@@ -14,7 +15,6 @@ import me.chudzik.recruitment.vivus.configuration.JsonMapperConfiguration;
 import org.testng.annotations.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.primitives.Ints;
 
 public class LoanApplicationTest {
 
@@ -31,7 +31,7 @@ public class LoanApplicationTest {
         String result = objectMapper.writeValueAsString(application);
 
         // assert
-        with(result).assertEquals("$.client", Ints.checkedCast(client.getId()));
+        with(result).assertEquals("$.client", isIdAsHas(client));
     }
 
     @Test

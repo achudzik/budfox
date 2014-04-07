@@ -51,3 +51,11 @@ TODO-ach
 ## Pagination
 
 TODO-ach
+
+## Security
+
+TODO-ach
+
+## Documentation
+
+TODO-ach: Maybe use Swagger?

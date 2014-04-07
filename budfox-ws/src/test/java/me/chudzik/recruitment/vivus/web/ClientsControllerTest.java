@@ -16,7 +16,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -47,8 +46,8 @@ public class ClientsControllerTest {
         mockMvc.perform(
                 post("/clients")
                     .content(convertObjectToJsonBytes(client))
-                    .contentType(MediaType.APPLICATION_JSON))
-                .andDo(MockMvcResultHandlers.print());
+                    .contentType(MediaType.APPLICATION_JSON));
+                //.andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print());
 
         // assert
         ArgumentCaptor<Client> argument = ArgumentCaptor.forClass(Client.class);
@@ -66,6 +65,7 @@ public class ClientsControllerTest {
                 post("/clients")
                     .content(convertObjectToJsonBytes(client))
                     .contentType(MediaType.APPLICATION_JSON))
+                //.andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
                 .andExpect(status().isBadRequest());
 
         verifyZeroInteractions(repository);

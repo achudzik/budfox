@@ -10,9 +10,11 @@ import javax.validation.Valid;
 import me.chudzik.recruitment.vivus.model.ErrorMessage;
 import me.chudzik.recruitment.vivus.model.Loan;
 import me.chudzik.recruitment.vivus.model.LoanApplication;
+import me.chudzik.recruitment.vivus.service.ActivityService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -30,11 +32,19 @@ public class LoansController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoansController.class);
 
+    private ActivityService activityService;
+
+    @Autowired
+    public LoansController(ActivityService activityService) {
+        this.activityService = activityService;
+    }
+
     @RequestMapping(
             method = RequestMethod.POST,
             consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(CREATED)
     public Loan issueLoan(@RequestBody @Valid LoanApplication application, HttpServletRequest request) {
+        activityService.logLoanApplication(application.getClientId(), request);
         return null;
     }
 

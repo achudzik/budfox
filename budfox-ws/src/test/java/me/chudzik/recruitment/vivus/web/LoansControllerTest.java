@@ -81,7 +81,7 @@ public class LoansControllerTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void F() throws Exception {
+    public void shouldLogInformationsAboutLoanApplication() throws Exception {
         // arrange / act 
         mockMvc.perform(
                 post("/loans")

@@ -6,7 +6,7 @@ import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.THREE_PLN;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.THREE_WEEKS_PERIOD;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.VALID_CLIENT;
 import static me.chudzik.recruitment.vivus.utils.matchers.JsonPathMatchers.isEqualTo;
-import static me.chudzik.recruitment.vivus.utils.matchers.JsonPathMatchers.isIdAsHas;
+import static me.chudzik.recruitment.vivus.utils.matchers.JsonPathMatchers.hasIdAs;
 import static org.mockito.internal.matchers.NotNull.NOT_NULL;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -85,7 +85,7 @@ public class LoanApplicationIT extends AbstractTestNGSpringContextTests {
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("id").value(NOT_NULL))
-                .andExpect(jsonPath("client").value(isIdAsHas(VALID_CLIENT)))
+                .andExpect(jsonPath("client").value(hasIdAs(VALID_CLIENT)))
                 .andExpect(jsonPath("conditions.amount").value(isEqualTo(THREE_PLN)))
                 .andExpect(jsonPath("conditions.interest").value(isEqualTo(interest)))
                 .andExpect(jsonPath("conditions.maturityDate").value(isEqualTo(MONTH_LATER)));

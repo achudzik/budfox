@@ -27,8 +27,12 @@ public class JsonPathMatchers {
         return new MoneyAsStringMatcher(wanted);
     }
 
-    public static ClientAsIntegerMatcher isIdAsHas(Client wanted) {
+    public static ClientAsIntegerMatcher hasIdAs(Client wanted) {
         return new ClientAsIntegerMatcher(wanted);
+    }
+
+    public static LongAsIntegerMatcher isEqualTo(Long wanted) {
+        return new LongAsIntegerMatcher(wanted);
     }
 
 }

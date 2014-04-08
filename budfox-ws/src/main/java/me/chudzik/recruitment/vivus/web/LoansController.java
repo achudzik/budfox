@@ -14,6 +14,8 @@ import me.chudzik.recruitment.vivus.model.Loan;
 import me.chudzik.recruitment.vivus.model.LoanApplication;
 import me.chudzik.recruitment.vivus.service.ActivityService;
 import me.chudzik.recruitment.vivus.service.ClientService;
+import me.chudzik.recruitment.vivus.service.LoanService;
+import me.chudzik.recruitment.vivus.service.RiskAssessmentService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,10 +39,18 @@ public class LoansController {
 
     private ActivityService activityService;
     private ClientService clientService;
+    private LoanService loanServiceMock;
+    private RiskAssessmentService riskAssessmentService;
 
     @Autowired
-    public LoansController(ActivityService activityService, ClientService clientService) {
+    public LoansController(ActivityService activityService,
+            ClientService clientService,
+            LoanService loanServiceMock,
+            RiskAssessmentService riskAssessmentService) {
         this.activityService = activityService;
+        this.clientService = clientService;
+        this.loanServiceMock = loanServiceMock;
+        this.riskAssessmentService = riskAssessmentService;
     }
 
     @RequestMapping(

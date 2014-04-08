@@ -5,14 +5,17 @@ import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.MONTH_LATER
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.THREE_PLN;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.THREE_WEEKS_PERIOD;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.VALID_CLIENT;
+import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.VALID_LOAN;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.VALID_LOAN_APPLICATION;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.YESTERDAY;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.internal.matchers.NotNull.NOT_NULL;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -26,11 +29,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import me.chudzik.recruitment.vivus.configuration.JsonMapperConfiguration;
 import me.chudzik.recruitment.vivus.exception.ClientNotFoundException;
+import me.chudzik.recruitment.vivus.exception.RiskyLoanApplicationException;
 import me.chudzik.recruitment.vivus.model.LoanApplication;
 import me.chudzik.recruitment.vivus.service.ActivityService;
 import me.chudzik.recruitment.vivus.service.ClientService;
+import me.chudzik.recruitment.vivus.service.LoanService;
+import me.chudzik.recruitment.vivus.service.RiskAssessmentService;
 
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,17 +56,21 @@ public class LoansControllerTest extends AbstractTestNGSpringContextTests {
 
     private MockMvc mockMvc;
 
-    @InjectMocks
     private LoansController sut;
 
     @Mock
-    private ActivityService activityService;
+    private ActivityService activityServiceMock;
     @Mock
-    private ClientService clientService;
+    private ClientService clientServiceMock;
+    @Mock
+    private LoanService loanServiceMock;
+    @Mock
+    private RiskAssessmentService riskAssessmentServiceMock;
 
     @BeforeMethod
     public void setup() {
         MockitoAnnotations.initMocks(this);
+        sut = new LoansController(activityServiceMock, clientServiceMock, loanServiceMock, riskAssessmentServiceMock);
         mockMvc = MockMvcBuilders.standaloneSetup(sut).setMessageConverters(messageConverter).build();
     }
 
@@ -101,14 +110,14 @@ public class LoansControllerTest extends AbstractTestNGSpringContextTests {
                 .build();
 
         doThrow(new ClientNotFoundException(nonExistingClientId))
-                .when(clientService).validateClientExistence(nonExistingClientId);
+                .when(clientServiceMock).validateClientExistence(nonExistingClientId);
 
-        //
+        // act
         mockMvc.perform(
                 post("/loans")
                     .content(convertObjectToJsonBytes(applicationWithNonExistingClient))
                     .contentType(APPLICATION_JSON))
-                .andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
+                //.andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
         // assert
                 .andExpect(status().isNotFound())
                 .andExpect(content().contentType(APPLICATION_JSON))
@@ -125,26 +134,73 @@ public class LoansControllerTest extends AbstractTestNGSpringContextTests {
                     .content(convertObjectToJsonBytes(VALID_LOAN_APPLICATION))
                     .contentType(APPLICATION_JSON));
 
-        // assert 
-        verify(activityService, times(1)).logLoanApplication(
+        // assert
+        verify(activityServiceMock, times(1)).logLoanApplication(
                 eq(VALID_LOAN_APPLICATION.getClientId()),
                 isA(HttpServletRequest.class));
-        verifyNoMoreInteractions(activityService);
+        verifyNoMoreInteractions(activityServiceMock);
     }
 
     @Test
-    public void shouldNotIssueLoansBasedOnRiskyLoanApplication() {
-        throw new RuntimeException("Test not implemented");
+    public void shouldNotIssueLoansBasedOnRiskyLoanApplication() throws Exception {
+        // arrange
+        doThrow(RiskyLoanApplicationException.class)
+                .when(riskAssessmentServiceMock)
+                .validateApplicationSafety(VALID_LOAN_APPLICATION);
+
+        // act
+        mockMvc.perform(
+                post("/loans")
+                    .content(convertObjectToJsonBytes(VALID_LOAN_APPLICATION))
+                    .contentType(APPLICATION_JSON));
+
+        // assert
+        verify(riskAssessmentServiceMock, times(1)).validateApplicationSafety(VALID_LOAN_APPLICATION);
+        verifyZeroInteractions(loanServiceMock);
     }
 
     @Test
-    public void shouldThrowExceptionOnRiskyLoanApplication() {
-        throw new RuntimeException("Test not implemented");
+    public void shouldThrowExceptionOnRiskyLoanApplication() throws Exception {
+        // arrange
+        String loanRefusalReason = "Max application limit reached.";
+        doThrow(new RiskyLoanApplicationException(loanRefusalReason))
+                .when(riskAssessmentServiceMock)
+                .validateApplicationSafety(VALID_LOAN_APPLICATION);
+
+        // act
+        mockMvc.perform(
+                post("/loans")
+                    .content(convertObjectToJsonBytes(VALID_LOAN_APPLICATION))
+                    .contentType(APPLICATION_JSON))
+                //.andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
+        // assert
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("code").value(BAD_REQUEST.value()))
+                .andExpect(jsonPath("message").value("Risk associated with loan application is too high."))
+                .andExpect(jsonPath("details").value(loanRefusalReason));
     }
 
     @Test
-    public void shouldIssueLoanToSafeLoanApplication() {
-        throw new RuntimeException("Test not implemented");
+    public void shouldIssueLoanToSafeLoanApplication() throws Exception {
+        // arrange
+        doReturn(VALID_LOAN).when(loanServiceMock).issueALoan(VALID_LOAN_APPLICATION);
+
+        // act
+        mockMvc.perform(
+                post("/loans")
+                    .content(convertObjectToJsonBytes(VALID_LOAN_APPLICATION))
+                    .contentType(APPLICATION_JSON))
+                //.andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
+        // assert
+                .andExpect(status().isCreated())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("id").value(VALID_LOAN.getId()))
+                .andExpect(jsonPath("client").value(VALID_LOAN.getClient().getId()))
+                .andExpect(jsonPath("conditions").value(VALID_LOAN.getConditions()));
+
+        verify(riskAssessmentServiceMock, times(1)).validateApplicationSafety(VALID_LOAN_APPLICATION);
+        verify(loanServiceMock, times(1)).issueALoan(eq(VALID_LOAN_APPLICATION));
     }
 
 }

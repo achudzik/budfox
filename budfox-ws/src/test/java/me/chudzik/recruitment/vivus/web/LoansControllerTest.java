@@ -8,6 +8,8 @@ import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.VALID_CLIEN
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.VALID_LOAN;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.VALID_LOAN_APPLICATION;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.YESTERDAY;
+import static me.chudzik.recruitment.vivus.utils.matchers.JsonPathMatchers.isEqualTo;
+import static me.chudzik.recruitment.vivus.utils.matchers.JsonPathMatchers.*;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.doReturn;
@@ -31,6 +33,7 @@ import me.chudzik.recruitment.vivus.configuration.JsonMapperConfiguration;
 import me.chudzik.recruitment.vivus.exception.ClientNotFoundException;
 import me.chudzik.recruitment.vivus.exception.RiskyLoanApplicationException;
 import me.chudzik.recruitment.vivus.model.LoanApplication;
+import me.chudzik.recruitment.vivus.model.LoanConditions;
 import me.chudzik.recruitment.vivus.service.ActivityService;
 import me.chudzik.recruitment.vivus.service.ClientService;
 import me.chudzik.recruitment.vivus.service.LoanService;
@@ -48,6 +51,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+// TODO-ach: replace all .andExpect(jsonPath("conditions.interest").value(...) with custom assertions
 @ContextConfiguration(classes = {JsonMapperConfiguration.class, HttpMessageConvertersAutoConfiguration.class})
 public class LoansControllerTest extends AbstractTestNGSpringContextTests {
 
@@ -133,6 +137,7 @@ public class LoansControllerTest extends AbstractTestNGSpringContextTests {
                 post("/loans")
                     .content(convertObjectToJsonBytes(VALID_LOAN_APPLICATION))
                     .contentType(APPLICATION_JSON));
+                //.andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print());
 
         // assert
         verify(activityServiceMock, times(1)).logLoanApplication(
@@ -153,6 +158,7 @@ public class LoansControllerTest extends AbstractTestNGSpringContextTests {
                 post("/loans")
                     .content(convertObjectToJsonBytes(VALID_LOAN_APPLICATION))
                     .contentType(APPLICATION_JSON));
+                //.andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print());
 
         // assert
         verify(riskAssessmentServiceMock, times(1)).validateApplicationSafety(VALID_LOAN_APPLICATION);
@@ -174,7 +180,7 @@ public class LoansControllerTest extends AbstractTestNGSpringContextTests {
                     .contentType(APPLICATION_JSON))
                 //.andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
         // assert
-                .andExpect(status().isNotFound())
+                .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("code").value(BAD_REQUEST.value()))
                 .andExpect(jsonPath("message").value("Risk associated with loan application is too high."))
@@ -185,19 +191,22 @@ public class LoansControllerTest extends AbstractTestNGSpringContextTests {
     public void shouldIssueLoanToSafeLoanApplication() throws Exception {
         // arrange
         doReturn(VALID_LOAN).when(loanServiceMock).issueALoan(VALID_LOAN_APPLICATION);
+        LoanConditions conditions = VALID_LOAN.getConditions();
 
         // act
         mockMvc.perform(
                 post("/loans")
                     .content(convertObjectToJsonBytes(VALID_LOAN_APPLICATION))
                     .contentType(APPLICATION_JSON))
-                //.andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
+                .andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
         // assert
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(jsonPath("id").value(VALID_LOAN.getId()))
-                .andExpect(jsonPath("client").value(VALID_LOAN.getClient().getId()))
-                .andExpect(jsonPath("conditions").value(VALID_LOAN.getConditions()));
+                .andExpect(jsonPath("id").value(isEqualTo(VALID_LOAN.getId())))
+                .andExpect(jsonPath("client").value(hasIdAs(VALID_LOAN.getClient())))
+                .andExpect(jsonPath("conditions.interest").value(isEqualTo(conditions.getInterest())))
+                .andExpect(jsonPath("conditions.amount").value(isEqualTo(conditions.getAmount())))
+                .andExpect(jsonPath("conditions.maturityDate").value(isEqualTo(conditions.getMaturityDate())));
 
         verify(riskAssessmentServiceMock, times(1)).validateApplicationSafety(VALID_LOAN_APPLICATION);
         verify(loanServiceMock, times(1)).issueALoan(eq(VALID_LOAN_APPLICATION));

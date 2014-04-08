@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import me.chudzik.recruitment.vivus.exception.ClientNotFoundException;
+import me.chudzik.recruitment.vivus.exception.RiskyLoanApplicationException;
 import me.chudzik.recruitment.vivus.model.ErrorMessage;
 import me.chudzik.recruitment.vivus.model.Loan;
 import me.chudzik.recruitment.vivus.model.LoanApplication;
@@ -39,17 +40,17 @@ public class LoansController {
 
     private ActivityService activityService;
     private ClientService clientService;
-    private LoanService loanServiceMock;
+    private LoanService loanService;
     private RiskAssessmentService riskAssessmentService;
 
     @Autowired
     public LoansController(ActivityService activityService,
             ClientService clientService,
-            LoanService loanServiceMock,
+            LoanService loanService,
             RiskAssessmentService riskAssessmentService) {
         this.activityService = activityService;
         this.clientService = clientService;
-        this.loanServiceMock = loanServiceMock;
+        this.loanService = loanService;
         this.riskAssessmentService = riskAssessmentService;
     }
 
@@ -58,10 +59,12 @@ public class LoansController {
             consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(CREATED)
     public Loan issueLoan(@RequestBody @Valid LoanApplication application, HttpServletRequest request)
-            throws ClientNotFoundException {
+            throws ClientNotFoundException, RiskyLoanApplicationException {
         clientService.validateClientExistence(application.getClientId());
         activityService.logLoanApplication(application.getClientId(), request);
-        return null;
+        riskAssessmentService.validateApplicationSafety(application);
+        Loan loan = loanService.issueALoan(application);
+        return loan;
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
@@ -84,6 +87,13 @@ public class LoansController {
         LOGGER.warn(ex.getMessage());
         String details = String.format("Client ID: %d", ex.getClientId());
         return new ErrorMessage(NOT_FOUND.value(), ex.getMessage(), details);
+    }
+
+    @ExceptionHandler(RiskyLoanApplicationException.class)
+    @ResponseStatus(BAD_REQUEST)
+    public ErrorMessage handleRiskyLoanApplicationException(RiskyLoanApplicationException ex) {
+        LOGGER.warn(ex.getMessage());
+        return new ErrorMessage(BAD_REQUEST.value(), ex.getMessage(), ex.getReason());
     }
 
 }

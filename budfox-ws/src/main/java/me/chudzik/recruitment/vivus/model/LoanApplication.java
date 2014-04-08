@@ -81,6 +81,11 @@ public class LoanApplication {
             return this;
         }
 
+        public Builder clientId(Long clientId) {
+            this.client = Client.builder().id(clientId).build();
+            return this;
+        }
+
         public Builder amount(Money amount) {
             this.amount = amount;
             return this;

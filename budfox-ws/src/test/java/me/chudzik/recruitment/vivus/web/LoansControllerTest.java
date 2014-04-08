@@ -2,7 +2,7 @@ package me.chudzik.recruitment.vivus.web;
 
 import static me.chudzik.recruitment.vivus.utils.JsonUtils.convertObjectToJsonBytes;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.THREE_PLN;
-import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.THREE_WEEKS_PERIOD;
+import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.*;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.VALID_CLIENT;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.VALID_LOAN_APPLICATION;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.YESTERDAY;
@@ -57,7 +57,7 @@ public class LoansControllerTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void shouldThrowDetailedExceptionOnInvalidLoanApplicationData() throws Exception {
+    public void shouldThrowExceptionOnInvalidLoanApplicationData() throws Exception {
         // arrange
         LoanApplication applicationWithInvalidMaturityDay = LoanApplication.builder()
                 .client(VALID_CLIENT)
@@ -78,6 +78,31 @@ public class LoansControllerTest extends AbstractTestNGSpringContextTests {
                 .andExpect(jsonPath("code").value(BAD_REQUEST.value()))
                 .andExpect(jsonPath("message").value("Invalid request"))
                 .andExpect(jsonPath("details").value(NOT_NULL));
+    }
+
+    @Test
+    public void shouldThrowExceptionOnNonExistingClient() throws Exception {
+        // arrange
+        Long nonExistingClientId = new Long(1844);
+        LoanApplication applicationWithNonExistingClient = LoanApplication.builder()
+                .clientId(nonExistingClientId)
+                .amount(THREE_PLN)
+                .maturityDate(MONTH_LATER)
+                .term(THREE_WEEKS_PERIOD)
+                .build();
+
+        //
+        mockMvc.perform(
+                post("/loans")
+                    .content(convertObjectToJsonBytes(applicationWithNonExistingClient))
+                    .contentType(APPLICATION_JSON))
+                //.andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
+        // assert
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("code").value(BAD_REQUEST.value()))
+                .andExpect(jsonPath("message").value("Referenced client not found."));
+
     }
 
     @Test

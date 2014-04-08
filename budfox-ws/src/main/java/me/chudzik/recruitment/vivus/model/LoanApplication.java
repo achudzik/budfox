@@ -12,6 +12,7 @@ import org.joda.time.Period;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.google.common.base.Objects;
 
 @JsonAutoDetect(fieldVisibility = Visibility.ANY, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
 public class LoanApplication {
@@ -56,6 +57,26 @@ public class LoanApplication {
         return term;
     }
 
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(clientId, amount, maturityDate, term);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        LoanApplication otherApplication = (LoanApplication) other;
+        return Objects.equal(clientId, otherApplication.clientId)
+                && Objects.equal(amount, otherApplication.amount)
+                && Objects.equal(maturityDate, otherApplication.maturityDate)
+                && Objects.equal(term, otherApplication.term);
+    }
 
     @Override
     public String toString() {

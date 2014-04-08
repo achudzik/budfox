@@ -1,5 +1,7 @@
 package me.chudzik.recruitment.vivus.configuration;
 
+import java.util.TimeZone;
+
 import me.chudzik.recruitment.vivus.support.json.MoneyModule;
 
 import org.springframework.context.annotation.Bean;
@@ -29,6 +31,7 @@ public class JsonMapperConfiguration {
                 .disable(
                         DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
                 .enable(
-                        DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS);
+                        DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS)
+                .setTimeZone(TimeZone.getDefault());
     }
 }

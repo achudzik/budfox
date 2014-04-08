@@ -16,8 +16,10 @@ public class PreExistingEntities {
 
     public static final String VALID_PESEL = "68092005286";
 
+    public static final Long VALID_ID = new Long(1);
+    
     public static final Client VALID_CLIENT = Client.builder()
-            .id(1l)
+            .id(VALID_ID)
             .identificationNumber(VALID_PESEL)
             .build();
 

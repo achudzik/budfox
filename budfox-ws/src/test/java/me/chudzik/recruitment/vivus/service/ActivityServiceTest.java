@@ -34,7 +34,7 @@ public class ActivityServiceTest {
     }
 
     @Test
-    public void shouldSaveInformationAboutApplyingForALoan() {
+    public void shouldPersistInfoAboutApplyingForALoan() {
         // arrange
         HttpServletRequest requestMock = mock(HttpServletRequest.class);
         stub(requestMock.getRemoteAddr()).toReturn(LOCAL_IP_ADDRESS);
@@ -51,8 +51,7 @@ public class ActivityServiceTest {
         // assert
         ArgumentCaptor<Activity> captor = ArgumentCaptor.forClass(Activity.class);
         verify(activityRepositoryMock).save(captor.capture());
-        assertThat(captor.getValue())
-                .isLenientEqualsToByIgnoringFields(loanApplicationActivity, "eventTime");
+        assertThat(captor.getValue()).isLenientEqualsToByIgnoringFields(loanApplicationActivity, "eventTime");
     }
 
 }

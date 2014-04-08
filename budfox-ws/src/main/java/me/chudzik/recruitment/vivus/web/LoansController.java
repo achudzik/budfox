@@ -2,15 +2,18 @@ package me.chudzik.recruitment.vivus.web;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import me.chudzik.recruitment.vivus.exception.ClientNotFoundException;
 import me.chudzik.recruitment.vivus.model.ErrorMessage;
 import me.chudzik.recruitment.vivus.model.Loan;
 import me.chudzik.recruitment.vivus.model.LoanApplication;
 import me.chudzik.recruitment.vivus.service.ActivityService;
+import me.chudzik.recruitment.vivus.service.ClientService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,9 +36,10 @@ public class LoansController {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoansController.class);
 
     private ActivityService activityService;
+    private ClientService clientService;
 
     @Autowired
-    public LoansController(ActivityService activityService) {
+    public LoansController(ActivityService activityService, ClientService clientService) {
         this.activityService = activityService;
     }
 
@@ -43,7 +47,9 @@ public class LoansController {
             method = RequestMethod.POST,
             consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(CREATED)
-    public Loan issueLoan(@RequestBody @Valid LoanApplication application, HttpServletRequest request) {
+    public Loan issueLoan(@RequestBody @Valid LoanApplication application, HttpServletRequest request)
+            throws ClientNotFoundException {
+        clientService.validateClientExistence(application.getClientId());
         activityService.logLoanApplication(application.getClientId(), request);
         return null;
     }
@@ -60,6 +66,14 @@ public class LoansController {
         LOGGER.warn(ex.getMessage());
         String details = Joiner.on("\n").join(ex.getBindingResult().getAllErrors());
         return new ErrorMessage(BAD_REQUEST.value(), "Invalid request", details);
+    }
+
+    @ExceptionHandler(ClientNotFoundException.class)
+    @ResponseStatus(NOT_FOUND)
+    public ErrorMessage handleClientNotFoundException(ClientNotFoundException ex) {
+        LOGGER.warn(ex.getMessage());
+        String details = String.format("Client ID: %d", ex.getClientId());
+        return new ErrorMessage(NOT_FOUND.value(), ex.getMessage(), details);
     }
 
 }

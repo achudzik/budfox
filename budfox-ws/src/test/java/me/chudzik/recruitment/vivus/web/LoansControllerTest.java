@@ -1,16 +1,21 @@
 package me.chudzik.recruitment.vivus.web;
 
 import static me.chudzik.recruitment.vivus.utils.JsonUtils.convertObjectToJsonBytes;
+import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.MONTH_LATER;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.THREE_PLN;
-import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.*;
+import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.THREE_WEEKS_PERIOD;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.VALID_CLIENT;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.VALID_LOAN_APPLICATION;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.YESTERDAY;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.internal.matchers.NotNull.NOT_NULL;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -20,8 +25,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import javax.servlet.http.HttpServletRequest;
 
 import me.chudzik.recruitment.vivus.configuration.JsonMapperConfiguration;
+import me.chudzik.recruitment.vivus.exception.ClientNotFoundException;
 import me.chudzik.recruitment.vivus.model.LoanApplication;
 import me.chudzik.recruitment.vivus.service.ActivityService;
+import me.chudzik.recruitment.vivus.service.ClientService;
 
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -49,6 +56,8 @@ public class LoansControllerTest extends AbstractTestNGSpringContextTests {
 
     @Mock
     private ActivityService activityService;
+    @Mock
+    private ClientService clientService;
 
     @BeforeMethod
     public void setup() {
@@ -91,18 +100,21 @@ public class LoansControllerTest extends AbstractTestNGSpringContextTests {
                 .term(THREE_WEEKS_PERIOD)
                 .build();
 
+        doThrow(new ClientNotFoundException(nonExistingClientId))
+                .when(clientService).validateClientExistence(nonExistingClientId);
+
         //
         mockMvc.perform(
                 post("/loans")
                     .content(convertObjectToJsonBytes(applicationWithNonExistingClient))
                     .contentType(APPLICATION_JSON))
-                //.andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
+                .andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
         // assert
-                .andExpect(status().isBadRequest())
+                .andExpect(status().isNotFound())
                 .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(jsonPath("code").value(BAD_REQUEST.value()))
-                .andExpect(jsonPath("message").value("Referenced client not found."));
-
+                .andExpect(jsonPath("code").value(NOT_FOUND.value()))
+                .andExpect(jsonPath("message").value("Client with given ID not found."))
+                .andExpect(jsonPath("details").value(String.format("Client ID: %d", nonExistingClientId)));
     }
 
     @Test
@@ -114,9 +126,10 @@ public class LoansControllerTest extends AbstractTestNGSpringContextTests {
                     .contentType(APPLICATION_JSON));
 
         // assert 
-        verify(activityService).logLoanApplication(
+        verify(activityService, times(1)).logLoanApplication(
                 eq(VALID_LOAN_APPLICATION.getClientId()),
                 isA(HttpServletRequest.class));
+        verifyNoMoreInteractions(activityService);
     }
 
     @Test

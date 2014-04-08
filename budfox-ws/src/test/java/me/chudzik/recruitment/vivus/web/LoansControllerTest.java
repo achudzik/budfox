@@ -4,7 +4,11 @@ import static me.chudzik.recruitment.vivus.utils.JsonUtils.convertObjectToJsonBy
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.THREE_PLN;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.THREE_WEEKS_PERIOD;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.VALID_CLIENT;
+import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.VALID_LOAN_APPLICATION;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.YESTERDAY;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.verify;
 import static org.mockito.internal.matchers.NotNull.NOT_NULL;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -12,10 +16,15 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import javax.servlet.http.HttpServletRequest;
+
 import me.chudzik.recruitment.vivus.configuration.JsonMapperConfiguration;
 import me.chudzik.recruitment.vivus.model.LoanApplication;
+import me.chudzik.recruitment.vivus.service.ActivityService;
 
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.HttpMessageConvertersAutoConfiguration;
@@ -37,6 +46,9 @@ public class LoansControllerTest extends AbstractTestNGSpringContextTests {
 
     @InjectMocks
     private LoansController sut;
+
+    @Mock
+    private ActivityService activityService;
 
     @BeforeMethod
     public void setup() {
@@ -69,8 +81,17 @@ public class LoansControllerTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void shouldLogInformationsAboutLoanApplications() throws Exception {
-        throw new RuntimeException("Test not implemented");
+    public void F() throws Exception {
+        // arrange / act 
+        mockMvc.perform(
+                post("/loans")
+                    .content(convertObjectToJsonBytes(VALID_LOAN_APPLICATION))
+                    .contentType(APPLICATION_JSON));
+
+        // assert 
+        verify(activityService).logLoanApplication(
+                eq(VALID_LOAN_APPLICATION.getClientId()),
+                isA(HttpServletRequest.class));
     }
 
     @Test

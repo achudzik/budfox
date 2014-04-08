@@ -24,7 +24,7 @@ public class LoanApplication {
      */
     @NotNull
     @Min(0)
-    private Long client;
+    private Long clientId;
     @NotNull
     private Money amount;
     @Future
@@ -32,13 +32,16 @@ public class LoanApplication {
     @NotNull
     private Period term;
 
+    public Long getClientId() {
+        return clientId;
+    }
+
     /**
-     *
      * @return client with only id property set
      */
     public Client getClient() {
         // TODO-ach: replace with client constructed internally by Jackson
-        return Client.builder().id(client).build();
+        return Client.builder().id(clientId).build();
     }
 
     public Money getAmount() {
@@ -97,7 +100,7 @@ public class LoanApplication {
             LoanApplication application = new LoanApplication();
             application.amount = this.amount;
             // TODO-ach: change from Long to Client after introducing above mentioned resolver
-            application.client = this.client.getId();
+            application.clientId = this.client.getId();
             application.maturityDate = this.maturityDate;
             application.term = this.term;
             return application;

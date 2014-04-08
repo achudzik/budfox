@@ -4,6 +4,7 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import me.chudzik.recruitment.vivus.model.ErrorMessage;
@@ -33,7 +34,7 @@ public class LoansController {
             method = RequestMethod.POST,
             consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(CREATED)
-    public Loan issueLoan(@RequestBody @Valid LoanApplication application) {
+    public Loan issueLoan(@RequestBody @Valid LoanApplication application, HttpServletRequest request) {
         return null;
     }
 

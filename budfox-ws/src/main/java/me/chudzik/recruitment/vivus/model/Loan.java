@@ -81,10 +81,16 @@ public class Loan extends AbstractPersistable<Long> {
 
     public static class Builder {
 
+        private Long id;
         private Client client;
         private LoanConditions conditions;
 
         private Builder() { }
+
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
 
         public Builder client(Client client) {
             this.client = client;
@@ -98,6 +104,7 @@ public class Loan extends AbstractPersistable<Long> {
 
         public Loan build() {
             Loan loan = new Loan();
+            loan.setId(this.id);
             loan.setClient(this.client);
             loan.conditions = this.conditions;
             loan.creationTime = DateTime.now();

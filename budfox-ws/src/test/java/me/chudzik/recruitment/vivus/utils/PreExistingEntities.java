@@ -49,6 +49,7 @@ public class PreExistingEntities {
             .build();
 
     public static final Loan VALID_LOAN = Loan.builder()
+            .id(VALID_ID)
             .client(VALID_CLIENT)
             .conditions(VALID_LOAN_CONDITIONS)
             .build();

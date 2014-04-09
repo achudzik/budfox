@@ -16,7 +16,7 @@ public class LoanConditionsServiceImpl implements LoanConditionsService {
     private BigDecimal basicInterest;
 
     @Autowired
-    public LoanConditionsServiceImpl(@Qualifier("loan.interest.basic") BigDecimal basicInterest) {
+    public LoanConditionsServiceImpl(@Qualifier("basicInterest") BigDecimal basicInterest) {
         this.basicInterest = basicInterest;
     }
 

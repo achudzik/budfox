@@ -5,6 +5,7 @@ import me.chudzik.recruitment.vivus.model.LoanApplication;
 
 import org.joda.money.Money;
 import org.joda.time.LocalTime;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +16,7 @@ public class ApplicationTimeAndAmountRiskEvaluator extends BaseRiskEvaluator {
     private LocalTime riskyPeriodStart;
     private LocalTime riskyPeriodEnd;
 
+    @Autowired
     public ApplicationTimeAndAmountRiskEvaluator(
             @Qualifier("maxAmount") Money maxAmount,
             @Qualifier("riskyPeriodStart") LocalTime riskyPeriodStart,

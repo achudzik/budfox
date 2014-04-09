@@ -8,6 +8,7 @@ import me.chudzik.recruitment.vivus.model.LoanApplication;
 import me.chudzik.recruitment.vivus.repository.ActivityRepository;
 
 import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -21,6 +22,7 @@ public class DailyApplicationLimitRiskEvaluator extends BaseRiskEvaluator {
     private String ipAddress;
     private Integer applicationLimit;
 
+    @Autowired
     public DailyApplicationLimitRiskEvaluator(
             ActivityRepository activityRepository,
             HttpServletRequest request,

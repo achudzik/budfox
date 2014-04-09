@@ -32,9 +32,13 @@ public class PreExistingEntities {
 
     public static final DateTime MONTH_LATER = TODAY.plusMonths(1);
 
+    public static final DateTime YEAR_LATER = TODAY.plusMonths(12);
+
     public static final Period THREE_WEEKS_PERIOD = Period.weeks(3);
 
     public static final Money THREE_PLN = Money.of(CurrencyUnit.of("PLN"), new BigDecimal("3.0"));
+
+    public static final Money ELEVEN_PLN = Money.of(CurrencyUnit.of("PLN"), new BigDecimal("11.0"));
 
     public static final LoanApplication VALID_LOAN_APPLICATION = LoanApplication.builder()
             .client(VALID_CLIENT)
@@ -64,4 +68,26 @@ public class PreExistingEntities {
             .type(LOAN_APPLICATION)
             .ipAddress(LOCAL_IP_ADDRESS)
             .build();
+
+    public static final Client CLIENT_WITH_LOANS = Client.builder()
+            .id(2L)
+            .identificationNumber("71093013682")
+            .withLoan(Loan.builder()
+                    .id(2L)
+                    .conditions(LoanConditions.builder()
+                            .amount(THREE_PLN)
+                            .interest(BASIC_INTEREST)
+                            .maturityDate(MONTH_LATER)
+                            .build())
+                    .build())
+            .withLoan(Loan.builder()
+                    .id(3L)
+                    .conditions(LoanConditions.builder()
+                            .amount(ELEVEN_PLN)
+                            .interest(BASIC_INTEREST)
+                            .maturityDate(YEAR_LATER)
+                            .build())
+                    .build())
+            .build();
+
 }

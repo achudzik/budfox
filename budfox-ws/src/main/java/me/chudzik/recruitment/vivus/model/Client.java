@@ -3,8 +3,10 @@ package me.chudzik.recruitment.vivus.model;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -91,6 +93,7 @@ public class Client extends AbstractPersistable<Long> {
 
         private Long id;
         private String identificationNumber;
+        private List<Loan> loans = new ArrayList<>();
 
         private Builder() {}
 
@@ -104,13 +107,24 @@ public class Client extends AbstractPersistable<Long> {
             return this;
         }
 
+        public Builder withLoan(Loan loan) {
+            loans.add(loan);
+            return this;
+        }
+
         public Client build() {
             Client client = new Client();
             client.setId(this.id);
+            addLoansTo(client);
             client.identificationNumber = this.identificationNumber;
             return client;
         }
 
+        private void addLoansTo(Client client) {
+            for (Loan loan : this.loans) {
+                client.addLoan(loan);
+            }
+        }
     }
 
 }

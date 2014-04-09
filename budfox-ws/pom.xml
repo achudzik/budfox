@@ -35,6 +35,8 @@
         <json-path.version>0.9.1</json-path.version>
         <spring-test-dbunit.version>1.1.0</spring-test-dbunit.version>
         <testng.version>6.8.8</testng.version>
+        <!-- ... Plugins dependencies versions ............................. -->
+        <plugin.version.failsafe>2.16</plugin.version.failsafe>
     </properties>
 
     <repositories>
@@ -204,6 +206,26 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>Acceptance tests</id>
+                        <goals>
+                            <goal>integration-test</goal>
+                        </goals>
+                    </execution>
+
+                    <execution>
+                        <id>verify</id>
+                        <goals>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

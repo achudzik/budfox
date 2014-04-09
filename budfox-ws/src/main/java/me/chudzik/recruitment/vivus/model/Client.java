@@ -21,6 +21,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.google.common.base.Objects;
 
 @Entity
 @Table(name = "clients")
@@ -59,6 +60,20 @@ public class Client extends AbstractPersistable<Long> {
 
         loans.add(loan);
         loan.setClient(this);
+    }
+
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(identificationNumber);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (other == null || getClass() != other.getClass()) return false;
+        Client otherClient = (Client) other;
+        return Objects.equal(identificationNumber, otherClient.identificationNumber);
     }
 
 

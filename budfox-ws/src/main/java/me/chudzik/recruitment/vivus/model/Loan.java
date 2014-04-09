@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.google.common.base.Objects;
 
 @Entity
 @Table(name = "loans")
@@ -68,6 +69,21 @@ public class Loan extends AbstractPersistable<Long> {
 
 
     @Override
+    public int hashCode() {
+        return Objects.hashCode(client, conditions);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (other == null || getClass() != other.getClass()) return false;
+        Loan otherLoan = (Loan) other;
+        return Objects.equal(client, otherLoan.client)
+                && Objects.equal(conditions, otherLoan.conditions);
+    }
+
+
+    @Override
     public String toString() {
         return new ReflectionToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
                 .setExcludeFieldNames("creationTime")
@@ -92,6 +108,7 @@ public class Loan extends AbstractPersistable<Long> {
             return this;
         }
 
+        // XXX-ach: move to Loan.TestDataBuilder - should be only possible to set through Client.addLoan()
         public Builder client(Client client) {
             this.client = client;
             return this;

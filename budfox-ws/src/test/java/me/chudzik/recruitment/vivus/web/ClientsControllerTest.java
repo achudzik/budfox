@@ -19,7 +19,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import me.chudzik.recruitment.vivus.model.Client;
 import me.chudzik.recruitment.vivus.repository.ClientRepository;
-import me.chudzik.recruitment.vivus.service.LoanService;
 
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
@@ -39,13 +38,11 @@ public class ClientsControllerTest {
 
     @Mock
     private ClientRepository clientRepositoryMock;
-    @Mock
-    private LoanService loanServiceMock;
 
     @BeforeMethod
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        sut = new ClientsController(clientRepositoryMock, loanServiceMock);
+        sut = new ClientsController(clientRepositoryMock);
         mockMvc = MockMvcBuilders.standaloneSetup(sut).build();
     }
 
@@ -90,8 +87,8 @@ public class ClientsControllerTest {
         doReturn(CLIENT_WITH_LOANS).when(clientRepositoryMock).getClientLoans(clientId);
 
         // act
-        mockMvc.perform(get(String.format("/clients/%d/loans", clientId)))
-                //.andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
+        mockMvc.perform(get("/clients/{id}/loans", clientId))
+                .andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
         // assert
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
@@ -108,7 +105,7 @@ public class ClientsControllerTest {
         doReturn(null).when(clientRepositoryMock).getClientLoans(clientId);
 
         // act
-        mockMvc.perform(get(String.format("/clients/%d/loans", clientId)))
+        mockMvc.perform(get("/clients/{id}/loans", clientId))
                 //.andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
         // assert
                 .andExpect(status().isNotFound())
@@ -116,7 +113,6 @@ public class ClientsControllerTest {
                 .andExpect(jsonPath("code").value(NOT_FOUND.value()))
                 .andExpect(jsonPath("message").value("Client with given ID not found."))
                 .andExpect(jsonPath("details").value(String.format("Client ID: %d", clientId)));
-
     }
 
 }

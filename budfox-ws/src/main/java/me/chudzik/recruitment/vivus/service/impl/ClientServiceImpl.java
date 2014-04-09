@@ -6,7 +6,9 @@ import me.chudzik.recruitment.vivus.repository.ClientRepository;
 import me.chudzik.recruitment.vivus.service.ClientService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ClientServiceImpl implements ClientService {
 
     private ClientRepository repository;
@@ -15,7 +17,7 @@ public class ClientServiceImpl implements ClientService {
     public ClientServiceImpl(ClientRepository repository) {
         this.repository = repository;
     }
-    
+
     @Override
     public void validateClientExistence(Long clientId) throws ClientNotFoundException {
         Client client = repository.findOne(clientId);

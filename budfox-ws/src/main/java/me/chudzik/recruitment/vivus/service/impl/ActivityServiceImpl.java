@@ -10,11 +10,13 @@ import me.chudzik.recruitment.vivus.repository.ActivityRepository;
 import me.chudzik.recruitment.vivus.service.ActivityService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ActivityServiceImpl implements ActivityService {
 
     private ActivityRepository activityRepository;
-    
+
     @Autowired
     public ActivityServiceImpl(ActivityRepository activityRepository) {
         this.activityRepository = activityRepository;
@@ -32,5 +34,4 @@ public class ActivityServiceImpl implements ActivityService {
         activityRepository.save(activity);
     }
 
-    
 }

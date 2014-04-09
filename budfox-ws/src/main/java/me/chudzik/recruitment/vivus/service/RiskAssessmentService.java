@@ -5,7 +5,13 @@ import me.chudzik.recruitment.vivus.model.LoanApplication;
 
 public interface RiskAssessmentService {
 
-    boolean isApplicationSafe(LoanApplication application);
     void validateApplicationSafety(LoanApplication application) throws RiskyLoanApplicationException;
 
+
+    public interface RiskEvaluator {
+
+        void evaluate(LoanApplication application) throws RiskyLoanApplicationException;
+        void setNext(RiskEvaluator evaluator);
+
+    }
 }

@@ -12,8 +12,10 @@ import org.joda.time.Period;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Objects;
 
+// Enables getClient
 @JsonAutoDetect(fieldVisibility = Visibility.ANY, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
 public class LoanApplication {
 
@@ -25,6 +27,7 @@ public class LoanApplication {
      */
     @NotNull
     @Min(0)
+    @JsonProperty("client")
     private Long clientId;
     @NotNull
     private Money amount;
@@ -32,6 +35,9 @@ public class LoanApplication {
     private DateTime maturityDate;
     @NotNull
     private Period term;
+    // XXX-ach: cannot decide if it's fishy or not...
+    private DateTime applicationDate = DateTime.now();
+
 
     public Long getClientId() {
         return clientId;
@@ -57,10 +63,14 @@ public class LoanApplication {
         return term;
     }
 
+    public DateTime getApplicationDate() {
+        return applicationDate;
+    }
+
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(clientId, amount, maturityDate, term);
+        return Objects.hashCode(clientId, amount, maturityDate, term, applicationDate);
     }
 
     @Override
@@ -75,7 +85,8 @@ public class LoanApplication {
         return Objects.equal(clientId, otherApplication.clientId)
                 && Objects.equal(amount, otherApplication.amount)
                 && Objects.equal(maturityDate, otherApplication.maturityDate)
-                && Objects.equal(term, otherApplication.term);
+                && Objects.equal(term, otherApplication.term)
+                && Objects.equal(applicationDate, otherApplication.applicationDate);
     }
 
     @Override
@@ -94,6 +105,7 @@ public class LoanApplication {
         private Money amount;
         private DateTime maturityDate;
         private Period term;
+        private DateTime applicationDate;
 
         private Builder() {}
 
@@ -122,6 +134,11 @@ public class LoanApplication {
             return this;
         }
 
+        public Builder applicationDate(DateTime applicationDate) {
+            this.applicationDate = applicationDate;
+            return this;
+        }
+
         public LoanApplication build() {
             LoanApplication application = new LoanApplication();
             application.amount = this.amount;
@@ -129,6 +146,7 @@ public class LoanApplication {
             application.clientId = this.client.getId();
             application.maturityDate = this.maturityDate;
             application.term = this.term;
+            application.applicationDate = Objects.firstNonNull(this.applicationDate, application.applicationDate);
             return application;
         }
 

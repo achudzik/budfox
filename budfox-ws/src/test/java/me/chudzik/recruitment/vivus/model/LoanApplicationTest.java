@@ -4,6 +4,7 @@ import static com.jayway.jsonassert.JsonAssert.with;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.THREE_PLN;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.THREE_WEEKS_PERIOD;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.VALID_CLIENT;
+import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.VALID_ID;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.VALID_PESEL;
 import static me.chudzik.recruitment.vivus.utils.matchers.JsonPathMatchers.hasIdAs;
 import static org.fest.assertions.api.Assertions.assertThat;
@@ -23,7 +24,7 @@ public class LoanApplicationTest {
     @Test
     public void shouldSerializeJustClientId() throws IOException {
         // arrange
-        Client client = Client.builder().id(1l).identificationNumber(VALID_PESEL).build();
+        Client client = Client.builder().id(VALID_ID).identificationNumber(VALID_PESEL).build();
         LoanApplication application = LoanApplication.builder()
                 .client(client).amount(THREE_PLN).term(THREE_WEEKS_PERIOD).build();
 
@@ -31,7 +32,7 @@ public class LoanApplicationTest {
         String result = objectMapper.writeValueAsString(application);
 
         // assert
-        with(result).assertEquals("$.client", hasIdAs(client));
+        with(result).assertThat("client", hasIdAs(client));
     }
 
     @Test
@@ -46,4 +47,5 @@ public class LoanApplicationTest {
         // assert
         assertThat(deserializedClient.getId()).isEqualTo(VALID_CLIENT.getId());
     }
+
 }

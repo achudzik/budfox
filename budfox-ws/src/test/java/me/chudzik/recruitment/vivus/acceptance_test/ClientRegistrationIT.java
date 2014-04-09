@@ -1,4 +1,4 @@
-package me.chudzik.recruitment.vivus.client;
+package me.chudzik.recruitment.vivus.acceptance_test;
 
 import static me.chudzik.recruitment.vivus.utils.JsonUtils.convertObjectToJsonBytes;
 import static org.mockito.internal.matchers.NotNull.NOT_NULL;

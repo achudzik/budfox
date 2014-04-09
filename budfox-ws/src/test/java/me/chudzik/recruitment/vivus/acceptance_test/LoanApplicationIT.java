@@ -1,4 +1,4 @@
-package me.chudzik.recruitment.vivus.loan;
+package me.chudzik.recruitment.vivus.acceptance_test;
 
 import static me.chudzik.recruitment.vivus.utils.JsonUtils.convertObjectToJsonBytes;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.MONTH_LATER;

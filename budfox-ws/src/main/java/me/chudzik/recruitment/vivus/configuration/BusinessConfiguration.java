@@ -1,5 +1,7 @@
 package me.chudzik.recruitment.vivus.configuration;
 
+import java.math.BigDecimal;
+
 import org.joda.money.Money;
 import org.joda.time.LocalTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,11 @@ public class BusinessConfiguration {
 
     @Autowired
     private Environment env;
+
+    @Bean
+    public BigDecimal basicInterest() {
+        return env.getRequiredProperty("loan.interest.basic", BigDecimal.class);
+    }
 
     @Bean
     public Integer maxApplicationLimit() {

@@ -198,7 +198,7 @@ public class LoansControllerTest extends AbstractTestNGSpringContextTests {
                 post("/loans")
                     .content(convertObjectToJsonBytes(VALID_LOAN_APPLICATION))
                     .contentType(APPLICATION_JSON))
-                .andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
+                //.andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
         // assert
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(APPLICATION_JSON))

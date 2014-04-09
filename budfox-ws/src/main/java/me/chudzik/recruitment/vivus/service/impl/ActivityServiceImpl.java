@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import me.chudzik.recruitment.vivus.model.Activity;
 import me.chudzik.recruitment.vivus.model.Client;
 import me.chudzik.recruitment.vivus.repository.ActivityRepository;
+import me.chudzik.recruitment.vivus.repository.ClientRepository;
 import me.chudzik.recruitment.vivus.service.ActivityService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,15 +17,17 @@ import org.springframework.stereotype.Service;
 public class ActivityServiceImpl implements ActivityService {
 
     private ActivityRepository activityRepository;
+    private ClientRepository clientRepository;
 
     @Autowired
-    public ActivityServiceImpl(ActivityRepository activityRepository) {
+    public ActivityServiceImpl(ActivityRepository activityRepository, ClientRepository clientRepository) {
         this.activityRepository = activityRepository;
+        this.clientRepository = clientRepository;
     }
 
     public void logLoanApplication(Long clientId, HttpServletRequest request) {
         String ipAddress = request.getRemoteAddr();
-        Client client = Client.builder().id(clientId).build();
+        Client client = clientRepository.findOne(clientId);
         Activity activity = Activity.builder()
                 .client(client)
                 .ipAddress(ipAddress)

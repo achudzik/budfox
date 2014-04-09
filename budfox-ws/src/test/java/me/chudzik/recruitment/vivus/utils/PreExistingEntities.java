@@ -1,7 +1,10 @@
 package me.chudzik.recruitment.vivus.utils;
 
+import static me.chudzik.recruitment.vivus.model.Activity.ActivityType.LOAN_APPLICATION;
+
 import java.math.BigDecimal;
 
+import me.chudzik.recruitment.vivus.model.Activity;
 import me.chudzik.recruitment.vivus.model.Client;
 import me.chudzik.recruitment.vivus.model.Loan;
 import me.chudzik.recruitment.vivus.model.LoanApplication;
@@ -56,4 +59,9 @@ public class PreExistingEntities {
 
     public static final String LOCAL_IP_ADDRESS = "127.0.0.1";
 
+    public static final Activity VALID_ACTIVITY = Activity.builder()
+            .client(VALID_CLIENT)
+            .type(LOAN_APPLICATION)
+            .ipAddress(LOCAL_IP_ADDRESS)
+            .build();
 }

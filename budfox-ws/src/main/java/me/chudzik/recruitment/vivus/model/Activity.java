@@ -15,6 +15,7 @@ import org.joda.time.DateTime;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.google.common.base.Objects;
 
 @Entity
 @Table(name = "activities")
@@ -59,6 +60,22 @@ public class Activity extends AbstractPersistable<Long> {
         return eventTime;
     }
 
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(client, type, ipAddress, eventTime);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (other == null || getClass() != other.getClass()) return false;
+        Activity otherActivity = (Activity) other;
+        return Objects.equal(client, otherActivity.client)
+                && Objects.equal(type, otherActivity.type)
+                && Objects.equal(ipAddress, otherActivity.ipAddress)
+                && Objects.equal(eventTime, otherActivity.eventTime);
+    }
 
     @PrePersist
     public void prePersist() {

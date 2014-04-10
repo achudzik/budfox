@@ -2,7 +2,6 @@ package me.chudzik.recruitment.vivus.web;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +20,6 @@ import me.chudzik.recruitment.vivus.service.RiskAssessmentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -67,26 +65,12 @@ public class LoansController {
         return loan;
     }
 
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    @ResponseStatus(BAD_REQUEST)
-    public void handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
-        LOGGER.warn(ex.getMessage());
-    }
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(BAD_REQUEST)
     public ErrorMessage handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
         LOGGER.warn(ex.getMessage());
         String details = Joiner.on("\n").join(ex.getBindingResult().getAllErrors());
         return new ErrorMessage(BAD_REQUEST.value(), "Invalid request", details);
-    }
-
-    @ExceptionHandler(ClientNotFoundException.class)
-    @ResponseStatus(NOT_FOUND)
-    public ErrorMessage handleClientNotFoundException(ClientNotFoundException ex) {
-        LOGGER.warn(ex.getMessage());
-        String details = String.format("Client ID: %d", ex.getClientId());
-        return new ErrorMessage(NOT_FOUND.value(), ex.getMessage(), details);
     }
 
     @ExceptionHandler(RiskyLoanApplicationException.class)

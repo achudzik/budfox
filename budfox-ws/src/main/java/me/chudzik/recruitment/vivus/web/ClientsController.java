@@ -1,17 +1,22 @@
 package me.chudzik.recruitment.vivus.web;
 
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
+
+import java.util.Set;
+
+import me.chudzik.recruitment.vivus.exception.ClientNotFoundException;
 import me.chudzik.recruitment.vivus.model.Client;
+import me.chudzik.recruitment.vivus.model.Loan;
 import me.chudzik.recruitment.vivus.repository.ClientRepository;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,8 +26,6 @@ import com.google.common.base.Preconditions;
 @RequestMapping("/clients")
 public class ClientsController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ClientsController.class);
-
     private ClientRepository clientRepository;
 
     @Autowired
@@ -30,10 +33,8 @@ public class ClientsController {
         this.clientRepository = clientRepository;
     }
 
-    @RequestMapping(
-            method = RequestMethod.POST,
-            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(method = POST, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(CREATED)
     public Client add(@RequestBody Client clientToAdd) throws IllegalStateException {
         Preconditions.checkState(clientToAdd.getId() == null,
                 "Invalid resource, use PUT /clients for client's update.");
@@ -41,10 +42,14 @@ public class ClientsController {
         return addedClient;
     }
 
-    @ExceptionHandler(IllegalStateException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public void handleIllegalStateException(IllegalStateException ex) {
-        LOGGER.warn(ex.getMessage());
+    @RequestMapping(value = "{id}/loans", method = GET, produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(OK)
+    public Set<Loan> getLoans(@PathVariable("id") Long clientId) throws ClientNotFoundException {
+        Client client = clientRepository.getClientLoans(clientId);
+        if (null == client) {
+            throw new ClientNotFoundException(clientId);
+        }
+        return client.getLoans();
     }
 
 }

@@ -8,8 +8,8 @@ import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.VALID_CLIEN
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.VALID_LOAN;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.VALID_LOAN_APPLICATION;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.YESTERDAY;
+import static me.chudzik.recruitment.vivus.utils.matchers.JsonPathMatchers.hasIdAs;
 import static me.chudzik.recruitment.vivus.utils.matchers.JsonPathMatchers.isEqualTo;
-import static me.chudzik.recruitment.vivus.utils.matchers.JsonPathMatchers.*;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.doReturn;
@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import javax.servlet.http.HttpServletRequest;
 
-import me.chudzik.recruitment.vivus.configuration.JsonMapperConfiguration;
+import me.chudzik.recruitment.vivus.configuration.ControllerTestConfiguration;
 import me.chudzik.recruitment.vivus.exception.ClientNotFoundException;
 import me.chudzik.recruitment.vivus.exception.RiskyLoanApplicationException;
 import me.chudzik.recruitment.vivus.model.LoanApplication;
@@ -42,21 +42,23 @@ import me.chudzik.recruitment.vivus.service.RiskAssessmentService;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.web.HttpMessageConvertersAutoConfiguration;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 // TODO-ach: replace all .andExpect(jsonPath("conditions.interest").value(...) with custom assertions
-@ContextConfiguration(classes = {JsonMapperConfiguration.class, HttpMessageConvertersAutoConfiguration.class})
+@ContextConfiguration(classes = ControllerTestConfiguration.class)
 public class LoansControllerTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private MappingJackson2HttpMessageConverter messageConverter;
+    @Autowired
+    private ExceptionHandlerExceptionResolver exceptionResolver;
 
     private MockMvc mockMvc;
 
@@ -75,7 +77,10 @@ public class LoansControllerTest extends AbstractTestNGSpringContextTests {
     public void setup() {
         MockitoAnnotations.initMocks(this);
         sut = new LoansController(activityServiceMock, clientServiceMock, loanServiceMock, riskAssessmentServiceMock);
-        mockMvc = MockMvcBuilders.standaloneSetup(sut).setMessageConverters(messageConverter).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(sut)
+                .setHandlerExceptionResolvers(exceptionResolver)
+                .setMessageConverters(messageConverter)
+                .build();
     }
 
     @Test

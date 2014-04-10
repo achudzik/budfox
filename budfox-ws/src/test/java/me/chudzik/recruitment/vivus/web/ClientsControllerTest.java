@@ -4,7 +4,6 @@ import static me.chudzik.recruitment.vivus.utils.JsonUtils.convertObjectToJsonBy
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.CLIENT_WITH_LOANS;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.VALID_ID;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.VALID_PESEL;
-import static org.fest.assertions.api.Assertions.assertThat;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -17,20 +16,30 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import me.chudzik.recruitment.vivus.configuration.ControllerTestConfiguration;
 import me.chudzik.recruitment.vivus.model.Client;
 import me.chudzik.recruitment.vivus.repository.ClientRepository;
 
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+@ContextConfiguration(classes = ControllerTestConfiguration.class)
+public class ClientsControllerTest extends AbstractTestNGSpringContextTests {
 
-public class ClientsControllerTest {
+    @Autowired
+    private MappingJackson2HttpMessageConverter messageConverter;
+    @Autowired
+    private ExceptionHandlerExceptionResolver exceptionResolver;
 
     private MockMvc mockMvc;
 
@@ -43,7 +52,10 @@ public class ClientsControllerTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
         sut = new ClientsController(clientRepositoryMock);
-        mockMvc = MockMvcBuilders.standaloneSetup(sut).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(sut)
+                .setHandlerExceptionResolvers(exceptionResolver)
+                .setMessageConverters(messageConverter)
+                .build();
     }
 
     @Test
@@ -59,9 +71,7 @@ public class ClientsControllerTest {
                 //.andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print());
 
         // assert
-        ArgumentCaptor<Client> argument = ArgumentCaptor.forClass(Client.class);
-        verify(clientRepositoryMock).save(argument.capture());
-        assertThat(argument.getValue()).isEqualsToByComparingFields(client);
+        verify(clientRepositoryMock).save(client);
     }
 
     @Test
@@ -88,7 +98,7 @@ public class ClientsControllerTest {
 
         // act
         mockMvc.perform(get("/clients/{id}/loans", clientId))
-                .andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
+                //.andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
         // assert
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))

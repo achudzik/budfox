@@ -22,6 +22,11 @@ public class BusinessConfiguration {
     }
 
     @Bean
+    public BigDecimal interestMultiplier() {
+        return env.getRequiredProperty("loan.interest.multiplier", BigDecimal.class);
+    }
+
+    @Bean
     public Integer maxApplicationLimit() {
         return env.getRequiredProperty("riskEvaluation.applications.dailyLimit", Integer.class);
     }

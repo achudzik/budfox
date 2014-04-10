@@ -21,8 +21,9 @@
     </appender>
 
     <logger name="org.springframework" level="WARN"/>
+    <logger name="org.hibernate.tool.hbm2ddl.SchemaExport" level="OFF"/>
 
-    <root level="${log.level:-OFF}">
+    <root level="${log.level:-ERROR}">
         <appender-ref ref="CONSOLE" />
     </root>
 </configuration>

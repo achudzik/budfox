@@ -1,10 +1,18 @@
 package me.chudzik.recruitment.vivus.model;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Version;
@@ -33,7 +41,16 @@ public class Loan extends AbstractPersistable<Long> {
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
     private Client client;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "current_conditions_id")
     private LoanConditions conditions;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+        name = "previous_conditions",
+        joinColumns = @JoinColumn(name = "loan_id"),
+        inverseJoinColumns = @JoinColumn(name = "condition_id")
+    )
+    private Set<LoanConditions> previousConditions = new HashSet<>();
     @Column(name = "creation_time", nullable = false)
     private DateTime creationTime;
 
@@ -44,6 +61,13 @@ public class Loan extends AbstractPersistable<Long> {
 
     public Loan() { }
 
+    public void setCondition(LoanConditions newConditions) {
+        if (null != conditions) {
+            previousConditions.add(conditions);
+        }
+        conditions = newConditions;
+        conditions.setLoan(this);
+    }
 
     public Client getClient() {
         return client;
@@ -55,6 +79,10 @@ public class Loan extends AbstractPersistable<Long> {
 
     public LoanConditions getConditions() {
         return conditions;
+    }
+
+    public Set<LoanConditions> getPreviousConditions() {
+        return Collections.unmodifiableSet(previousConditions);
     }
 
     public DateTime getCreationTime() {
@@ -70,7 +98,7 @@ public class Loan extends AbstractPersistable<Long> {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(client, conditions);
+        return Objects.hashCode(client, conditions, previousConditions);
     }
 
     @Override
@@ -79,7 +107,8 @@ public class Loan extends AbstractPersistable<Long> {
         if (other == null || getClass() != other.getClass()) return false;
         Loan otherLoan = (Loan) other;
         return Objects.equal(client, otherLoan.client)
-                && Objects.equal(conditions, otherLoan.conditions);
+                && Objects.equal(conditions, otherLoan.conditions)
+                && Objects.equal(previousConditions, otherLoan.previousConditions);
     }
 
 
@@ -123,7 +152,7 @@ public class Loan extends AbstractPersistable<Long> {
             Loan loan = new Loan();
             loan.setId(this.id);
             loan.setClient(this.client);
-            loan.conditions = this.conditions;
+            loan.setCondition(this.conditions);
             loan.creationTime = DateTime.now();
             return loan;
         }

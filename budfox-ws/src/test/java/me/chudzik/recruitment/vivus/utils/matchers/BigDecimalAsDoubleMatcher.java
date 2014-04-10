@@ -16,7 +16,7 @@ public class BigDecimalAsDoubleMatcher extends TypeSafeMatcher<Double> {
     @Override
     protected boolean matchesSafely(Double actual) {
         BigDecimal actualValue = BigDecimal.valueOf(actual);
-        return actualValue.equals(wanted);
+        return actualValue.compareTo(wanted) == 0;
     }
 
     @Override

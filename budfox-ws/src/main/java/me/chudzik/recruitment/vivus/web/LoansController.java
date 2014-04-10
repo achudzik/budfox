@@ -1,13 +1,17 @@
 package me.chudzik.recruitment.vivus.web;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import me.chudzik.recruitment.vivus.exception.ClientNotFoundException;
+import me.chudzik.recruitment.vivus.exception.LoanNotFoundException;
 import me.chudzik.recruitment.vivus.exception.RiskyLoanApplicationException;
 import me.chudzik.recruitment.vivus.model.ErrorMessage;
 import me.chudzik.recruitment.vivus.model.Loan;
@@ -22,9 +26,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -52,9 +56,7 @@ public class LoansController {
         this.riskAssessmentService = riskAssessmentService;
     }
 
-    @RequestMapping(
-            method = RequestMethod.POST,
-            consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    @RequestMapping(method = POST, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(CREATED)
     public Loan issueLoan(@RequestBody @Valid LoanApplication application, HttpServletRequest request)
             throws ClientNotFoundException, RiskyLoanApplicationException {
@@ -62,6 +64,15 @@ public class LoansController {
         activityService.logLoanApplication(application.getClientId(), request);
         riskAssessmentService.validateApplicationSafety(application);
         Loan loan = loanService.issueALoan(application);
+        return loan;
+    }
+
+    @RequestMapping(value = "{id}", params = "extend=true", method = PUT, produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(OK)
+    public Loan extendLoan(@PathVariable("id") Long loanId, HttpServletRequest request)
+            throws LoanNotFoundException {
+        activityService.logLoanExtension(loanId, request);
+        Loan loan = loanService.extendLoan(loanId);
         return loan;
     }
 
@@ -78,6 +89,14 @@ public class LoansController {
     public ErrorMessage handleRiskyLoanApplicationException(RiskyLoanApplicationException ex) {
         LOGGER.warn(ex.getMessage());
         return new ErrorMessage(BAD_REQUEST.value(), ex.getMessage(), ex.getReason());
+    }
+
+    @ExceptionHandler(LoanNotFoundException.class)
+    @ResponseStatus(NOT_FOUND)
+    public ErrorMessage handleLoanNotFoundException(LoanNotFoundException ex) {
+        LOGGER.warn(ex.getMessage());
+        String details = String.format("Loan ID: %d", ex.getLoanId());
+        return new ErrorMessage(NOT_FOUND.value(), ex.getMessage(), details);
     }
 
 }

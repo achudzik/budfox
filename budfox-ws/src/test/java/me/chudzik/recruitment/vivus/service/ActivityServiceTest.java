@@ -1,9 +1,11 @@
 package me.chudzik.recruitment.vivus.service;
 
-import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.*;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.LOCAL_IP_ADDRESS;
-import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.VALID_CLIENT;
-import static org.mockito.Matchers.any;
+import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.client;
+import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.invalidId;
+import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.loanApplicationActivity;
+import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.loanExtensionActivity;
+import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.validId;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.stub;
@@ -40,13 +42,13 @@ public class ActivityServiceTest {
         // arrange
         HttpServletRequest requestMock = mock(HttpServletRequest.class);
         stub(requestMock.getRemoteAddr()).toReturn(LOCAL_IP_ADDRESS);
-        doReturn(VALID_CLIENT).when(clientRepositoryMock).findOne(VALID_CLIENT.getId());
+        doReturn(client()).when(clientRepositoryMock).findOne(validId());
 
         // act
-        sut.logLoanApplication(VALID_CLIENT.getId(), requestMock);
+        sut.logLoanApplication(validId(), requestMock);
 
         // assert
-        verify(activityRepositoryMock).save(LOAN_APPLICATION_ACTIVITY);
+        verify(activityRepositoryMock).save(loanApplicationActivity());
     }
 
     @Test
@@ -54,12 +56,12 @@ public class ActivityServiceTest {
         // arrange
         HttpServletRequest requestMock = mock(HttpServletRequest.class);
         stub(requestMock.getRemoteAddr()).toReturn(LOCAL_IP_ADDRESS);
-        doReturn(VALID_CLIENT).when(clientRepositoryMock).findByLoansId(any(Long.class));
+        doReturn(client()).when(clientRepositoryMock).findByLoansId(invalidId());
 
         // act
-        sut.logLoanExtension(VALID_CLIENT.getId(), requestMock);
+        sut.logLoanExtension(invalidId(), requestMock);
 
         // assert
-        verify(activityRepositoryMock).save(LOAN_EXTENSION_ACTIVITY);
+        verify(activityRepositoryMock).save(loanExtensionActivity());
     }
 }

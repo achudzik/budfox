@@ -5,9 +5,10 @@ import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.MONTH_LATER
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.THREE_PLN;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.THREE_WEEKS_PERIOD;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.VALID_CLIENT;
-import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.VALID_LOAN;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.VALID_LOAN_APPLICATION;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.YESTERDAY;
+import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.loan;
+import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.loanApplication;
 import static me.chudzik.recruitment.vivus.utils.matchers.JsonPathMatchers.hasIdAs;
 import static me.chudzik.recruitment.vivus.utils.matchers.JsonPathMatchers.isEqualTo;
 import static org.mockito.Matchers.eq;
@@ -32,6 +33,7 @@ import javax.servlet.http.HttpServletRequest;
 import me.chudzik.recruitment.vivus.configuration.ControllerTestConfiguration;
 import me.chudzik.recruitment.vivus.exception.ClientNotFoundException;
 import me.chudzik.recruitment.vivus.exception.RiskyLoanApplicationException;
+import me.chudzik.recruitment.vivus.model.Loan;
 import me.chudzik.recruitment.vivus.model.LoanApplication;
 import me.chudzik.recruitment.vivus.model.LoanConditions;
 import me.chudzik.recruitment.vivus.service.ActivityService;
@@ -195,26 +197,29 @@ public class LoansControllerTest extends AbstractTestNGSpringContextTests {
     @Test
     public void shouldIssueLoanToSafeLoanApplication() throws Exception {
         // arrange
-        doReturn(VALID_LOAN).when(loanServiceMock).issueALoan(VALID_LOAN_APPLICATION);
-        LoanConditions conditions = VALID_LOAN.getConditions();
+        Loan loan = loan();
+        LoanApplication application = loanApplication();
+
+        doReturn(loan).when(loanServiceMock).issueALoan(application);
+        LoanConditions conditions = loan.getConditions();
 
         // act
         mockMvc.perform(
                 post("/loans")
-                    .content(convertObjectToJsonBytes(VALID_LOAN_APPLICATION))
+                    .content(convertObjectToJsonBytes(application))
                     .contentType(APPLICATION_JSON))
                 //.andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
         // assert
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(jsonPath("id").value(isEqualTo(VALID_LOAN.getId())))
-                .andExpect(jsonPath("client").value(hasIdAs(VALID_LOAN.getClient())))
+                .andExpect(jsonPath("id").value(isEqualTo(loan.getId())))
+                .andExpect(jsonPath("client").value(hasIdAs(loan.getClient())))
                 .andExpect(jsonPath("conditions.interest").value(isEqualTo(conditions.getInterest())))
                 .andExpect(jsonPath("conditions.amount").value(isEqualTo(conditions.getAmount())))
                 .andExpect(jsonPath("conditions.maturityDate").value(isEqualTo(conditions.getMaturityDate())));
 
-        verify(riskAssessmentServiceMock, times(1)).validateApplicationSafety(VALID_LOAN_APPLICATION);
-        verify(loanServiceMock, times(1)).issueALoan(eq(VALID_LOAN_APPLICATION));
+        verify(riskAssessmentServiceMock, times(1)).validateApplicationSafety(application);
+        verify(loanServiceMock, times(1)).issueALoan(application);
     }
 
 }

@@ -15,6 +15,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import me.chudzik.recruitment.vivus.exception.LoanNotFoundException;
 import me.chudzik.recruitment.vivus.model.Loan;
+import me.chudzik.recruitment.vivus.model.LoanApplication;
 import me.chudzik.recruitment.vivus.repository.ClientRepository;
 import me.chudzik.recruitment.vivus.repository.LoanRepository;
 import me.chudzik.recruitment.vivus.service.impl.LoanServiceImpl;
@@ -60,12 +61,13 @@ public class LoanServiceTest {
     @Test
     public void shouldPersistIssuedLoanToDb() {
         // arrange
+        LoanApplication application = loanApplication();
         doReturn(client()).when(clientRepositoryMock).findOne(validId());
         doReturn(basicConditions()).when(conditionsServiceMock)
-                .calculateInitialLoanConditions(loanApplication());
+                .calculateInitialLoanConditions(application);
 
         // act
-        sut.issueALoan(loanApplication());
+        sut.issueALoan(application);
 
         // assert
         verify(loanRepositoryMock, times(1)).save(unsavedLoan());

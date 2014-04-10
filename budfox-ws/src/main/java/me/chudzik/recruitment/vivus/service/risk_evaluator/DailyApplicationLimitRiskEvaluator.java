@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @Scope(value = "request", proxyMode = ScopedProxyMode.INTERFACES)
@@ -32,6 +33,7 @@ public class DailyApplicationLimitRiskEvaluator extends BaseRiskEvaluator {
         this.applicationLimit = applicationLimit;
     }
 
+    @Transactional(readOnly = true)
     @Override
     protected void doEvaluation(LoanApplication application) throws RiskyLoanApplicationException {
         // XXX-ach: lenght of given period can also be a injectable parameter

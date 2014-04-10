@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import org.joda.money.Money;
 import org.joda.time.LocalTime;
+import org.joda.time.Period;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,6 +30,12 @@ public class BusinessConfiguration {
     @Bean
     public Integer maxApplicationLimit() {
         return env.getRequiredProperty("riskEvaluation.applications.dailyLimit", Integer.class);
+    }
+
+    @Bean
+    public Period extensionPeriod() {
+        String extensionPeriod = env.getRequiredProperty("loan.extensionPeriod");
+        return Period.parse(extensionPeriod);
     }
 
     @Bean

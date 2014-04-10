@@ -108,12 +108,14 @@ public class PreExistingEntities {
         return new BigDecimal("10.0");
     }
 
+    public static final Period EXTENSION_PERIOD = Period.parse("P1W");
+
     public static LoanConditions conditionsAfterFirstExtension() {
         return LoanConditions.builder()
                 .id(validId() + 1)
                 .amount(THREE_PLN)
                 .interest(interestAfterFirstExtension())
-                .maturityDate(MONTH_LATER)
+                .maturityDate(MONTH_LATER.plus(EXTENSION_PERIOD))
                 .build();
     }
 
@@ -130,7 +132,8 @@ public class PreExistingEntities {
                 .id(validId() + 2)
                 .amount(THREE_PLN)
                 .interest(interestAfterSecondExtension())
-                .maturityDate(MONTH_LATER)
+                // XXX-ach: not so pretty
+                .maturityDate(MONTH_LATER.plus(EXTENSION_PERIOD).plus(EXTENSION_PERIOD))
                 .build();
     }
 

@@ -10,5 +10,5 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
 
     @Query("SELECT c FROM Client c JOIN FETCH c.loans WHERE c.id = (:id)")
     Client getClientLoans(@Param("id") Long id);
-
+    Client findByLoansId(Long id);
 }

@@ -1,8 +1,9 @@
 package me.chudzik.recruitment.vivus.service;
 
+import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.*;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.LOCAL_IP_ADDRESS;
-import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.VALID_ACTIVITY;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.VALID_CLIENT;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.stub;
@@ -45,7 +46,20 @@ public class ActivityServiceTest {
         sut.logLoanApplication(VALID_CLIENT.getId(), requestMock);
 
         // assert
-        verify(activityRepositoryMock).save(VALID_ACTIVITY);
+        verify(activityRepositoryMock).save(LOAN_APPLICATION_ACTIVITY);
     }
 
+    @Test
+    public void shouldPersistInfoAboutExtendingLoan() {
+        // arrange
+        HttpServletRequest requestMock = mock(HttpServletRequest.class);
+        stub(requestMock.getRemoteAddr()).toReturn(LOCAL_IP_ADDRESS);
+        doReturn(VALID_CLIENT).when(clientRepositoryMock).findByLoansId(any(Long.class));
+
+        // act
+        sut.logLoanExtension(VALID_CLIENT.getId(), requestMock);
+
+        // assert
+        verify(activityRepositoryMock).save(LOAN_EXTENSION_ACTIVITY);
+    }
 }

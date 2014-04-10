@@ -45,7 +45,6 @@ import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 
 @WebAppConfiguration
 @SpringApplicationConfiguration(classes = Application.class)
-
 @TestExecutionListeners({
         ServletTestExecutionListener.class,
         DependencyInjectionTestExecutionListener.class,

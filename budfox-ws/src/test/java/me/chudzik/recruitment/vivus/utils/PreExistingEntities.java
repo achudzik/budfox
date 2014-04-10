@@ -54,6 +54,7 @@ public class PreExistingEntities {
     public static final BigDecimal BASIC_INTEREST = new BigDecimal("10.0");
 
     public static final LoanConditions VALID_LOAN_CONDITIONS = LoanConditions.builder()
+            .id(VALID_ID)
             .amount(THREE_PLN)
             .interest(BASIC_INTEREST)
             .maturityDate(MONTH_LATER)

@@ -1,4 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
-    <!-- TODO -->
+<!-- 
+    <activities id="1" client_id="1" type="LOAN_APPLICATION" ip_address="127.0.0.1"/>
+    <activities id="2" client_id="1" type="LOAN_EXTENSION" ip_address="127.0.0.1"/>
+    <activities id="3" client_id="1" type="LOAN_EXTENSION" ip_address="127.0.0.1"/>
+ -->
+    <clients id="1" identification_number="68092005286"/>
+    <loans id="1" client_id="1" current_conditions_id="3"/>
+    <loan_conditions id="1" currency="PLN" amount="3.00" interest="10.00" maturity_date="2014-05-07 11:05:00.0" loan_id="1"/>
+    <loan_conditions id="2" currency="PLN" amount="3.00" interest="15.00" maturity_date="2014-05-14 11:05:00.0" loan_id="1"/>
+    <loan_conditions id="3" currency="PLN" amount="3.00" interest="22.50" maturity_date="2014-05-21 11:05:00.0" loan_id="1"/>
+    <previous_conditions loan_id="1" condition_id="1"/>
+    <previous_conditions loan_id="1" condition_id="2"/>
 </dataset>

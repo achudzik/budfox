@@ -1,6 +1,7 @@
 package me.chudzik.recruitment.vivus.acceptance_test;
 
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.MONTH_AND_A_TWO_WEEKS_LATER;
+import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.MONTH_AND_A_WEEK_LATER;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.MONTH_LATER;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.THREE_PLN;
 import static me.chudzik.recruitment.vivus.utils.PreExistingEntities.VALID_CLIENT;
@@ -16,6 +17,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.math.BigDecimal;
 
 import me.chudzik.recruitment.vivus.Application;
+import me.chudzik.recruitment.vivus.model.Client;
+import me.chudzik.recruitment.vivus.model.Loan;
+import me.chudzik.recruitment.vivus.model.LoanConditions;
+import me.chudzik.recruitment.vivus.repository.ClientRepository;
+import me.chudzik.recruitment.vivus.repository.LoanRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -34,12 +40,12 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
-import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 
 @WebAppConfiguration
 @SpringApplicationConfiguration(classes = Application.class)
+
 @TestExecutionListeners({
         ServletTestExecutionListener.class,
         DependencyInjectionTestExecutionListener.class,
@@ -49,10 +55,17 @@ import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 //@DatabaseSetup("loanExtensionData.xml")
 public class LoanExtensionIT extends AbstractTestNGSpringContextTests {
 
+    @Autowired
     @Qualifier("basicInterest")
     private BigDecimal basicInterest;
+    @Autowired
     @Qualifier("interestMultiplier")
     private BigDecimal interestMultiplier;
+
+    @Autowired
+    private ClientRepository clientRepository;
+    @Autowired
+    private LoanRepository loanRepository;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -65,15 +78,15 @@ public class LoanExtensionIT extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    //@ExpectedDatabase(value = "loanExtensionData-expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
+    @ExpectedDatabase(value = "loanExtensionData-expected.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
     public void shouldAllowExtendingNewLoans() throws Exception {
         // arrange
-        Long loanId = 4L;
+        Loan loan = arrange();
         BigDecimal interestAfterFirstExtension = basicInterest.multiply(interestMultiplier);
         BigDecimal interestAfterSecondExtension = interestAfterFirstExtension.multiply(interestMultiplier);
-        
+
         // act
-        mockMvc.perform(put("/loans/{id}?extend=true", loanId))
+        mockMvc.perform(put("/loans/{id}?extend=true", loan.getId()))
                 //.andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
         // assert
                 .andExpect(status().isCreated())
@@ -93,6 +106,35 @@ public class LoanExtensionIT extends AbstractTestNGSpringContextTests {
                 // conditions after first extension
                 .andExpect(jsonPath("previousConditions[1].amount").value(isEqualTo(THREE_PLN)))
                 .andExpect(jsonPath("previousConditions[1].interest").value(isEqualTo(interestAfterFirstExtension)))
-                .andExpect(jsonPath("previousConditions[1].maturityDate").value(isEqualTo(MONTH_LATER)));
+                .andExpect(jsonPath("previousConditions[1].maturityDate").value(isEqualTo(MONTH_AND_A_WEEK_LATER)));
     }
+
+    // FIXME-ach: Workaround due to problems with DbUnit (cannot handle FK)
+    private Loan arrange() {
+        Client client = clientRepository.save(VALID_CLIENT);
+
+        // issue original loan
+        LoanConditions conditions = LoanConditions.builder()
+                .amount(THREE_PLN)
+                .maturityDate(MONTH_LATER)
+                .interest(basicInterest)
+                .build();
+        Loan loan = Loan.builder()
+                .client(client)
+                .conditions(conditions)
+                .build();
+        loan = loanRepository.save(loan);
+
+        // extend loan
+        LoanConditions newConditions = LoanConditions.builder()
+                .amount(THREE_PLN)
+                .maturityDate(MONTH_AND_A_WEEK_LATER)
+                .interest(basicInterest.multiply(interestMultiplier))
+                .build();
+        loan.setCondition(newConditions);
+        loan = loanRepository.save(loan);
+
+        return loan;
+    }
+
 }

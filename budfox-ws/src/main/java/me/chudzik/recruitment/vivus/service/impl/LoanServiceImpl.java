@@ -38,8 +38,13 @@ public class LoanServiceImpl implements LoanService {
 
     @Override
     public Loan extendLoan(Long loanId) throws LoanNotFoundException {
-        // TODO Auto-generated method stub
-        return null;
+        Loan loan = loanRepository.findOne(loanId);
+        if (null == loan) {
+            throw new LoanNotFoundException(loanId);
+        }
+        LoanConditions newConditions = conditionsService.loanExtensionConditions(loan);
+        loan.setCondition(newConditions);
+        return loanRepository.save(loan);
     }
 
 }

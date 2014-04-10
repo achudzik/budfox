@@ -1,5 +1,6 @@
 package me.chudzik.recruitment.vivus.service.impl;
 
+import me.chudzik.recruitment.vivus.exception.LoanNotFoundException;
 import me.chudzik.recruitment.vivus.model.Client;
 import me.chudzik.recruitment.vivus.model.Loan;
 import me.chudzik.recruitment.vivus.model.LoanApplication;
@@ -33,6 +34,12 @@ public class LoanServiceImpl implements LoanService {
         Loan loan = Loan.builder().conditions(conditions).build();
         client.addLoan(loan);
         return loanRepository.save(loan);
+    }
+
+    @Override
+    public Loan extendLoan(Long loanId) throws LoanNotFoundException {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

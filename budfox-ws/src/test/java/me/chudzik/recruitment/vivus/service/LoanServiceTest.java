@@ -39,6 +39,8 @@ public class LoanServiceTest {
     public void shouldOperateOnClientEntityFetchedFromDb() {
         // arrange
         doReturn(VALID_CLIENT).when(clientRepositoryMock).findOne(VALID_ID);
+        doReturn(VALID_LOAN_CONDITIONS).when(conditionsServiceMock)
+                .calculateInitialLoanConditions(VALID_LOAN_APPLICATION);
 
         // act
         sut.issueALoan(VALID_LOAN_APPLICATION);

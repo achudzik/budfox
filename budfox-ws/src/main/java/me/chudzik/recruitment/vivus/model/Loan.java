@@ -115,7 +115,8 @@ public class Loan extends AbstractPersistable<Long> {
     @Override
     public String toString() {
         return new ReflectionToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-                .setExcludeFieldNames("creationTime")
+                .setExcludeFieldNames("client", "creationTime")
+                .append("client", client != null ? client.getId() : -1)
                 .toString();
     }
 

@@ -78,32 +78,23 @@ public class PreExistingEntities {
 
     public static final BigDecimal BASIC_INTEREST = new BigDecimal("10.0");
 
-    public static final LoanConditions VALID_LOAN_CONDITIONS = LoanConditions.builder()
-            .id(validId())
-            .amount(THREE_PLN)
-            .interest(BASIC_INTEREST)
-            .maturityDate(MONTH_LATER)
-            .build();
-
-    public static final Loan VALID_LOAN = Loan.builder()
-            .id(validId())
-            .client(VALID_CLIENT)
-            .conditions(VALID_LOAN_CONDITIONS)
-            .build();
-
     public static final String LOCAL_IP_ADDRESS = "127.0.0.1";
-    
-    public static final Activity LOAN_APPLICATION_ACTIVITY = Activity.builder()
-            .client(VALID_CLIENT)
-            .type(LOAN_APPLICATION)
-            .ipAddress(LOCAL_IP_ADDRESS)
-            .build();
 
-    public static final Activity LOAN_EXTENSION_ACTIVITY = Activity.builder()
-            .client(VALID_CLIENT)
-            .type(LOAN_EXTENSION)
-            .ipAddress(LOCAL_IP_ADDRESS)
-            .build();
+    public static Activity loanApplicationActivity() {
+        return Activity.builder()
+                .client(client())
+                .type(LOAN_APPLICATION)
+                .ipAddress(LOCAL_IP_ADDRESS)
+                .build();
+    }
+
+    public static Activity loanExtensionActivity() {
+        return Activity.builder()
+                .client(client())
+                .type(LOAN_EXTENSION)
+                .ipAddress(LOCAL_IP_ADDRESS)
+                .build();
+    }
 
     public static LoanConditions basicConditions() {
         return LoanConditions.builder()

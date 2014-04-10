@@ -30,7 +30,6 @@ import org.springframework.test.context.web.ServletTestExecutionListener;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -47,7 +46,6 @@ import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
         DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class,
         TransactionDbUnitTestExecutionListener.class})
-@Transactional
 @DatabaseSetup("loanData.xml")
 public class LoanApplicationIT extends AbstractTestNGSpringContextTests {
 

@@ -2,6 +2,7 @@ package me.chudzik.recruitment.vivus.model;
 
 import java.math.BigDecimal;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -32,7 +33,7 @@ public class LoanConditions extends AbstractPersistable<Long> {
 
     private static final long serialVersionUID = 1823909710170076581L;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
     private Loan loan;
@@ -90,7 +91,7 @@ public class LoanConditions extends AbstractPersistable<Long> {
         if (null == loan) {
             return 0L;
         }
-        return Objects.firstNonNull(loan.getId(), 0L);
+        return Objects.firstNonNull(loan.getId(), -1L);
     }
 
     @Override

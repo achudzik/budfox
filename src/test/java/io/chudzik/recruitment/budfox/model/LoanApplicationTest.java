@@ -5,7 +5,7 @@ import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.io.IOException;
 
-import io.chudzik.recruitment.budfox.configuration.JsonMapperConfiguration;
+import io.chudzik.recruitment.budfox.configuration.JsonMappingConfiguration;
 import io.chudzik.recruitment.budfox.utils.PreExistingEntities;
 import io.chudzik.recruitment.budfox.utils.matchers.JsonPathMatchers;
 
@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class LoanApplicationTest {
 
-    private static final ObjectMapper objectMapper = JsonMapperConfiguration.buildObjectMapper();
+    private static final ObjectMapper objectMapper = JsonMappingConfiguration.objectMapper();
 
     @Test
     public void shouldSerializeJustClientId() throws IOException {

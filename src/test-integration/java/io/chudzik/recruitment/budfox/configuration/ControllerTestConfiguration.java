@@ -15,7 +15,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 
 @Configuration
-@Import({ HttpMessageConvertersAutoConfiguration.class, JsonMapperConfiguration.class })
+@Import({ HttpMessageConvertersAutoConfiguration.class, JsonMappingConfiguration.class })
 public class ControllerTestConfiguration {
 
     @Autowired

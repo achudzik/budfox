@@ -50,7 +50,7 @@ import org.testng.annotations.Test;
 
 // TODO-ach: replace all .andExpect(jsonPath("conditions.interest").value(...) with custom assertions
 @ContextConfiguration(classes = ControllerTestConfiguration.class)
-public class LoansControllerTest extends AbstractTestNGSpringContextTests {
+public class LoansControllerIT extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private MappingJackson2HttpMessageConverter messageConverter;

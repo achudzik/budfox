@@ -33,7 +33,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 @ContextConfiguration(classes = ControllerTestConfiguration.class)
-public class ClientsControllerTest extends AbstractTestNGSpringContextTests {
+public class ClientsControllerIT extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private MappingJackson2HttpMessageConverter messageConverter;

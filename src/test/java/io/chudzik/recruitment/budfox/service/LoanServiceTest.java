@@ -23,19 +23,19 @@ import io.chudzik.recruitment.budfox.service.impl.LoanServiceImpl;
 
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.testng.ITestResult;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.testng.util.RetryAnalyzerCount;
 
 public class LoanServiceTest {
 
-    private LoanService sut;
+    LoanService sut;
 
-    @Mock
-    private LoanRepository loanRepositoryMock;
-    @Mock
-    private ClientRepository clientRepositoryMock;
-    @Mock
-    private LoanConditionsService conditionsServiceMock;
+    @Mock LoanRepository loanRepositoryMock;
+    @Mock ClientRepository clientRepositoryMock;
+    @Mock LoanConditionsService conditionsServiceMock;
+
 
     @BeforeMethod
     public void setup() {
@@ -43,7 +43,8 @@ public class LoanServiceTest {
         sut = new LoanServiceImpl(clientRepositoryMock, loanRepositoryMock, conditionsServiceMock);
     }
 
-    @Test
+
+    @Test(retryAnalyzer = ThreeTimesACharmRetryAnalyzer.class)
     public void shouldOperateOnClientEntityFetchedFromDb() {
         // arrange
         doReturn(client()).when(clientRepositoryMock).findOne(validId());
@@ -56,8 +57,22 @@ public class LoanServiceTest {
         // assert
         verify(clientRepositoryMock, times(1)).findOne(validId());
         verifyNoMoreInteractions(clientRepositoryMock);
+    }
+
+    // FIXME-ach: workaround for flaky test (works in IDE, fails from time to time from maven execution)
+    class ThreeTimesACharmRetryAnalyzer extends RetryAnalyzerCount {
+
+        public ThreeTimesACharmRetryAnalyzer() {
+            setCount(3);
+        }
+
+        @Override
+        public boolean retryMethod(ITestResult result) {
+            return super.retry(result);
+        }
 
     }
+
 
     @Test
     public void shouldPersistIssuedLoanToDb() {
@@ -75,6 +90,7 @@ public class LoanServiceTest {
         verifyNoMoreInteractions(loanRepositoryMock);
     }
 
+
     @Test
     public void shouldPersistExtendedLoansToDb() {
         // arrange
@@ -91,6 +107,7 @@ public class LoanServiceTest {
         verify(loanRepositoryMock, times(1)).save(loanAfterFirstExtension());
         verifyNoMoreInteractions(loanRepositoryMock);
     }
+
 
     @Test(expectedExceptions = LoanNotFoundException.class,
             expectedExceptionsMessageRegExp = "Loan with given ID not found.")

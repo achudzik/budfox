@@ -22,8 +22,9 @@
 
     <logger name="org.springframework" level="WARN"/>
     <logger name="org.hibernate.tool.hbm2ddl.SchemaExport" level="OFF"/>
+    <logger name="org.dbunit" level="DEBUG"/>
 
-    <root level="${log.level:-ERROR}">
+    <root level="DEBUG">
         <appender-ref ref="CONSOLE" />
     </root>
 </configuration>

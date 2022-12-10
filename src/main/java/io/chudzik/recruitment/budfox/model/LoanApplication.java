@@ -3,7 +3,6 @@ package io.chudzik.recruitment.budfox.model;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.base.Objects;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.joda.money.Money;
@@ -13,6 +12,8 @@ import org.joda.time.Period;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
+import java.util.Optional;
 
 // Enables getClient
 @JsonAutoDetect(fieldVisibility = Visibility.ANY, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
@@ -69,7 +70,7 @@ public class LoanApplication {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(clientId, amount, maturityDate, term, applicationDate);
+        return Objects.hash(clientId, amount, maturityDate, term, applicationDate);
     }
 
     @Override
@@ -81,11 +82,11 @@ public class LoanApplication {
             return false;
         }
         LoanApplication otherApplication = (LoanApplication) other;
-        return Objects.equal(clientId, otherApplication.clientId)
-                && Objects.equal(amount, otherApplication.amount)
-                && Objects.equal(maturityDate, otherApplication.maturityDate)
-                && Objects.equal(term, otherApplication.term)
-                && Objects.equal(applicationDate, otherApplication.applicationDate);
+        return Objects.equals(clientId, otherApplication.clientId)
+                && Objects.equals(amount, otherApplication.amount)
+                && Objects.equals(maturityDate, otherApplication.maturityDate)
+                && Objects.equals(term, otherApplication.term)
+                && Objects.equals(applicationDate, otherApplication.applicationDate);
     }
 
     @Override
@@ -145,7 +146,8 @@ public class LoanApplication {
             application.clientId = this.client.getId();
             application.maturityDate = this.maturityDate;
             application.term = this.term;
-            application.applicationDate = Objects.firstNonNull(this.applicationDate, application.applicationDate);
+            application.applicationDate = Optional.ofNullable(this.applicationDate)
+                        .orElse(application.applicationDate);
             return application;
         }
 

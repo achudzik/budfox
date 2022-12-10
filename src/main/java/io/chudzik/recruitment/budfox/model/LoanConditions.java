@@ -3,7 +3,6 @@ package io.chudzik.recruitment.budfox.model;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.google.common.base.Objects;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.annotations.Columns;
@@ -19,6 +18,8 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.Objects;
+import java.util.Optional;
 
 @Entity
 // XXX-ach: Move to package-info.java after fix to https://jira.spring.io/browse/SPR-10910
@@ -71,7 +72,7 @@ public class LoanConditions extends AbstractPersistable<Long> {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(loanRef(loan), amount, interest, maturityDate);
+        return Objects.hash(loanRef(loan), amount, interest, maturityDate);
     }
 
     @Override
@@ -79,17 +80,16 @@ public class LoanConditions extends AbstractPersistable<Long> {
         if (this == other) return true;
         if (other == null || getClass() != other.getClass()) return false;
         LoanConditions otherConditions = (LoanConditions) other;
-        return Objects.equal(loanRef(loan), loanRef(otherConditions.loan))
-                && Objects.equal(amount, otherConditions.amount)
-                && Objects.equal(interest, otherConditions.interest)
-                && Objects.equal(maturityDate, otherConditions.maturityDate);
+        return Objects.equals(loanRef(loan), loanRef(otherConditions.loan))
+                && Objects.equals(amount, otherConditions.amount)
+                && Objects.equals(interest, otherConditions.interest)
+                && Objects.equals(maturityDate, otherConditions.maturityDate);
     }
 
     private Long loanRef(Loan loan) {
-        if (null == loan) {
-            return 0L;
-        }
-        return Objects.firstNonNull(loan.getId(), -1L);
+        return Optional.ofNullable(loan)
+            .map(AbstractPersistable::getId)
+            .orElse(null);
     }
 
     @Override

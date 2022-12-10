@@ -1,7 +1,6 @@
 package io.chudzik.recruitment.budfox.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.google.common.base.Objects;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.joda.time.DateTime;
@@ -15,6 +14,7 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import java.util.Objects;
 
 @Entity
 @Table(name = "activities")
@@ -22,13 +22,6 @@ import javax.persistence.Table;
 public class Activity extends AbstractPersistable<Long> {
 
     private static final long serialVersionUID = -115892659003310229L;
-
-    public enum ActivityType {
-
-        LOAN_APPLICATION,
-        LOAN_EXTENSION;
-
-    }
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Client client;
@@ -62,7 +55,7 @@ public class Activity extends AbstractPersistable<Long> {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(client, type, ipAddress, eventTime);
+        return Objects.hash(client, type, ipAddress, eventTime);
     }
 
     @Override
@@ -70,10 +63,10 @@ public class Activity extends AbstractPersistable<Long> {
         if (this == other) return true;
         if (other == null || getClass() != other.getClass()) return false;
         Activity otherActivity = (Activity) other;
-        return Objects.equal(client, otherActivity.client)
-                && Objects.equal(type, otherActivity.type)
-                && Objects.equal(ipAddress, otherActivity.ipAddress)
-                && Objects.equal(eventTime, otherActivity.eventTime);
+        return Objects.equals(client, otherActivity.client)
+                && Objects.equals(type, otherActivity.type)
+                && Objects.equals(ipAddress, otherActivity.ipAddress)
+                && Objects.equals(eventTime, otherActivity.eventTime);
     }
 
     @PrePersist
@@ -121,6 +114,14 @@ public class Activity extends AbstractPersistable<Long> {
             activity.type = this.type;
             return activity;
         }
+
+    }
+
+
+    public enum ActivityType {
+
+        LOAN_APPLICATION,
+        LOAN_EXTENSION
 
     }
 

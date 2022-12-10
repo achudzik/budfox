@@ -10,7 +10,8 @@ import org.mockito.Spy;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static com.google.common.collect.Lists.newArrayList;
+import java.util.List;
+
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -33,7 +34,7 @@ public class RiskAssessmentServiceTest {
     @BeforeMethod
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        sut = new RiskAssessmentServiceImpl(newArrayList(evaluator1, evaluator2, evaluator3));
+        sut = new RiskAssessmentServiceImpl(List.of(evaluator1, evaluator2, evaluator3));
     }
 
     @Test

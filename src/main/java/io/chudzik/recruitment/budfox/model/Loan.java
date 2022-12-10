@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.google.common.base.Objects;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.joda.time.DateTime;
@@ -24,6 +23,7 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 import java.util.Collections;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -96,7 +96,7 @@ public class Loan extends AbstractPersistable<Long> {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(client, conditions, previousConditions);
+        return Objects.hash(client, conditions, previousConditions);
     }
 
     @Override
@@ -104,9 +104,9 @@ public class Loan extends AbstractPersistable<Long> {
         if (this == other) return true;
         if (other == null || getClass() != other.getClass()) return false;
         Loan otherLoan = (Loan) other;
-        return Objects.equal(client, otherLoan.client)
-                && Objects.equal(conditions, otherLoan.conditions)
-                && Objects.equal(previousConditions, otherLoan.previousConditions);
+        return Objects.equals(client, otherLoan.client)
+                && Objects.equals(conditions, otherLoan.conditions)
+                && Objects.equals(previousConditions, otherLoan.previousConditions);
     }
 
 

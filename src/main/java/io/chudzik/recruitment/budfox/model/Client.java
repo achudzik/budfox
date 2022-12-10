@@ -1,7 +1,7 @@
 package io.chudzik.recruitment.budfox.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.data.jpa.domain.AbstractPersistable;
@@ -18,10 +18,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
-
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 
 @Entity
 @Table(name = "clients")
@@ -55,8 +53,8 @@ public class Client extends AbstractPersistable<Long> {
 
 
     public void addLoan(Loan loan) {
-        checkNotNull(loan, "Cannot be null loan");
-        checkState(loan.getClient() == null, "Loan is already assigned to a Client");
+        Preconditions.checkNotNull(loan, "Cannot be null loan");
+        Preconditions.checkState(loan.getClient() == null, "Loan is already assigned to a Client");
 
         loans.add(loan);
         loan.setClient(this);
@@ -65,7 +63,7 @@ public class Client extends AbstractPersistable<Long> {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(identificationNumber);
+        return Objects.hash(identificationNumber);
     }
 
     @Override
@@ -73,7 +71,7 @@ public class Client extends AbstractPersistable<Long> {
         if (this == other) return true;
         if (other == null || getClass() != other.getClass()) return false;
         Client otherClient = (Client) other;
-        return Objects.equal(identificationNumber, otherClient.identificationNumber);
+        return Objects.equals(identificationNumber, otherClient.identificationNumber);
     }
 
 

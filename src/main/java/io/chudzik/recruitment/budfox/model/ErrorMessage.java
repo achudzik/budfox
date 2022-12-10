@@ -1,6 +1,6 @@
 package io.chudzik.recruitment.budfox.model;
 
-import com.google.common.base.Strings;
+import java.util.Optional;
 
 
 public class ErrorMessage {
@@ -28,7 +28,8 @@ public class ErrorMessage {
     }
 
     public String getDetails() {
-        return Strings.nullToEmpty(details);
+        return Optional.ofNullable(details)
+            .orElseGet(String::new);
     }
 
     @Override

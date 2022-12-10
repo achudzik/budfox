@@ -13,7 +13,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.0.0.RELEASE</version>
+        <version>1.4.4.RELEASE</version>
     </parent>
 
     <properties>
@@ -27,12 +27,13 @@
         <commons-lang3.version>3.3.1</commons-lang3.version>
         <guava.version>16.0.1</guava.version>
         <joda-money.version>0.9.1</joda-money.version>
-        <usertype.core.version>3.1.0.GA</usertype.core.version>
+        <usertype.core.version>5.0.0.GA</usertype.core.version>
+        <el.version>2.2.4</el.version>
         <validation-api.version>1.1.0.Final</validation-api.version>
         <!-- ... Test dependencies versions ................................ -->
         <dbunit.version>2.4.9</dbunit.version>
         <fest-assert.version>2.0M10</fest-assert.version>
-        <json-path.version>0.9.1</json-path.version>
+        <json-path.version>2.2.0</json-path.version>
         <spring-test-dbunit.version>1.1.0</spring-test-dbunit.version>
         <testng.version>6.8.8</testng.version>
         <!-- ... Plugins dependencies versions ............................. -->
@@ -110,8 +111,22 @@
         </dependency>
 
         <dependency>
+            <groupId>javax.el</groupId>
+            <artifactId>javax.el-api</artifactId>
+            <version>${el.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>javax.el</artifactId>
+            <version>${el.version}</version>
+        </dependency>
+
+
+        <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
+            <scope>runtime</scope>
         </dependency>
 
         <!-- ... Joda ...................................................... -->
@@ -213,6 +228,16 @@
             <artifactId>jaxb-runtime</artifactId>
             <version>2.3.2</version>
         </dependency>
+
+        <!-- Workaround for "Failed to introspect annotated methods on class org.springframework.boot.autoconfigure.web.GsonHttpMessageConvertersConfiguration$GsonHttpMessageConverterConfiguration" -->
+        <!-- See https://github.com/spring-projects/spring-boot/issues/6502 -->
+        <!-- TODO-ach: remove after upgrading spring boot to never versions -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
     </dependencies>
 
 

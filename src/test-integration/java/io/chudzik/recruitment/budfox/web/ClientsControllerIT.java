@@ -7,6 +7,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -100,8 +101,9 @@ public class ClientsControllerIT extends AbstractTestNGSpringContextTests {
                 //.andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
         // assert
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(APPLICATION_JSON))
-                .andExpect(jsonPath("$.").isArray());
+                .andExpect(content().contentType(APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()").value(2));
 
         verify(clientRepositoryMock, times(1)).getClientLoans(clientId);
         verifyNoMoreInteractions(clientRepositoryMock);
@@ -118,7 +120,7 @@ public class ClientsControllerIT extends AbstractTestNGSpringContextTests {
                 //.andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
         // assert
                 .andExpect(status().isNotFound())
-                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().contentType(APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("code").value(NOT_FOUND.value()))
                 .andExpect(jsonPath("message").value("Client with given ID not found."))
                 .andExpect(jsonPath("details").value(String.format("Client ID: %d", clientId)));

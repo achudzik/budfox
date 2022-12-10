@@ -8,7 +8,7 @@ import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.VALID_CLIE
 import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.VALID_ID;
 import static io.chudzik.recruitment.budfox.utils.matchers.JsonPathMatchers.hasIdAs;
 import static io.chudzik.recruitment.budfox.utils.matchers.JsonPathMatchers.isEqualTo;
-import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -77,7 +77,7 @@ public class LoanExtensionIT extends AbstractTestNGSpringContextTests {
                 //.andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
         // assert
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().contentType(APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("id").value(isEqualTo(VALID_ID)))
                 .andExpect(jsonPath("client").value(hasIdAs(VALID_CLIENT)))
                 // current conditions

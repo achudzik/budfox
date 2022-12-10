@@ -13,6 +13,7 @@ import static org.mockito.internal.matchers.NotNull.NOT_NULL;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -98,7 +99,7 @@ public class LoansControllerIT extends AbstractTestNGSpringContextTests {
                 //.andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
         // assert
                 .andExpect(status().isBadRequest())
-                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().contentType(APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("code").value(BAD_REQUEST.value()))
                 .andExpect(jsonPath("message").value("Invalid request"))
                 .andExpect(jsonPath("details").value(NOT_NULL));
@@ -126,7 +127,7 @@ public class LoansControllerIT extends AbstractTestNGSpringContextTests {
                 //.andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
         // assert
                 .andExpect(status().isNotFound())
-                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().contentType(APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("code").value(NOT_FOUND.value()))
                 .andExpect(jsonPath("message").value("Client with given ID not found."))
                 .andExpect(jsonPath("details").value(String.format("Client ID: %d", nonExistingClientId)));
@@ -183,7 +184,7 @@ public class LoansControllerIT extends AbstractTestNGSpringContextTests {
                 //.andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
         // assert
                 .andExpect(status().isBadRequest())
-                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().contentType(APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("code").value(BAD_REQUEST.value()))
                 .andExpect(jsonPath("message").value("Risk associated with loan application is too high."))
                 .andExpect(jsonPath("details").value(loanRefusalReason));
@@ -206,7 +207,7 @@ public class LoansControllerIT extends AbstractTestNGSpringContextTests {
                 //.andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
         // assert
                 .andExpect(status().isCreated())
-                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(content().contentType(APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("id").value(JsonPathMatchers.isEqualTo(loan.getId())))
                 .andExpect(jsonPath("client").value(JsonPathMatchers.hasIdAs(loan.getClient())))
                 .andExpect(jsonPath("conditions.interest").value(JsonPathMatchers.isEqualTo(conditions.getInterest())))

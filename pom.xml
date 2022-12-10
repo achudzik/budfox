@@ -36,8 +36,8 @@
         <dbunit.version>2.4.9</dbunit.version>
         <fest-assert.version>2.0M10</fest-assert.version>
         <json-path.version>2.2.0</json-path.version>
-        <spring-test-dbunit.version>1.1.0</spring-test-dbunit.version>
-        <testng.version>6.8.8</testng.version>
+        <spring-test-dbunit.version>1.2.1</spring-test-dbunit.version>
+        <testng.version>7.6.1</testng.version>
         <!-- ... Plugins dependencies versions ............................. -->
         <plugin.version.failsafe>2.16</plugin.version.failsafe>
     </properties>

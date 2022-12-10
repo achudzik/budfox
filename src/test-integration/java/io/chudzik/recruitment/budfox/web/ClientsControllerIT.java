@@ -1,5 +1,6 @@
 package io.chudzik.recruitment.budfox.web;
 
+import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.TODAY;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -17,6 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import io.chudzik.recruitment.budfox.configuration.ControllerTestConfiguration;
 import io.chudzik.recruitment.budfox.model.Client;
 import io.chudzik.recruitment.budfox.repository.ClientRepository;
+import io.chudzik.recruitment.budfox.utils.AdjustableTimeProviderSingleton;
 import io.chudzik.recruitment.budfox.utils.JsonUtils;
 import io.chudzik.recruitment.budfox.utils.PreExistingEntities;
 
@@ -56,6 +58,7 @@ public class ClientsControllerIT extends AbstractTestNGSpringContextTests {
                 .setHandlerExceptionResolvers(exceptionResolver)
                 .setMessageConverters(messageConverter)
                 .build();
+        AdjustableTimeProviderSingleton.setTo(TODAY);
     }
 
     @Test

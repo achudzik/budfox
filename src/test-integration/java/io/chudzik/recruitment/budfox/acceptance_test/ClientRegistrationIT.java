@@ -2,6 +2,7 @@ package io.chudzik.recruitment.budfox.acceptance_test;
 
 import static com.github.springtestdbunit.assertion.DatabaseAssertionMode.NON_STRICT;
 import static io.chudzik.recruitment.budfox.utils.JsonUtils.convertObjectToJsonBytes;
+import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.TODAY;
 import static org.mockito.internal.matchers.NotNull.NOT_NULL;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
@@ -52,6 +53,7 @@ public class ClientRegistrationIT extends AbstractTestNGSpringContextTests {
     @BeforeMethod
     public void setup() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        AdjustableTimeProviderSingleton.setTo(TODAY);
     }
 
 

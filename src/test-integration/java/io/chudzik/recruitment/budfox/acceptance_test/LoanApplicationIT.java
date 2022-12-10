@@ -4,6 +4,7 @@ import static io.chudzik.recruitment.budfox.utils.JsonUtils.convertObjectToJsonB
 import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.MONTH_LATER;
 import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.THREE_PLN;
 import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.THREE_WEEKS_PERIOD;
+import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.TODAY;
 import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.VALID_CLIENT;
 import static io.chudzik.recruitment.budfox.utils.matchers.JsonPathMatchers.hasIdAs;
 import static io.chudzik.recruitment.budfox.utils.matchers.JsonPathMatchers.isEqualTo;
@@ -20,6 +21,7 @@ import java.math.BigDecimal;
 import io.chudzik.recruitment.budfox.BudfoxApplication;
 import io.chudzik.recruitment.budfox.model.LoanApplication;
 
+import io.chudzik.recruitment.budfox.utils.AdjustableTimeProviderSingleton;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -61,6 +63,7 @@ public class LoanApplicationIT extends AbstractTestNGSpringContextTests {
     @BeforeMethod
     public void setup() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        AdjustableTimeProviderSingleton.setTo(TODAY);
     }
 
     @Test

@@ -2,6 +2,7 @@ package io.chudzik.recruitment.budfox.model;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -50,7 +51,7 @@ public class Loan extends AbstractPersistable<Long> {
         joinColumns = @JoinColumn(name = "loan_id"),
         inverseJoinColumns = @JoinColumn(name = "condition_id")
     )
-    private Set<LoanConditions> previousConditions = new HashSet<>();
+    private Set<LoanConditions> previousConditions = new LinkedHashSet<>();
     @Column(name = "creation_time", nullable = false)
     private DateTime creationTime;
 

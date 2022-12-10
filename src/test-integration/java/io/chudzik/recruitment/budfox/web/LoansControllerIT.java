@@ -1,5 +1,6 @@
 package io.chudzik.recruitment.budfox.web;
 
+import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.TODAY;
 import static io.chudzik.recruitment.budfox.utils.matchers.JsonPathMatchers.isEqualTo;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
@@ -31,6 +32,7 @@ import io.chudzik.recruitment.budfox.service.ActivityService;
 import io.chudzik.recruitment.budfox.service.ClientService;
 import io.chudzik.recruitment.budfox.service.LoanService;
 import io.chudzik.recruitment.budfox.service.RiskAssessmentService;
+import io.chudzik.recruitment.budfox.utils.AdjustableTimeProviderSingleton;
 import io.chudzik.recruitment.budfox.utils.JsonUtils;
 import io.chudzik.recruitment.budfox.utils.PreExistingEntities;
 import io.chudzik.recruitment.budfox.utils.matchers.JsonPathMatchers;
@@ -79,6 +81,7 @@ public class LoansControllerIT extends AbstractTestNGSpringContextTests {
                 .setHandlerExceptionResolvers(exceptionResolver)
                 .setMessageConverters(messageConverter)
                 .build();
+        AdjustableTimeProviderSingleton.setTo(TODAY);
     }
 
     @Test

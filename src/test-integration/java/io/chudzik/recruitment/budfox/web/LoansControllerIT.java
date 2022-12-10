@@ -21,9 +21,11 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 import org.testng.annotations.BeforeMethod;
@@ -48,9 +50,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import static io.chudzik.recruitment.budfox.utils.BudFoxTestProfiles.TEST_INTEGRATION;
 import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.TODAY;
 
 // TODO-ach: replace all .andExpect(jsonPath("conditions.interest").value(...) with custom assertions
+@ActiveProfiles(TEST_INTEGRATION)
 @ContextConfiguration(classes = ControllerTestConfiguration.class)
 public class LoansControllerIT extends AbstractTestNGSpringContextTests {
 
@@ -202,12 +206,14 @@ public class LoansControllerIT extends AbstractTestNGSpringContextTests {
         LoanConditions conditions = loan.getConditions();
 
         // act
-        mockMvc.perform(
+        ResultActions result = mockMvc.perform(
                 post("/loans")
                     .content(JsonUtils.convertObjectToJsonBytes(application))
                     .contentType(APPLICATION_JSON))
                 //.andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
+        ;
         // assert
+        result
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("id").value(JsonPathMatchers.isEqualTo(loan.getId())))

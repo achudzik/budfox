@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>me.chudzik.recruitment</groupId>
@@ -13,7 +13,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.4.4.RELEASE</version>
+        <version>1.5.22.RELEASE</version>
     </parent>
 
     <properties>
@@ -35,8 +35,8 @@
         <!-- ... Test dependencies versions ................................ -->
         <dbunit.version>2.4.9</dbunit.version>
         <fest-assert.version>2.0M10</fest-assert.version>
-        <json-path.version>2.2.0</json-path.version>
-        <spring-test-dbunit.version>1.2.1</spring-test-dbunit.version>
+        <json-path.version>2.5.0</json-path.version>
+        <spring-test-dbunit.version>1.3.0</spring-test-dbunit.version>
         <testng.version>7.6.1</testng.version>
         <!-- ... Plugins dependencies versions ............................. -->
         <plugin.version.failsafe>2.16</plugin.version.failsafe>

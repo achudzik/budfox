@@ -61,9 +61,10 @@ public class LoanServiceTest {
     }
 
     // FIXME-ach: workaround for flaky test (works in IDE, fails from time to time from maven execution)
-    class ThreeTimesACharmRetryAnalyzer extends RetryAnalyzerCount {
+    public static class ThreeTimesACharmRetryAnalyzer extends RetryAnalyzerCount {
 
         public ThreeTimesACharmRetryAnalyzer() {
+            super();
             setCount(3);
         }
 

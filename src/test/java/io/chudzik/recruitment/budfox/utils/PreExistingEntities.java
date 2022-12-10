@@ -16,7 +16,6 @@ import java.math.BigDecimal;
 public class PreExistingEntities {
 
     public static final String VALID_PESEL = "68092005286";
-
     public static final Long VALID_ID = 1L;
 
     public static Long validId() {

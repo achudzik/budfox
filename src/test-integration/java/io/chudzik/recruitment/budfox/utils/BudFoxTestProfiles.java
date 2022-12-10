@@ -4,6 +4,6 @@ import io.chudzik.recruitment.budfox.configuration.BudFoxProfiles;
 
 public interface BudFoxTestProfiles extends BudFoxProfiles {
 
-    String TEST_INTEGRATION = "test-integration";
+    String TEST_INTEGRATION = "test_integration";
 
 }

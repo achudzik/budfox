@@ -1,11 +1,9 @@
 package io.chudzik.recruitment.budfox.service.risk_evaluator;
 
-import javax.servlet.http.HttpServletRequest;
-
 import io.chudzik.recruitment.budfox.exception.RiskyLoanApplicationException;
-import io.chudzik.recruitment.budfox.repository.ActivityRepository;
 import io.chudzik.recruitment.budfox.model.Activity.ActivityType;
 import io.chudzik.recruitment.budfox.model.LoanApplication;
+import io.chudzik.recruitment.budfox.repository.ActivityRepository;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +12,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Component
 @Scope(value = "request", proxyMode = ScopedProxyMode.INTERFACES)

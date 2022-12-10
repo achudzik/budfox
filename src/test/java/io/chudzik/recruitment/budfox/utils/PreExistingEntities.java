@@ -1,7 +1,5 @@
 package io.chudzik.recruitment.budfox.utils;
 
-import java.math.BigDecimal;
-
 import io.chudzik.recruitment.budfox.model.Activity;
 import io.chudzik.recruitment.budfox.model.Client;
 import io.chudzik.recruitment.budfox.model.Loan;
@@ -12,6 +10,8 @@ import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
+
+import java.math.BigDecimal;
 
 public class PreExistingEntities {
 

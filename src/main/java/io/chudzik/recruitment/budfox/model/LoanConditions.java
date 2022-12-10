@@ -1,14 +1,9 @@
 package io.chudzik.recruitment.budfox.model;
 
-import java.math.BigDecimal;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.Future;
-import javax.validation.constraints.NotNull;
-
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.google.common.base.Objects;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.annotations.Columns;
@@ -17,10 +12,13 @@ import org.joda.money.Money;
 import org.joda.time.DateTime;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.google.common.base.Objects;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 @Entity
 // XXX-ach: Move to package-info.java after fix to https://jira.spring.io/browse/SPR-10910

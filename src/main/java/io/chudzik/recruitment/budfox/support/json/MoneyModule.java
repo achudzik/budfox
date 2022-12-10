@@ -1,9 +1,5 @@
 package io.chudzik.recruitment.budfox.support.json;
 
-import java.io.IOException;
-
-import org.joda.money.Money;
-
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -12,6 +8,9 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import org.joda.money.Money;
+
+import java.io.IOException;
 
 @SuppressWarnings("serial")
 public class MoneyModule extends SimpleModule {

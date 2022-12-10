@@ -1,10 +1,10 @@
 package io.chudzik.recruitment.budfox.utils;
 
-import java.io.IOException;
-
 import io.chudzik.recruitment.budfox.configuration.JsonMappingConfiguration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
 
 public class JsonUtils {
 

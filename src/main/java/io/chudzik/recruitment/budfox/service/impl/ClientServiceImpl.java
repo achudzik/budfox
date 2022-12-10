@@ -1,8 +1,8 @@
 package io.chudzik.recruitment.budfox.service.impl;
 
 import io.chudzik.recruitment.budfox.exception.ClientNotFoundException;
-import io.chudzik.recruitment.budfox.repository.ClientRepository;
 import io.chudzik.recruitment.budfox.model.Client;
+import io.chudzik.recruitment.budfox.repository.ClientRepository;
 import io.chudzik.recruitment.budfox.service.ClientService;
 
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,16 +1,11 @@
 package io.chudzik.recruitment.budfox.repository;
 
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.CLIENT_WITH_LOANS;
-import static org.fest.assertions.api.Assertions.assertThat;
-
-import java.util.Set;
-
-import javax.persistence.EntityManager;
-
 import io.chudzik.recruitment.budfox.BudfoxApplication;
 import io.chudzik.recruitment.budfox.model.Client;
 import io.chudzik.recruitment.budfox.model.Loan;
 
+import com.github.springtestdbunit.TransactionDbUnitTestExecutionListener;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -21,8 +16,12 @@ import org.springframework.test.context.web.ServletTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 import org.testng.annotations.Test;
 
-import com.github.springtestdbunit.TransactionDbUnitTestExecutionListener;
-import com.github.springtestdbunit.annotation.DatabaseSetup;
+import javax.persistence.EntityManager;
+import java.util.Set;
+
+import static org.fest.assertions.api.Assertions.assertThat;
+
+import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.CLIENT_WITH_LOANS;
 
 @SpringApplicationConfiguration(classes = BudfoxApplication.class)
 @TestExecutionListeners({

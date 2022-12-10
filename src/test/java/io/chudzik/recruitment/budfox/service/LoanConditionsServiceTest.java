@@ -1,17 +1,18 @@
 package io.chudzik.recruitment.budfox.service;
 
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.EXTENSION_PERIOD;
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.basicInterest;
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.conditionsAfterFirstExtension;
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.interestMultiplier;
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.loan;
-import static org.fest.assertions.api.Assertions.assertThat;
-
 import io.chudzik.recruitment.budfox.model.LoanConditions;
 import io.chudzik.recruitment.budfox.service.impl.LoanConditionsServiceImpl;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import static org.fest.assertions.api.Assertions.assertThat;
+
+import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.EXTENSION_PERIOD;
+import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.basicInterest;
+import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.conditionsAfterFirstExtension;
+import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.interestMultiplier;
+import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.loan;
 
 public class LoanConditionsServiceTest {
 

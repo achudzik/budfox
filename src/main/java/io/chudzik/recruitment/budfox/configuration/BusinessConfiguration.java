@@ -1,7 +1,5 @@
 package io.chudzik.recruitment.budfox.configuration;
 
-import java.math.BigDecimal;
-
 import org.joda.money.Money;
 import org.joda.time.LocalTime;
 import org.joda.time.Period;
@@ -9,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+
+import java.math.BigDecimal;
 
 // XXX-ach: replace with configurationService, providing dynamic parameterization support
 @Configuration

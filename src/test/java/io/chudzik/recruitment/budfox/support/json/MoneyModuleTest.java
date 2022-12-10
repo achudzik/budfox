@@ -1,14 +1,13 @@
 package io.chudzik.recruitment.budfox.support.json;
 
-import static org.fest.assertions.api.Assertions.assertThat;
-
-import java.math.BigDecimal;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.testng.annotations.Test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.math.BigDecimal;
+
+import static org.fest.assertions.api.Assertions.assertThat;
 
 public class MoneyModuleTest {
 

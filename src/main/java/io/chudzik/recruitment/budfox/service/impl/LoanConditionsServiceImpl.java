@@ -1,7 +1,5 @@
 package io.chudzik.recruitment.budfox.service.impl;
 
-import java.math.BigDecimal;
-
 import io.chudzik.recruitment.budfox.model.Loan;
 import io.chudzik.recruitment.budfox.model.LoanApplication;
 import io.chudzik.recruitment.budfox.model.LoanConditions;
@@ -12,6 +10,8 @@ import org.joda.time.Period;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 
 @Service
 public class LoanConditionsServiceImpl implements LoanConditionsService {

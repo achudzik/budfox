@@ -1,12 +1,5 @@
 package io.chudzik.recruitment.budfox.service;
 
-import static com.google.common.collect.Lists.newArrayList;
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.VALID_LOAN_APPLICATION;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
-
 import io.chudzik.recruitment.budfox.exception.RiskyLoanApplicationException;
 import io.chudzik.recruitment.budfox.model.LoanApplication;
 import io.chudzik.recruitment.budfox.service.impl.RiskAssessmentServiceImpl;
@@ -16,6 +9,14 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import static com.google.common.collect.Lists.newArrayList;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
+
+import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.VALID_LOAN_APPLICATION;
 
 
 public class RiskAssessmentServiceTest {

@@ -1,18 +1,19 @@
 package io.chudzik.recruitment.budfox.service;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doReturn;
-
 import io.chudzik.recruitment.budfox.exception.ClientNotFoundException;
 import io.chudzik.recruitment.budfox.repository.ClientRepository;
 import io.chudzik.recruitment.budfox.service.impl.ClientServiceImpl;
-
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.*;
 
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doReturn;
+
+import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.VALID_CLIENT;
+import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.VALID_ID;
 
 public class ClientServiceTest {
 

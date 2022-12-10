@@ -1,11 +1,11 @@
 package io.chudzik.recruitment.budfox.utils.matchers;
 
-import java.math.BigDecimal;
-
 import io.chudzik.recruitment.budfox.model.Client;
 
 import org.joda.money.Money;
 import org.joda.time.DateTime;
+
+import java.math.BigDecimal;
 
 /**
  * Collection of matchers prepared to use with JsonPath. Without proper configuration (like in Jackson),

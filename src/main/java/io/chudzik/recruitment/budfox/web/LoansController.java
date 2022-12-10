@@ -1,15 +1,5 @@
 package io.chudzik.recruitment.budfox.web;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.*;
-import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
-import static org.springframework.web.bind.annotation.RequestMethod.PUT;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-
 import io.chudzik.recruitment.budfox.exception.ClientNotFoundException;
 import io.chudzik.recruitment.budfox.exception.LoanNotFoundException;
 import io.chudzik.recruitment.budfox.exception.RiskyLoanApplicationException;
@@ -21,6 +11,7 @@ import io.chudzik.recruitment.budfox.service.ClientService;
 import io.chudzik.recruitment.budfox.service.LoanService;
 import io.chudzik.recruitment.budfox.service.RiskAssessmentService;
 
+import com.google.common.base.Joiner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +23,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.common.base.Joiner;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 @RestController
 @RequestMapping("/loans")

@@ -1,11 +1,12 @@
 package io.chudzik.recruitment.budfox.configuration;
 
+import io.chudzik.recruitment.budfox.support.json.MoneyModule;
+
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.google.common.annotations.VisibleForTesting;
-import io.chudzik.recruitment.budfox.support.json.MoneyModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

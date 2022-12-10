@@ -230,16 +230,6 @@
             <artifactId>jaxb-runtime</artifactId>
             <version>2.3.2</version>
         </dependency>
-
-        <!-- Workaround for "Failed to introspect annotated methods on class org.springframework.boot.autoconfigure.web.GsonHttpMessageConvertersConfiguration$GsonHttpMessageConverterConfiguration" -->
-        <!-- See https://github.com/spring-projects/spring-boot/issues/6502 -->
-        <!-- TODO-ach: remove after upgrading spring boot to never versions -->
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-
     </dependencies>
 
 

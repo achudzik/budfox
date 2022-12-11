@@ -29,7 +29,7 @@
         <commons-lang3.version>3.12.0</commons-lang3.version>  <!-- newest -->
         <guava.version>23.0</guava.version>  <!-- xxx-ach: update -->
         <joda-money.version>0.9.1</joda-money.version> <!-- xxx-ach: update -->
-        <usertype.core.version>5.0.0.GA</usertype.core.version> <!-- xxx-ach: update -->
+        <usertype.core.version>6.0.1.GA</usertype.core.version> <!-- newest GA, xxx-ach: update to CR -->
         <el.version>2.2.4</el.version>
         <validation-api.version>2.0.1.Final</validation-api.version>   <!-- newest, xxx-ach: rename to new artifactId -->
         <!-- ... Test dependencies versions ................................ -->

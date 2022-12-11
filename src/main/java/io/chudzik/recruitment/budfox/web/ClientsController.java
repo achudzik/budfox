@@ -32,6 +32,7 @@ public class ClientsController {
         this.clientRepository = clientRepository;
     }
 
+
     @RequestMapping(method = POST, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(CREATED)
     public Client add(@RequestBody Client clientToAdd) throws IllegalStateException {

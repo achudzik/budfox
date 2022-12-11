@@ -16,6 +16,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver;
 import org.testng.annotations.BeforeMethod;
@@ -89,7 +90,8 @@ public class ClientsControllerIT extends AbstractTestNGSpringContextTests {
         mockMvc.perform(
                 post("/clients")
                     .content(JsonUtils.convertObjectToJsonBytes(client))
-                    .contentType(MediaType.APPLICATION_JSON))
+                    .contentType(MediaType.APPLICATION_JSON)
+                )
                 //.andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
                 .andExpect(status().isBadRequest());
 
@@ -122,9 +124,11 @@ public class ClientsControllerIT extends AbstractTestNGSpringContextTests {
         doReturn(null).when(clientRepositoryMock).getClientLoans(clientId);
 
         // act
-        mockMvc.perform(get("/clients/{id}/loans", clientId))
+        ResultActions result = mockMvc.perform(get("/clients/{id}/loans", clientId))
                 //.andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
+        ;
         // assert
+        result
                 .andExpect(status().isNotFound())
                 .andExpect(content().contentType(APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("code").value(NOT_FOUND.value()))

@@ -13,7 +13,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExc
 import java.util.ArrayList;
 import java.util.List;
 
-@Import(JsonMappingConfiguration.class)
+@Import({JsonMappingConfiguration.class, GlobalExceptionHanlder.class})
 @TestConfiguration
 public class ControllerTestConfiguration {
 
@@ -25,10 +25,6 @@ public class ControllerTestConfiguration {
         return new MappingJackson2HttpMessageConverter(jsonMappingConfiguration.jacksonObjectMapper());
     }
 
-    @Bean
-    public GlobalExceptionHanlder globalExceptionHanlder() {
-        return new GlobalExceptionHanlder();
-    }
 
     // XXX-ach: post as better sollution to https://stackoverflow.com/questions/15302243 ; current top one cuts controller's errorHandlers
     @Bean

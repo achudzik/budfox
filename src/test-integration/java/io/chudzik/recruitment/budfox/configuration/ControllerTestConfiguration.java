@@ -2,10 +2,9 @@ package io.chudzik.recruitment.budfox.configuration;
 
 import io.chudzik.recruitment.budfox.web.GlobalExceptionHanlder;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.boot.autoconfigure.web.HttpMessageConvertersAutoConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -14,13 +13,16 @@ import org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExc
 import java.util.ArrayList;
 import java.util.List;
 
-@Configuration
-@Import({ HttpMessageConvertersAutoConfiguration.class, JsonMappingConfiguration.class })
+@Import(JsonMappingConfiguration.class)
+@TestConfiguration
 public class ControllerTestConfiguration {
 
+    @Autowired JsonMappingConfiguration jsonMappingConfiguration;
+
+
     @Bean
-    public MappingJackson2HttpMessageConverter messageConverter(ObjectMapper objectMapper) {
-        return new MappingJackson2HttpMessageConverter(objectMapper);
+    public MappingJackson2HttpMessageConverter messageConverter() {
+        return new MappingJackson2HttpMessageConverter(jsonMappingConfiguration.jacksonObjectMapper());
     }
 
     @Bean

@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.stub;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.LOCAL_IP_ADDRESS;
 import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.client;
@@ -25,12 +25,11 @@ import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.validId;
 
 public class ActivityServiceTest {
 
-    @Mock
-    private ActivityRepository activityRepositoryMock;
-    @Mock
-    private ClientRepository clientRepositoryMock;
+    @Mock ActivityRepository activityRepositoryMock;
+    @Mock ClientRepository clientRepositoryMock;
 
-    private ActivityService sut;
+    ActivityService sut;
+
 
     @BeforeMethod
     public void setup() {
@@ -43,7 +42,7 @@ public class ActivityServiceTest {
     public void shouldPersistInfoAboutApplyingForALoan() {
         // arrange
         HttpServletRequest requestMock = mock(HttpServletRequest.class);
-        stub(requestMock.getRemoteAddr()).toReturn(LOCAL_IP_ADDRESS);
+        when(requestMock.getRemoteAddr()).thenReturn(LOCAL_IP_ADDRESS);
         doReturn(client()).when(clientRepositoryMock).getOne(validId());
 
         // act
@@ -53,11 +52,12 @@ public class ActivityServiceTest {
         verify(activityRepositoryMock).save(loanApplicationActivity());
     }
 
+
     @Test
     public void shouldPersistInfoAboutExtendingLoan() {
         // arrange
         HttpServletRequest requestMock = mock(HttpServletRequest.class);
-        stub(requestMock.getRemoteAddr()).toReturn(LOCAL_IP_ADDRESS);
+        when(requestMock.getRemoteAddr()).thenReturn(LOCAL_IP_ADDRESS);
         doReturn(client()).when(clientRepositoryMock).findByLoansId(invalidId());
 
         // act

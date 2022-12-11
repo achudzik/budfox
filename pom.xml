@@ -31,7 +31,7 @@
         <joda-money.version>0.9.1</joda-money.version> <!-- xxx-ach: update -->
         <usertype.core.version>5.0.0.GA</usertype.core.version> <!-- xxx-ach: update -->
         <el.version>2.2.4</el.version>
-        <validation-api.version>1.1.0.Final</validation-api.version>
+        <validation-api.version>2.0.1.Final</validation-api.version>   <!-- newest, xxx-ach: rename to new artifactId -->
         <!-- ... Test dependencies versions ................................ -->
         <dbunit.version>2.7.3</dbunit.version>
         <fest-assert.version>2.0M10</fest-assert.version>   <!-- newest, abandoned -->

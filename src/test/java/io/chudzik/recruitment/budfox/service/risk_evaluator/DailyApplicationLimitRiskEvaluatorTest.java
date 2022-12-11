@@ -18,25 +18,28 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.VALID_LOAN_APPLICATION;
 
 public class DailyApplicationLimitRiskEvaluatorTest {
 
-    private RiskAssessmentService.RiskEvaluator sut;
+    static final Integer DAILY_APPLICATION_LIMIT = 2;
 
-    private final Integer dailyApplicationLimit = 2;
-    @Mock
-    private ActivityRepository activityRepositoryMock;
-    @Mock
-    private HttpServletRequest requestMock;
+    @Mock ActivityRepository activityRepositoryMock;
+    @Mock HttpServletRequest requestMock;
+
+    RiskAssessmentService.RiskEvaluator sut;
+
 
     @BeforeMethod
     protected void setup() {
         MockitoAnnotations.initMocks(this);
-        sut = new DailyApplicationLimitRiskEvaluator(activityRepositoryMock, requestMock, dailyApplicationLimit);
+        when(requestMock.getRemoteAddr()).thenReturn("127.0.0.1");
+        sut = new DailyApplicationLimitRiskEvaluator(activityRepositoryMock, requestMock, DAILY_APPLICATION_LIMIT);
     }
  
+
     @Test
     public void shouldCheckLoggedApplicationFromDb() {
         // arrange
@@ -54,7 +57,7 @@ public class DailyApplicationLimitRiskEvaluatorTest {
     @Test
     public void shouldPassLastApplicationMatchingApplicationLimit() {
         // arrange
-        doReturn(dailyApplicationLimit)
+        doReturn(DAILY_APPLICATION_LIMIT)
                 .when(activityRepositoryMock)
                 .countByTypeAndIpAddressAndEventTimeAfter(any(Activity.ActivityType.class), any(String.class), any(DateTime.class));
 
@@ -68,7 +71,7 @@ public class DailyApplicationLimitRiskEvaluatorTest {
     @Test(expectedExceptions = RiskyLoanApplicationException.class)
     public void shouldThrowExceptionOnExceededApplicationLimit() {
         // arrange
-        doReturn(dailyApplicationLimit + 1)
+        doReturn(DAILY_APPLICATION_LIMIT + 1)
                 .when(activityRepositoryMock)
                 .countByTypeAndIpAddressAndEventTimeAfter(any(Activity.ActivityType.class), any(String.class), any(DateTime.class));
 
@@ -79,7 +82,7 @@ public class DailyApplicationLimitRiskEvaluatorTest {
     @Test
     public void shouldDescribeRejectionReason() {
         // arrange
-        doReturn(dailyApplicationLimit + 1)
+        doReturn(DAILY_APPLICATION_LIMIT + 1)
                 .when(activityRepositoryMock)
                 .countByTypeAndIpAddressAndEventTimeAfter(any(Activity.ActivityType.class), any(String.class), any(DateTime.class));
         try {

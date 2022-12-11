@@ -1,6 +1,6 @@
 package io.chudzik.recruitment.budfox.utils;
 
-import io.chudzik.recruitment.budfox.configuration.JsonMappingConfiguration;
+import io.chudzik.recruitment.budfox.configuration.WebLayerConfiguration.JsonMappingConfiguration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

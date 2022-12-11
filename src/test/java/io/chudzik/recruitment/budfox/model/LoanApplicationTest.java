@@ -1,6 +1,6 @@
 package io.chudzik.recruitment.budfox.model;
 
-import io.chudzik.recruitment.budfox.configuration.JsonMappingConfiguration;
+import io.chudzik.recruitment.budfox.configuration.WebLayerConfiguration.JsonMappingConfiguration;
 import io.chudzik.recruitment.budfox.utils.PreExistingEntities;
 import io.chudzik.recruitment.budfox.utils.matchers.JsonPathMatchers;
 

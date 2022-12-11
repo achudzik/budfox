@@ -31,7 +31,7 @@ public class ActivityServiceImpl implements ActivityService {
     @Transactional
     @Override
     public void logLoanApplication(Long clientId, HttpServletRequest request) {
-        Client client = clientRepository.findOne(clientId);
+        Client client = clientRepository.getOne(clientId);
         logActivity(LOAN_APPLICATION, client, request);
     }
 

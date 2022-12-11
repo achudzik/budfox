@@ -38,12 +38,13 @@ public class ActivityServiceTest {
         sut = new ActivityServiceImpl(activityRepositoryMock, clientRepositoryMock);
     }
 
+
     @Test
     public void shouldPersistInfoAboutApplyingForALoan() {
         // arrange
         HttpServletRequest requestMock = mock(HttpServletRequest.class);
         stub(requestMock.getRemoteAddr()).toReturn(LOCAL_IP_ADDRESS);
-        doReturn(client()).when(clientRepositoryMock).findOne(validId());
+        doReturn(client()).when(clientRepositoryMock).getOne(validId());
 
         // act
         sut.logLoanApplication(validId(), requestMock);

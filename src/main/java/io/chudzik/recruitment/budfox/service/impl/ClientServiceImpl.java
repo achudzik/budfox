@@ -22,7 +22,7 @@ public class ClientServiceImpl implements ClientService {
     @Transactional(readOnly = true)
     @Override
     public void validateClientExistence(Long clientId) throws ClientNotFoundException {
-        Client client = repository.findOne(clientId);
+        Client client = repository.getOne(clientId);
         if (null == client) {
             throw new ClientNotFoundException(clientId);
         }

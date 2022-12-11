@@ -48,7 +48,7 @@ public class LoanServiceTest {
     @Test(retryAnalyzer = ThreeTimesACharmRetryAnalyzer.class)
     public void shouldOperateOnClientEntityFetchedFromDb() {
         // arrange
-        doReturn(client()).when(clientRepositoryMock).findOne(validId());
+        doReturn(client()).when(clientRepositoryMock).getOne(validId());
         doReturn(basicConditions()).when(conditionsServiceMock)
                 .calculateInitialLoanConditions(loanApplication());
 
@@ -56,7 +56,7 @@ public class LoanServiceTest {
         sut.issueALoan(loanApplication());
 
         // assert
-        verify(clientRepositoryMock, times(1)).findOne(validId());
+        verify(clientRepositoryMock, times(1)).getOne(validId());
         verifyNoMoreInteractions(clientRepositoryMock);
     }
 
@@ -80,7 +80,7 @@ public class LoanServiceTest {
     public void shouldPersistIssuedLoanToDb() {
         // arrange
         LoanApplication application = loanApplication();
-        doReturn(client()).when(clientRepositoryMock).findOne(validId());
+        doReturn(client()).when(clientRepositoryMock).getOne(validId());
         doReturn(basicConditions()).when(conditionsServiceMock)
                 .calculateInitialLoanConditions(application);
 
@@ -97,7 +97,7 @@ public class LoanServiceTest {
     public void shouldPersistExtendedLoansToDb() {
         // arrange
         Loan loan = loan();
-        doReturn(loan).when(loanRepositoryMock).findOne(validId());
+        doReturn(loan).when(loanRepositoryMock).getOne(validId());
         doReturn(conditionsAfterFirstExtension()).when(conditionsServiceMock)
                 .loanExtensionConditions(loan);
 
@@ -105,7 +105,7 @@ public class LoanServiceTest {
         sut.extendLoan(validId());
 
         // assert
-        verify(loanRepositoryMock, times(1)).findOne(validId());
+        verify(loanRepositoryMock, times(1)).getOne(validId());
         verify(loanRepositoryMock, times(1)).save(loanAfterFirstExtension());
         verifyNoMoreInteractions(loanRepositoryMock);
     }
@@ -115,13 +115,13 @@ public class LoanServiceTest {
             expectedExceptionsMessageRegExp = "Loan with given ID not found.")
     public void shouldThrowExceptionOnExtendedLoansToDb() {
         // arrange
-        doReturn(null).when(loanRepositoryMock).findOne(invalidId());
+        doReturn(null).when(loanRepositoryMock).getOne(invalidId());
 
         // act
         sut.extendLoan(invalidId());
 
         // assert
-        verify(loanRepositoryMock, times(1)).findOne(invalidId());
+        verify(loanRepositoryMock, times(1)).getOne(invalidId());
         verifyNoMoreInteractions(loanRepositoryMock);
     }
 

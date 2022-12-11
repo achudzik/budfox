@@ -31,7 +31,7 @@ public class LoanServiceImpl implements LoanService {
     @Transactional
     @Override
     public Loan issueALoan(LoanApplication application) {
-        Client client = clientRepository.findOne(application.getClientId());
+        Client client = clientRepository.getOne(application.getClientId());
         LoanConditions conditions = conditionsService.calculateInitialLoanConditions(application);
         Loan loan = Loan.builder().conditions(conditions).build();
         client.addLoan(loan);
@@ -41,7 +41,7 @@ public class LoanServiceImpl implements LoanService {
     @Transactional
     @Override
     public Loan extendLoan(Long loanId) throws LoanNotFoundException {
-        Loan loan = loanRepository.findOne(loanId);
+        Loan loan = loanRepository.getOne(loanId);
         if (null == loan) {
             throw new LoanNotFoundException(loanId);
         }

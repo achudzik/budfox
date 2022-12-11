@@ -33,7 +33,7 @@ public class ClientServiceTest {
     public void shouldThrowExceptionOnNonExistingClient() {
         // arrange
         Long idOfNonExistingClient = new Long(1844);
-        doReturn(null).when(clientRepositoryMock).findOne(any(Long.class));
+        doReturn(null).when(clientRepositoryMock).getOne(any(Long.class));
 
         // act
         sut.validateClientExistence(idOfNonExistingClient);
@@ -42,7 +42,7 @@ public class ClientServiceTest {
     @Test
     public void shouldDoNothingOnExistingClient() {
         // arrange
-        doReturn(VALID_CLIENT).when(clientRepositoryMock).findOne(any(Long.class));
+        doReturn(VALID_CLIENT).when(clientRepositoryMock).getOne(any(Long.class));
 
         // act
         sut.validateClientExistence(VALID_ID);

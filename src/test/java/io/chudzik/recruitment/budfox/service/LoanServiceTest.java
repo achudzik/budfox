@@ -9,10 +9,10 @@ import io.chudzik.recruitment.budfox.service.impl.LoanServiceImpl;
 
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.ITestResult;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import org.testng.util.RetryAnalyzerCount;
+
+import java.util.Optional;
 
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
@@ -31,11 +31,11 @@ import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.validId;
 
 public class LoanServiceTest {
 
-    LoanService sut;
-
     @Mock LoanRepository loanRepositoryMock;
     @Mock ClientRepository clientRepositoryMock;
     @Mock LoanConditionsService conditionsServiceMock;
+
+    LoanService sut;
 
 
     @BeforeMethod
@@ -45,7 +45,7 @@ public class LoanServiceTest {
     }
 
 
-    @Test(retryAnalyzer = ThreeTimesACharmRetryAnalyzer.class)
+    @Test
     public void shouldOperateOnClientEntityFetchedFromDb() {
         // arrange
         doReturn(client()).when(clientRepositoryMock).getOne(validId());
@@ -58,21 +58,6 @@ public class LoanServiceTest {
         // assert
         verify(clientRepositoryMock, times(1)).getOne(validId());
         verifyNoMoreInteractions(clientRepositoryMock);
-    }
-
-    // FIXME-ach: workaround for flaky test (works in IDE, fails from time to time from maven execution)
-    public static class ThreeTimesACharmRetryAnalyzer extends RetryAnalyzerCount {
-
-        public ThreeTimesACharmRetryAnalyzer() {
-            super();
-            setCount(3);
-        }
-
-        @Override
-        public boolean retryMethod(ITestResult result) {
-            return super.retry(result);
-        }
-
     }
 
 
@@ -97,7 +82,7 @@ public class LoanServiceTest {
     public void shouldPersistExtendedLoansToDb() {
         // arrange
         Loan loan = loan();
-        doReturn(loan).when(loanRepositoryMock).getOne(validId());
+        doReturn(Optional.of(loan)).when(loanRepositoryMock).findById(validId());
         doReturn(conditionsAfterFirstExtension()).when(conditionsServiceMock)
                 .loanExtensionConditions(loan);
 
@@ -105,7 +90,7 @@ public class LoanServiceTest {
         sut.extendLoan(validId());
 
         // assert
-        verify(loanRepositoryMock, times(1)).getOne(validId());
+        verify(loanRepositoryMock, times(1)).findById(validId());
         verify(loanRepositoryMock, times(1)).save(loanAfterFirstExtension());
         verifyNoMoreInteractions(loanRepositoryMock);
     }

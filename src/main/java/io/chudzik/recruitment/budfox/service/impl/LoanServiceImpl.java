@@ -14,12 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 @Service
 public class LoanServiceImpl implements LoanService {
 
-    private ClientRepository clientRepository;
-    private LoanRepository loanRepository;
-    private LoanConditionsService conditionsService;
+    ClientRepository clientRepository;
+    LoanRepository loanRepository;
+    LoanConditionsService conditionsService;
+
 
     @Autowired
     public LoanServiceImpl(ClientRepository clientRepository, LoanRepository loanRepository, LoanConditionsService conditionsService) {
@@ -28,7 +30,7 @@ public class LoanServiceImpl implements LoanService {
         this.conditionsService = conditionsService;
     }
 
-    @Transactional
+
     @Override
     public Loan issueALoan(LoanApplication application) {
         Client client = clientRepository.getOne(application.getClientId());
@@ -38,16 +40,15 @@ public class LoanServiceImpl implements LoanService {
         return loanRepository.save(loan);
     }
 
-    @Transactional
+
     @Override
     public Loan extendLoan(Long loanId) throws LoanNotFoundException {
-        Loan loan = loanRepository.getOne(loanId);
-        if (null == loan) {
-            throw new LoanNotFoundException(loanId);
-        }
+        Loan loan = loanRepository.findById(loanId)
+            .orElseThrow(() -> new LoanNotFoundException(loanId));
         LoanConditions newConditions = conditionsService.loanExtensionConditions(loan);
         loan.setCondition(newConditions);
-        return loanRepository.save(loan);
+        loan = loanRepository.save(loan);
+        return loan;
     }
 
 }

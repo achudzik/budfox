@@ -1,19 +1,5 @@
 package io.chudzik.recruitment.budfox.service;
 
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.basicConditions;
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.client;
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.conditionsAfterFirstExtension;
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.invalidId;
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.loan;
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.loanAfterFirstExtension;
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.loanApplication;
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.unsavedLoan;
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.validId;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-
 import io.chudzik.recruitment.budfox.exception.LoanNotFoundException;
 import io.chudzik.recruitment.budfox.model.Loan;
 import io.chudzik.recruitment.budfox.model.LoanApplication;
@@ -27,6 +13,21 @@ import org.testng.ITestResult;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.util.RetryAnalyzerCount;
+
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+
+import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.basicConditions;
+import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.client;
+import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.conditionsAfterFirstExtension;
+import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.invalidId;
+import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.loan;
+import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.loanAfterFirstExtension;
+import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.loanApplication;
+import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.unsavedLoan;
+import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.validId;
 
 public class LoanServiceTest {
 
@@ -60,9 +61,10 @@ public class LoanServiceTest {
     }
 
     // FIXME-ach: workaround for flaky test (works in IDE, fails from time to time from maven execution)
-    class ThreeTimesACharmRetryAnalyzer extends RetryAnalyzerCount {
+    public static class ThreeTimesACharmRetryAnalyzer extends RetryAnalyzerCount {
 
         public ThreeTimesACharmRetryAnalyzer() {
+            super();
             setCount(3);
         }
 

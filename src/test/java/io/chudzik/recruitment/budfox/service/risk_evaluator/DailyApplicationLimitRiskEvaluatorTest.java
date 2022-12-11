@@ -1,13 +1,5 @@
 package io.chudzik.recruitment.budfox.service.risk_evaluator;
 
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.VALID_LOAN_APPLICATION;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
-import javax.servlet.http.HttpServletRequest;
-
 import io.chudzik.recruitment.budfox.exception.RiskyLoanApplicationException;
 import io.chudzik.recruitment.budfox.model.Activity;
 import io.chudzik.recruitment.budfox.repository.ActivityRepository;
@@ -19,6 +11,15 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import javax.servlet.http.HttpServletRequest;
+
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
+import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.VALID_LOAN_APPLICATION;
 
 public class DailyApplicationLimitRiskEvaluatorTest {
 

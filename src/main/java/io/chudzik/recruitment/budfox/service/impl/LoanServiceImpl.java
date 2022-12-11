@@ -1,12 +1,12 @@
 package io.chudzik.recruitment.budfox.service.impl;
 
 import io.chudzik.recruitment.budfox.exception.LoanNotFoundException;
-import io.chudzik.recruitment.budfox.repository.ClientRepository;
-import io.chudzik.recruitment.budfox.repository.LoanRepository;
 import io.chudzik.recruitment.budfox.model.Client;
 import io.chudzik.recruitment.budfox.model.Loan;
 import io.chudzik.recruitment.budfox.model.LoanApplication;
 import io.chudzik.recruitment.budfox.model.LoanConditions;
+import io.chudzik.recruitment.budfox.repository.ClientRepository;
+import io.chudzik.recruitment.budfox.repository.LoanRepository;
 import io.chudzik.recruitment.budfox.service.LoanConditionsService;
 import io.chudzik.recruitment.budfox.service.LoanService;
 

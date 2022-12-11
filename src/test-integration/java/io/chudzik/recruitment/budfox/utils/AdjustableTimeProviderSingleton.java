@@ -8,6 +8,7 @@ import org.joda.time.DateTime;
  * Done as singleton due to its usage in hibernate-validation (class being instantiated outside of Spring's context,
  * through `META-INF/validation.xml` property).
  */
+// FIXME-ach: use ThreadLocal instead of final static
 public class AdjustableTimeProviderSingleton implements TimeProvider {
 
     public final static AdjustableTimeProvider SINGLE_INSTANCE;

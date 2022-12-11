@@ -1,9 +1,9 @@
 package io.chudzik.recruitment.budfox.utils.matchers;
 
-import java.math.BigDecimal;
-
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
+
+import java.math.BigDecimal;
 
 public class BigDecimalAsDoubleMatcher extends TypeSafeMatcher<Double> {
 

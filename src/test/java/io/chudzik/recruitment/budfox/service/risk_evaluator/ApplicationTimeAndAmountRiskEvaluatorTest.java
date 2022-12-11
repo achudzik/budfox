@@ -1,10 +1,5 @@
 package io.chudzik.recruitment.budfox.service.risk_evaluator;
 
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.THREE_PLN;
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.VALID_CLIENT;
-
-import java.math.BigDecimal;
-
 import io.chudzik.recruitment.budfox.exception.RiskyLoanApplicationException;
 import io.chudzik.recruitment.budfox.model.LoanApplication;
 import io.chudzik.recruitment.budfox.service.RiskAssessmentService;
@@ -15,6 +10,11 @@ import org.joda.time.LocalTime;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import java.math.BigDecimal;
+
+import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.THREE_PLN;
+import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.VALID_CLIENT;
 
 // TODO-ach: replace LoanApplication.Builder with LoanApplication.TestDataBuilder 
 public class ApplicationTimeAndAmountRiskEvaluatorTest {

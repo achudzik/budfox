@@ -1,25 +1,22 @@
 package io.chudzik.recruitment.budfox.support.json;
 
-import java.io.IOException;
-
-import org.joda.money.Money;
-
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import org.joda.money.Money;
+
+import java.io.IOException;
 
 @SuppressWarnings("serial")
 public class MoneyModule extends SimpleModule {
 
     public static class JodaMoneySerializer extends JsonSerializer<Money> {
         @Override
-        public void serialize(Money money, JsonGenerator jgen, SerializerProvider provider)
-                throws IOException, JsonProcessingException {
+        public void serialize(Money money, JsonGenerator jgen, SerializerProvider provider) throws IOException {
             jgen.writeString(moneyToString(money));
         }
 
@@ -28,7 +25,7 @@ public class MoneyModule extends SimpleModule {
                 return null;
             }
             String amount = value.getAmount().toString();
-            String currentyCode = value.getCurrencyUnit().getCurrencyCode();
+            String currentyCode = value.getCurrencyUnit().getCode();
             return String.format("%s %s", currentyCode, amount);
         }
 
@@ -36,8 +33,7 @@ public class MoneyModule extends SimpleModule {
 
     public static class JodaMoneyDeserializer extends JsonDeserializer<Money> {
         @Override
-        public Money deserialize(JsonParser parser, DeserializationContext context)
-                throws IOException, JsonProcessingException {
+        public Money deserialize(JsonParser parser, DeserializationContext context) throws IOException {
             return moneyFromString(parser.getValueAsString());
         }
 

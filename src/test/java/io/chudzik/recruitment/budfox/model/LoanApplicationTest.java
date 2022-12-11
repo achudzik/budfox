@@ -1,17 +1,16 @@
 package io.chudzik.recruitment.budfox.model;
 
-import static com.jayway.jsonassert.JsonAssert.with;
-import static org.fest.assertions.api.Assertions.assertThat;
-
-import java.io.IOException;
-
 import io.chudzik.recruitment.budfox.configuration.JsonMappingConfiguration;
 import io.chudzik.recruitment.budfox.utils.PreExistingEntities;
 import io.chudzik.recruitment.budfox.utils.matchers.JsonPathMatchers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.testng.annotations.Test;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+
+import static com.jayway.jsonassert.JsonAssert.with;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 public class LoanApplicationTest {
 

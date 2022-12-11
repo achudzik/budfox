@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>me.chudzik.recruitment</groupId>
@@ -13,13 +13,15 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.4.4.RELEASE</version>
+        <version>1.5.22.RELEASE</version>
     </parent>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.7</java.version>
+        <java.version>1.8</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
 
         <start-class>io.chudzik.recruitment.budfox.BudfoxApplication</start-class>
 
@@ -33,9 +35,9 @@
         <!-- ... Test dependencies versions ................................ -->
         <dbunit.version>2.4.9</dbunit.version>
         <fest-assert.version>2.0M10</fest-assert.version>
-        <json-path.version>2.2.0</json-path.version>
-        <spring-test-dbunit.version>1.1.0</spring-test-dbunit.version>
-        <testng.version>6.8.8</testng.version>
+        <json-path.version>2.5.0</json-path.version>
+        <spring-test-dbunit.version>1.3.0</spring-test-dbunit.version>
+        <testng.version>7.6.1</testng.version>
         <!-- ... Plugins dependencies versions ............................. -->
         <plugin.version.failsafe>2.16</plugin.version.failsafe>
     </properties>
@@ -228,16 +230,6 @@
             <artifactId>jaxb-runtime</artifactId>
             <version>2.3.2</version>
         </dependency>
-
-        <!-- Workaround for "Failed to introspect annotated methods on class org.springframework.boot.autoconfigure.web.GsonHttpMessageConvertersConfiguration$GsonHttpMessageConverterConfiguration" -->
-        <!-- See https://github.com/spring-projects/spring-boot/issues/6502 -->
-        <!-- TODO-ach: remove after upgrading spring boot to never versions -->
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-
     </dependencies>
 
 
@@ -265,6 +257,7 @@
             </plugin>
 
 
+            <!-- ... tests ................................................. -->
             <plugin>    <!-- https://www.mojohaus.org/build-helper-maven-plugin/ -->
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
@@ -300,23 +293,31 @@
                 </executions>
             </plugin>
 
+
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>--illegal-access=permit</argLine>
+                </configuration>
+            </plugin>
+
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>Acceptance tests</id>
+                        <id>integration-tests</id>
                         <goals>
                             <goal>integration-test</goal>
-                        </goals>
-                    </execution>
-
-                    <execution>
-                        <id>verify</id>
-                        <goals>
                             <goal>verify</goal>
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <argLine>--illegal-access=permit</argLine>
+                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -1,20 +1,20 @@
 package io.chudzik.recruitment.budfox.service.impl;
 
-import static io.chudzik.recruitment.budfox.model.Activity.ActivityType.LOAN_APPLICATION;
-import static io.chudzik.recruitment.budfox.model.Activity.ActivityType.LOAN_EXTENSION;
-
-import javax.servlet.http.HttpServletRequest;
-
-import io.chudzik.recruitment.budfox.repository.ActivityRepository;
-import io.chudzik.recruitment.budfox.repository.ClientRepository;
 import io.chudzik.recruitment.budfox.model.Activity;
 import io.chudzik.recruitment.budfox.model.Activity.ActivityType;
 import io.chudzik.recruitment.budfox.model.Client;
+import io.chudzik.recruitment.budfox.repository.ActivityRepository;
+import io.chudzik.recruitment.budfox.repository.ClientRepository;
 import io.chudzik.recruitment.budfox.service.ActivityService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.servlet.http.HttpServletRequest;
+
+import static io.chudzik.recruitment.budfox.model.Activity.ActivityType.LOAN_APPLICATION;
+import static io.chudzik.recruitment.budfox.model.Activity.ActivityType.LOAN_EXTENSION;
 
 @Service
 public class ActivityServiceImpl implements ActivityService {

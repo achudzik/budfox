@@ -1,22 +1,15 @@
 package io.chudzik.recruitment.budfox.acceptance_test;
 
-import static com.github.springtestdbunit.assertion.DatabaseAssertionMode.NON_STRICT;
-import static io.chudzik.recruitment.budfox.utils.JsonUtils.convertObjectToJsonBytes;
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.TODAY;
-import static org.mockito.internal.matchers.NotNull.NOT_NULL;
-import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import io.chudzik.recruitment.budfox.BudfoxApplication;
 import io.chudzik.recruitment.budfox.model.Client;
-
 import io.chudzik.recruitment.budfox.utils.AdjustableTimeProviderSingleton;
+
+import com.github.springtestdbunit.TransactionDbUnitTestExecutionListener;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
@@ -30,12 +23,22 @@ import org.springframework.web.context.WebApplicationContext;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.github.springtestdbunit.TransactionDbUnitTestExecutionListener;
-import com.github.springtestdbunit.annotation.DatabaseSetup;
-import com.github.springtestdbunit.annotation.ExpectedDatabase;
+import static com.github.springtestdbunit.assertion.DatabaseAssertionMode.NON_STRICT;
+import static org.mockito.internal.matchers.NotNull.NOT_NULL;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import static io.chudzik.recruitment.budfox.utils.BudFoxTestProfiles.TEST_INTEGRATION;
+import static io.chudzik.recruitment.budfox.utils.JsonUtils.convertObjectToJsonBytes;
+import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.TODAY;
+
+@ActiveProfiles(TEST_INTEGRATION)
 @WebAppConfiguration
-@SpringApplicationConfiguration(classes = BudfoxApplication.class)
+@SpringBootTest(classes = BudfoxApplication.class)
 @TestExecutionListeners({
         ServletTestExecutionListener.class,
         DependencyInjectionTestExecutionListener.class,

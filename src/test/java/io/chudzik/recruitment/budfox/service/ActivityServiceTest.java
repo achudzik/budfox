@@ -1,18 +1,5 @@
 package io.chudzik.recruitment.budfox.service;
 
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.LOCAL_IP_ADDRESS;
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.client;
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.invalidId;
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.loanApplicationActivity;
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.loanExtensionActivity;
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.validId;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.stub;
-import static org.mockito.Mockito.verify;
-
-import javax.servlet.http.HttpServletRequest;
-
 import io.chudzik.recruitment.budfox.repository.ActivityRepository;
 import io.chudzik.recruitment.budfox.repository.ClientRepository;
 import io.chudzik.recruitment.budfox.service.impl.ActivityServiceImpl;
@@ -21,6 +8,20 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import javax.servlet.http.HttpServletRequest;
+
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.stub;
+import static org.mockito.Mockito.verify;
+
+import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.LOCAL_IP_ADDRESS;
+import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.client;
+import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.invalidId;
+import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.loanApplicationActivity;
+import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.loanExtensionActivity;
+import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.validId;
 
 public class ActivityServiceTest {
 

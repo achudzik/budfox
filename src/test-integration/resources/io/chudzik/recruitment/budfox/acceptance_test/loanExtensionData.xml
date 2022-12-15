@@ -1,10 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<dataset>
-    <clients id="1" identification_number="68092005286" version="0"/>
-    <activities id="1" client_id="1" type="LOAN_APPLICATION" ip_address="127.0.0.1" event_time="2014-05-01 1:00:00.0"/>
-    <activities id="2" client_id="1" type="LOAN_EXTENSION" ip_address="127.0.0.1" event_time="2014-05-07 2:1:00.0"/>
-    <loans id="1" client_id="1" current_conditions_id="2" version="2" creation_time="2014-05-01 1:00:08.0"/>
-    <loan_conditions id="1" currency="PLN" amount="3.00" interest="10.00" maturity_date="2014-05-07 11:05:00.0" loan_id="1" />
-    <loan_conditions id="2" currency="PLN" amount="3.00" interest="15.00" maturity_date="2014-05-14 11:05:00.0" loan_id="1" />
-    <previous_conditions loan_id="1" condition_id="1"/>
+<dataset reset_sequences="emp_seq, dept_seq">
+    <clients id="0" identification_number="68092005286" version="0"/>
+    <loans id="0" client_id="0" current_conditions_id="1" creation_time="2014-05-01 1:00:08.0" version="2"/>
+    <loan_conditions id="0" currency="PLN" amount="3.00" interest="10.00" maturity_date="2014-05-07 11:05:00.0" loan_id="0"/>
+    <loan_conditions id="1" currency="PLN" amount="3.00" interest="15.00" maturity_date="2014-05-14 11:05:00.0" loan_id="0"/>
+    <previous_conditions loan_id="0" condition_id="0"/>
 </dataset>

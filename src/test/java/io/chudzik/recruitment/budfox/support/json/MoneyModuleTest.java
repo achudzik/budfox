@@ -1,5 +1,7 @@
 package io.chudzik.recruitment.budfox.support.json;
 
+import io.chudzik.recruitment.budfox.configuration.WebLayerConfiguration.JsonMappingConfiguration;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
@@ -22,7 +24,7 @@ public class MoneyModuleTest {
         }
     }
 
-    ObjectMapper sut = new ObjectMapper().registerModule(new MoneyModule());
+    ObjectMapper sut = JsonMappingConfiguration.objectMapper();
 
     @Test
     public void shouldSerializeNullsToNulls() throws Exception {

@@ -1,6 +1,6 @@
 package io.chudzik.recruitment.budfox.web;
 
-import io.chudzik.recruitment.budfox.exception.ClientNotFoundException;
+import io.chudzik.recruitment.budfox.exception.ClientException.ClientNotFoundException;
 import io.chudzik.recruitment.budfox.exception.LoanNotFoundException;
 import io.chudzik.recruitment.budfox.exception.RiskyLoanApplicationException;
 import io.chudzik.recruitment.budfox.model.ErrorMessage;
@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -31,11 +33,9 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
-import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
+@RequestMapping(path = "/loans", produces = APPLICATION_JSON_VALUE)
 @RestController
-@RequestMapping("/loans")
 public class LoansController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoansController.class);
@@ -56,8 +56,9 @@ public class LoansController {
         this.riskAssessmentService = riskAssessmentService;
     }
 
-    @RequestMapping(method = POST, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+
     @ResponseStatus(CREATED)
+    @PostMapping(consumes = APPLICATION_JSON_VALUE)
     public Loan issueLoan(@RequestBody @Valid LoanApplication application, HttpServletRequest request)
             throws ClientNotFoundException, RiskyLoanApplicationException {
         clientService.validateClientExistence(application.getClientId());
@@ -67,8 +68,8 @@ public class LoansController {
         return loan;
     }
 
-    @RequestMapping(value = "{id}", params = "extend=true", method = PUT, produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(OK)
+    @PutMapping(value = "/{id}", params = "extend=true")
     public Loan extendLoan(@PathVariable("id") Long loanId, HttpServletRequest request)
             throws LoanNotFoundException {
         activityService.logLoanExtension(loanId, request);
@@ -76,27 +77,30 @@ public class LoansController {
         return loan;
     }
 
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(BAD_REQUEST)
     public ErrorMessage handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
-        LOGGER.warn(ex.getMessage());
+        LOGGER.warn("Handling MethodArgumentNotValidException exception", ex);
         String details = Joiner.on("\n").join(ex.getBindingResult().getAllErrors());
-        return new ErrorMessage(BAD_REQUEST.value(), "Invalid request", details);
+        return new ErrorMessage(BAD_REQUEST, "Invalid request", details);
     }
+
 
     @ExceptionHandler(RiskyLoanApplicationException.class)
     @ResponseStatus(BAD_REQUEST)
     public ErrorMessage handleRiskyLoanApplicationException(RiskyLoanApplicationException ex) {
-        LOGGER.warn(ex.getMessage());
-        return new ErrorMessage(BAD_REQUEST.value(), ex.getMessage(), ex.getReason());
+        LOGGER.warn("Handling RiskyLoanApplicationException exception", ex);
+        return new ErrorMessage(BAD_REQUEST, ex.getMessage(), ex.getReason());
     }
+
 
     @ExceptionHandler(LoanNotFoundException.class)
     @ResponseStatus(NOT_FOUND)
     public ErrorMessage handleLoanNotFoundException(LoanNotFoundException ex) {
-        LOGGER.warn(ex.getMessage());
+        LOGGER.warn("Handling LoanNotFoundException exception", ex);
         String details = String.format("Loan ID: %d", ex.getLoanId());
-        return new ErrorMessage(NOT_FOUND.value(), ex.getMessage(), details);
+        return new ErrorMessage(NOT_FOUND, ex.getMessage(), details);
     }
 
 }

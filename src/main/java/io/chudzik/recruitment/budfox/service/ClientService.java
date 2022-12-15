@@ -1,6 +1,6 @@
 package io.chudzik.recruitment.budfox.service;
 
-import io.chudzik.recruitment.budfox.exception.ClientNotFoundException;
+import io.chudzik.recruitment.budfox.exception.ClientException.ClientNotFoundException;
 
 public interface ClientService {
 

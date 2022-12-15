@@ -15,7 +15,7 @@ import java.util.List;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 
 import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.VALID_LOAN_APPLICATION;
 
@@ -59,7 +59,7 @@ public class RiskAssessmentServiceTest {
         // assert
         verify(evaluator1, times(1)).evaluate(VALID_LOAN_APPLICATION);
         verify(evaluator2, times(1)).evaluate(VALID_LOAN_APPLICATION);
-        verifyZeroInteractions(evaluator3);
+        verifyNoInteractions(evaluator3);
     }
 
     private static class DoNothingRiskEvaluator extends BaseRiskEvaluator {

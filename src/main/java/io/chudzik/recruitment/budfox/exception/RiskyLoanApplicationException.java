@@ -1,6 +1,6 @@
 package io.chudzik.recruitment.budfox.exception;
 
-public class RiskyLoanApplicationException extends RuntimeException {
+public class RiskyLoanApplicationException extends BusinessException {
 
     private static final long serialVersionUID = 1012157927828281129L;
 

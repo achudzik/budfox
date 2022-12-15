@@ -1,6 +1,7 @@
 package io.chudzik.recruitment.budfox.service.impl;
 
-import io.chudzik.recruitment.budfox.exception.ClientNotFoundException;
+import io.chudzik.recruitment.budfox.exception.ClientException;
+import io.chudzik.recruitment.budfox.exception.ClientException.ClientNotFoundException;
 import io.chudzik.recruitment.budfox.model.Client;
 import io.chudzik.recruitment.budfox.repository.ClientRepository;
 import io.chudzik.recruitment.budfox.service.ClientService;
@@ -24,7 +25,7 @@ public class ClientServiceImpl implements ClientService {
     public void validateClientExistence(Long clientId) throws ClientNotFoundException {
         Client client = repository.getOne(clientId);
         if (null == client) {
-            throw new ClientNotFoundException(clientId);
+            throw ClientException.notFound(clientId);
         }
     }
 

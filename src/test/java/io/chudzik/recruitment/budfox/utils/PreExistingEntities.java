@@ -9,22 +9,29 @@ import io.chudzik.recruitment.budfox.model.LoanConditions;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.Period;
 
 import java.math.BigDecimal;
+import java.time.ZoneId;
+
+import static org.joda.time.DateTimeZone.UTC;
 
 public class PreExistingEntities {
 
     public static final String VALID_PESEL = "68092005286";
-    public static final Long VALID_ID = 1L;
+
+    private static final Long VALID_ID = 0L;
+
 
     public static Long validId() {
-        return new Long(1);
+        return VALID_ID;
     }
 
     public static Long invalidId() {
-        return new Long(-9L);
+        return new Long(-7312L);
     }
+
 
     public static Client client() {
         return Client.builder()
@@ -38,7 +45,10 @@ public class PreExistingEntities {
             .identificationNumber(VALID_PESEL)
             .build();
 
-    public static final DateTime TODAY = new DateTime(2014, 4, 7, 13, 5);
+    public static final DateTimeZone DEFAULT_TIMEZONE = UTC;
+    public static final ZoneId DEFAULT_ZONE_ID = UTC.toTimeZone().toZoneId();
+
+    public static final DateTime TODAY = new DateTime(2014, 4, 7, 21, 37, DEFAULT_TIMEZONE);
 
     public static final DateTime YESTERDAY = TODAY.minusDays(1);
 
@@ -52,9 +62,9 @@ public class PreExistingEntities {
 
     public static final Period THREE_WEEKS_PERIOD = Period.weeks(3);
 
-    public static final Money THREE_PLN = Money.of(CurrencyUnit.of("PLN"), new BigDecimal("3.0"));
-
-    public static final Money ELEVEN_PLN = Money.of(CurrencyUnit.of("PLN"), new BigDecimal("11.0"));
+    public static final CurrencyUnit PLN = CurrencyUnit.of("PLN");
+    public static final Money THREE_PLN = Money.of(PLN, new BigDecimal("3.0"));
+    public static final Money ELEVEN_PLN = Money.of(PLN, new BigDecimal("11.0"));
 
     public static LoanApplication loanApplication() {
         return LoanApplication.builder()
@@ -101,7 +111,7 @@ public class PreExistingEntities {
     }
 
     public static BigDecimal basicInterest() {
-        return new BigDecimal("10.0");
+        return BASIC_INTEREST;
     }
 
     public static final Period EXTENSION_PERIOD = Period.parse("P1W");

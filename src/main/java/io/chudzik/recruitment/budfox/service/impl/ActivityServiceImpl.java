@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import static io.chudzik.recruitment.budfox.model.Activity.ActivityType.LOAN_APPLICATION;
 import static io.chudzik.recruitment.budfox.model.Activity.ActivityType.LOAN_EXTENSION;
 
+@Transactional
 @Service
 public class ActivityServiceImpl implements ActivityService {
 
@@ -28,21 +29,19 @@ public class ActivityServiceImpl implements ActivityService {
         this.clientRepository = clientRepository;
     }
 
-    @Transactional
     @Override
     public void logLoanApplication(Long clientId, HttpServletRequest request) {
         Client client = clientRepository.getOne(clientId);
-        logActivity(LOAN_APPLICATION, client, request);
+        saveActivity(LOAN_APPLICATION, client, request);
     }
 
-    @Transactional
     @Override
     public void logLoanExtension(Long loanId, HttpServletRequest request) {
         Client client = clientRepository.findByLoansId(loanId);
-        logActivity(LOAN_EXTENSION, client, request);
+        saveActivity(LOAN_EXTENSION, client, request);
     }
 
-    private void logActivity(ActivityType type, Client client, HttpServletRequest request) {
+    private void saveActivity(ActivityType type, Client client, HttpServletRequest request) {
         String ipAddress = request.getRemoteAddr();
         Activity activity = Activity.builder()
                 .client(client)

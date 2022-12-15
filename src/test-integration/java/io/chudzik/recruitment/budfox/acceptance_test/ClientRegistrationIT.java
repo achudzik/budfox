@@ -2,76 +2,67 @@ package io.chudzik.recruitment.budfox.acceptance_test;
 
 import io.chudzik.recruitment.budfox.BudfoxApplication;
 import io.chudzik.recruitment.budfox.model.Client;
-import io.chudzik.recruitment.budfox.utils.AdjustableTimeProviderSingleton;
 
-import com.github.springtestdbunit.TransactionDbUnitTestExecutionListener;
-import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.ExpectedDatabase;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockitoTestExecutionListener;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+import org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.springframework.test.context.web.ServletTestExecutionListener;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.context.WebApplicationContext;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static com.github.springtestdbunit.assertion.DatabaseAssertionMode.NON_STRICT;
-import static org.mockito.internal.matchers.NotNull.NOT_NULL;
+import static org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrint.LOG_DEBUG;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import static io.chudzik.recruitment.budfox.utils.BudFoxTestProfiles.TEST_INTEGRATION;
-import static io.chudzik.recruitment.budfox.utils.JsonUtils.convertObjectToJsonBytes;
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.TODAY;
 
 @ActiveProfiles(TEST_INTEGRATION)
-@WebAppConfiguration
-@SpringBootTest(classes = BudfoxApplication.class)
 @TestExecutionListeners({
-        ServletTestExecutionListener.class,
-        DependencyInjectionTestExecutionListener.class,
-        DirtiesContextTestExecutionListener.class,
-        TransactionDbUnitTestExecutionListener.class })
-@Transactional
-@DatabaseSetup("clientData.xml")
+        DbUnitTestExecutionListener.class,
+        MockitoTestExecutionListener.class,
+        SqlScriptsTestExecutionListener.class
+})
+@AutoConfigureMockMvc(print = LOG_DEBUG)
+@SpringBootTest(classes = BudfoxApplication.class, webEnvironment = MOCK)
 public class ClientRegistrationIT extends AbstractTestNGSpringContextTests {
 
     @Autowired WebApplicationContext webApplicationContext;
+    @Autowired ObjectMapper objectMapper;
 
-    MockMvc mockMvc;
-
-
-    @BeforeMethod
-    public void setup() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-        AdjustableTimeProviderSingleton.setTo(TODAY);
-    }
+    @Autowired MockMvc mockMvc;
 
 
-    @Test
     @ExpectedDatabase(value = "clientData-add-expected.xml", assertionMode = NON_STRICT)
+    @Test
     public void shouldAllowRegisteringNewUser() throws Exception {
         Client client = Client.builder().identificationNumber("68092005286").build();
 
-        mockMvc.perform(
+        ResultActions result = mockMvc.perform(
                 post("/clients")
-                    .content(convertObjectToJsonBytes(client))
-                    .contentType(APPLICATION_JSON))
+                    .content(objectMapper.writeValueAsBytes(client))
+                    .contentType(APPLICATION_JSON)
+                )
+                //.andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print());
+        ;
+
+        result
                 .andExpect(status().isCreated())
-                .andExpect(content().contentType(APPLICATION_JSON_UTF8))
-                .andExpect(jsonPath("id").value(NOT_NULL))
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("id").isNumber())
                 .andExpect(jsonPath("identificationNumber").value(client.getIdentificationNumber()));
     }
 

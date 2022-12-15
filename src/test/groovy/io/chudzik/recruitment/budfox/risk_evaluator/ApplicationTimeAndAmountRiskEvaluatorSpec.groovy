@@ -16,8 +16,8 @@ import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.VALID_CLIE
 class ApplicationTimeAndAmountRiskEvaluatorSpec extends AbstractUnitSpec {
 
     static final Money MAX_AMOUNT = THREE_PLN
-    static final Money AMOUNT_BELOW_LIMIT = THREE_PLN.minus(BigDecimal.ONE)
-    static final Money AMOUNT_ABOVE_LIMIT = THREE_PLN.plus(BigDecimal.ONE)
+    static final Money AMOUNT_BELOW_LIMIT = THREE_PLN - BigDecimal.ONE
+    static final Money AMOUNT_ABOVE_LIMIT = THREE_PLN + BigDecimal.ONE
 
     static final LocalTime RISKY_PERIOD_START = new LocalTime(0, 0, 0)
     static final LocalTime RISKY_PERIOD_END = RISKY_PERIOD_START.plusHours(6)

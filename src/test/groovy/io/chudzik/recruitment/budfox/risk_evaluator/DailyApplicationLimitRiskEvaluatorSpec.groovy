@@ -14,7 +14,7 @@ import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.VALID_LOAN
 
 class DailyApplicationLimitRiskEvaluatorSpec extends AbstractUnitSpec {
 
-    static final Integer DAILY_APPLICATION_LIMIT = 2;
+    static final Integer DAILY_APPLICATION_LIMIT = 2
     static final String IP_ADDRESS = "127.0.0.1"
 
     ActivityRepository activityRepoMock = Mock()
@@ -27,7 +27,7 @@ class DailyApplicationLimitRiskEvaluatorSpec extends AbstractUnitSpec {
 
     def "should check logged application from db"() {
         when:
-            sut.evaluate(VALID_LOAN_APPLICATION);
+            sut.evaluate(VALID_LOAN_APPLICATION)
         then:
             1 * activityRepoMock.countByTypeAndIpAddressAndEventTimeAfter(LOAN_APPLICATION, IP_ADDRESS, _) >> 1
     }
@@ -38,7 +38,7 @@ class DailyApplicationLimitRiskEvaluatorSpec extends AbstractUnitSpec {
             activityRepoMock.countByTypeAndIpAddressAndEventTimeAfter(LOAN_APPLICATION, IP_ADDRESS, _)
                 >> DAILY_APPLICATION_LIMIT
         when:
-            sut.evaluate(VALID_LOAN_APPLICATION);
+            sut.evaluate(VALID_LOAN_APPLICATION)
         then:
             noExceptionThrown() // no error == it pass
     }
@@ -49,7 +49,7 @@ class DailyApplicationLimitRiskEvaluatorSpec extends AbstractUnitSpec {
             activityRepoMock.countByTypeAndIpAddressAndEventTimeAfter(LOAN_APPLICATION, IP_ADDRESS, _)
                 >> DAILY_APPLICATION_LIMIT + 1
         when:
-            sut.evaluate(VALID_LOAN_APPLICATION);
+            sut.evaluate(VALID_LOAN_APPLICATION)
         then:
             RiskyLoanApplicationException ex = thrown()
         and: "should describe rejection reason"

@@ -2,12 +2,12 @@ package io.chudzik.recruitment.budfox.model
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import groovy.json.JsonSlurper
-import io.chudzik.recruitment.budfox.AbstractUnitSpec
+import io.chudzik.recruitment.budfox.BaseUnitSpec
 import io.chudzik.recruitment.budfox.configuration.WebLayerConfiguration.JsonMappingConfiguration
 
 import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.*
 
-class LoanApplicationSpec extends AbstractUnitSpec {
+class LoanApplicationSpec extends BaseUnitSpec {
 
     static final ObjectMapper OBJECT_MAPPER = JsonMappingConfiguration.objectMapper()
 

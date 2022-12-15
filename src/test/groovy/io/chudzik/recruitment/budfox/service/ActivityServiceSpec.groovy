@@ -1,6 +1,6 @@
 package io.chudzik.recruitment.budfox.service
 
-import io.chudzik.recruitment.budfox.AbstractUnitSpec
+import io.chudzik.recruitment.budfox.BaseUnitSpec
 import io.chudzik.recruitment.budfox.repository.ActivityRepository
 import io.chudzik.recruitment.budfox.repository.ClientRepository
 import io.chudzik.recruitment.budfox.service.impl.ActivityServiceImpl
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest
 
 import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.*
 
-class ActivityServiceSpec extends AbstractUnitSpec {
+class ActivityServiceSpec extends BaseUnitSpec {
 
     ActivityRepository activityRepositoryMock = Mock()
     ClientRepository clientRepositoryMock = Mock()

@@ -331,6 +331,7 @@
                         <configuration>
                             <sources>
                                 <source>src/test-integration/java</source>
+                                <source>src/test-integration/groovy</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -363,23 +364,19 @@
                         <artifactId>surefire-junit-platform</artifactId>
                         <version>${maven-surefire-plugin.version}</version>
                     </dependency>
-                    <dependency>
-                        <groupId>org.apache.maven.surefire</groupId>
-                        <artifactId>surefire-testng</artifactId>
-                        <version>${maven-surefire-plugin.version}</version>
-                    </dependency>
                 </dependencies>
                 <configuration>
                     <argLine>--illegal-access=permit</argLine>
                     <useModulePath>false</useModulePath> <!-- https://issues.apache.org/jira/browse/SUREFIRE-1809 -->
                     <useFile>false</useFile>
                     <includes>
-                        <include>**/*Test.class</include>
                         <include>**/*Spec.class</include>
+                        <include>**/*Test.class</include>
                     </includes>
                     <excludes>
-                        <exclude>**/*IT.class</exclude>
                         <exclude>**/*ISpec.class</exclude>
+                        <exclude>**/*IT.class</exclude>
+                        <exclude>**/*ITest.class</exclude>
                     </excludes>
                     <statelessTestsetReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5Xml30StatelessReporter">
                         <disable>false</disable>
@@ -421,12 +418,13 @@
                 <configuration>
                     <argLine>--illegal-access=permit</argLine>
                     <includes>
-                        <include>**/*IT.class</include>
                         <include>**/*ISpec.class</include>
+                        <include>**/*IT.class</include>
+                        <include>**/*ITest.class</include>
                     </includes>
                     <excludes>
-                        <exclude>**/*Test.class</exclude>
                         <exclude>**/*Spec.class</exclude>
+                        <exclude>**/*Test.class</exclude>
                     </excludes>
                 </configuration>
             </plugin>

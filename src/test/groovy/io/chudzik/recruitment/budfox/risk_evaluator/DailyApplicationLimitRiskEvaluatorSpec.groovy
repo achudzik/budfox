@@ -1,6 +1,6 @@
 package io.chudzik.recruitment.budfox.risk_evaluator
 
-import io.chudzik.recruitment.budfox.AbstractUnitSpec
+import io.chudzik.recruitment.budfox.BaseUnitSpec
 import io.chudzik.recruitment.budfox.exception.RiskyLoanApplicationException
 import io.chudzik.recruitment.budfox.repository.ActivityRepository
 import io.chudzik.recruitment.budfox.service.risk_evaluator.DailyApplicationLimitRiskEvaluator
@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest
 import static io.chudzik.recruitment.budfox.model.Activity.ActivityType.LOAN_APPLICATION
 import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.VALID_LOAN_APPLICATION
 
-class DailyApplicationLimitRiskEvaluatorSpec extends AbstractUnitSpec {
+class DailyApplicationLimitRiskEvaluatorSpec extends BaseUnitSpec {
 
     static final Integer DAILY_APPLICATION_LIMIT = 2
     static final String IP_ADDRESS = "127.0.0.1"

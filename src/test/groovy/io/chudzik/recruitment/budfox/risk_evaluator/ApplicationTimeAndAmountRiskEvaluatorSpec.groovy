@@ -1,6 +1,6 @@
 package io.chudzik.recruitment.budfox.risk_evaluator
 
-import io.chudzik.recruitment.budfox.AbstractUnitSpec
+import io.chudzik.recruitment.budfox.BaseUnitSpec
 import io.chudzik.recruitment.budfox.exception.RiskyLoanApplicationException
 import io.chudzik.recruitment.budfox.model.LoanApplication
 import io.chudzik.recruitment.budfox.service.risk_evaluator.ApplicationTimeAndAmountRiskEvaluator
@@ -13,7 +13,7 @@ import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.THREE_PLN
 import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.VALID_CLIENT
 
 // TODO-ach: replace LoanApplication.Builder with LoanApplication.TestDataBuilder
-class ApplicationTimeAndAmountRiskEvaluatorSpec extends AbstractUnitSpec {
+class ApplicationTimeAndAmountRiskEvaluatorSpec extends BaseUnitSpec {
 
     static final Money MAX_AMOUNT = THREE_PLN
     static final Money AMOUNT_BELOW_LIMIT = THREE_PLN - BigDecimal.ONE

@@ -4,8 +4,20 @@ indent_style = space
 insert_final_newline = true
 tab_width = 4
 
+
 [*.java]
+# imports
 ij_java_insert_inner_class_imports = true
 ij_java_class_count_to_use_import_on_demand = 999
 ij_java_names_count_to_use_import_on_demand = 999
 ij_java_imports_layout = io.chudzik.**,|,*,|,javax.**,java.**,$java.**,$javax.**,|,$*,|,$io.chudzik.**
+
+
+[{*.gant,*.groovy,*.gy}]
+# imports
+ij_groovy_insert_inner_class_imports = true
+ij_groovy_class_count_to_use_import_on_demand = 999
+ij_groovy_names_count_to_use_import_on_demand = 999
+ij_groovy_imports_layout = io.chudzik.**,|,*,|,javax.**,java.**,$java.**,$javax.**,|,$*,|,$io.chudzik.**
+# labels
+ij_groovy_indent_label_blocks = true

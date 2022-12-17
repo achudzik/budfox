@@ -14,8 +14,6 @@ target/
 .swp
 *~
 # ... others
-# TestNG
-test-output/
 # SVN
 .svn/
 # scripts (in root dir)

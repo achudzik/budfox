@@ -14,7 +14,6 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener
 import org.springframework.test.context.web.ServletTestExecutionListener
 import org.springframework.transaction.annotation.Transactional
-import org.testng.annotations.Ignore
 import spock.lang.Subject
 
 import javax.persistence.EntityManager
@@ -39,7 +38,6 @@ class ClientRepositoryITSpec extends BaseClockFixedITSpec {
     @Subject ClientRepository sut
 
 
-    @Ignore("was ignored")
     def "should fetch client with all his loans at once"() {
         when:
             Client client = sut.getClientLoans(CLIENT_WITH_LOANS.getId())

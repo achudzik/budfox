@@ -40,7 +40,6 @@
         <fest-assert.version>2.0M10</fest-assert.version>   <!-- newest, abandoned -->
         <json-path.version>2.7.0</json-path.version>    <!-- newest -->
         <spring-test-dbunit.version>1.3.0</spring-test-dbunit.version>  <!-- newest -->
-        <testng.version>7.7.0</testng.version>  <!-- newest -->
         <!-- ....... mvn plugins ........................................ -->
         <maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>
         <maven-failsafe-plugin.version>${maven-surefire-plugin.version}</maven-failsafe-plugin.version>
@@ -220,13 +219,6 @@
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>${testng.version}</version>
-            <scope>test</scope>
-        </dependency>
-
         <!-- DbUnit -->
         <dependency>
             <groupId>org.dbunit</groupId>
@@ -336,22 +328,6 @@
             </plugin>
 
 
-            <plugin>
-                <artifactId>maven-clean-plugin</artifactId>
-                <configuration>
-                    <filesets>
-                        <fileset>
-                            <directory>${basedir}</directory>
-                            <includes>
-                                <include>test-output/</include>
-                            </includes>
-                            <followSymlinks>false</followSymlinks>
-                        </fileset>
-                    </filesets>
-                </configuration>
-            </plugin>
-
-
             <!-- ... tests ................................................. -->
             <plugin>    <!-- https://www.mojohaus.org/build-helper-maven-plugin/ -->
                 <groupId>org.codehaus.mojo</groupId>
@@ -438,17 +414,11 @@
                         <version>1.1.0</version>
                     </dependency>
                     <!-- spock src/test-integration/groovy -->
-                    <dependency>
-                        <groupId>org.apache.maven.surefire</groupId>
-                        <artifactId>surefire-junit-platform</artifactId>
-                        <version>${maven-surefire-plugin.version}</version>
-                    </dependency>
-                    <!-- testng src/test-integration/java -->
-                    <dependency>
-                        <groupId>org.apache.maven.surefire</groupId>
-                        <artifactId>surefire-testng</artifactId>
-                        <version>${maven-surefire-plugin.version}</version>
-                    </dependency>
+<!--                    <dependency>-->
+<!--                        <groupId>org.apache.maven.surefire</groupId>-->
+<!--                        <artifactId>surefire-junit-platform</artifactId>-->
+<!--                        <version>${maven-surefire-plugin.version}</version>-->
+<!--                    </dependency>-->
                 </dependencies>
                 <executions>
                     <execution>

@@ -2,8 +2,10 @@ package io.chudzik.recruitment.budfox.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.common.base.Preconditions;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import javax.persistence.CascadeType;
@@ -15,15 +17,17 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
-@Entity
-@Table(name = "clients")
 @JsonIgnoreProperties("new")
+@Table(name = "clients")
+@Entity
+@ToString
+@Getter
+@EqualsAndHashCode
+@NoArgsConstructor
 public class Client extends AbstractPersistable<Long> {
 
     private static final long serialVersionUID = -8738990609586826604L;
@@ -40,44 +44,12 @@ public class Client extends AbstractPersistable<Long> {
     private long version;
 
 
-    public Client() { }
-
-
-    public String getIdentificationNumber() {
-        return identificationNumber;
-    }
-
-    public Set<Loan> getLoans() {
-        return Collections.unmodifiableSet(loans);
-    }
-
-
     public void addLoan(Loan loan) {
         Preconditions.checkNotNull(loan, "Cannot be null loan");
         Preconditions.checkState(loan.getClient() == null, "Loan is already assigned to a Client");
 
         loans.add(loan);
         loan.setClient(this);
-    }
-
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(identificationNumber);
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        if (this == other) return true;
-        if (other == null || getClass() != other.getClass()) return false;
-        Client otherClient = (Client) other;
-        return Objects.equals(identificationNumber, otherClient.identificationNumber);
-    }
-
-
-    @Override
-    public String toString() {
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
 

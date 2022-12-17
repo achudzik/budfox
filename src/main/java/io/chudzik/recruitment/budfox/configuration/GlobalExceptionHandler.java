@@ -3,8 +3,7 @@ package io.chudzik.recruitment.budfox.configuration;
 import io.chudzik.recruitment.budfox.BudfoxApplication;
 import io.chudzik.recruitment.budfox.model.ErrorMessage;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,15 +13,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @ControllerAdvice(basePackageClasses = BudfoxApplication.class)
+@Slf4j
 public class GlobalExceptionHandler {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
 
     @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler(IllegalStateException.class)
     public void handleIllegalStateException(IllegalStateException ex) {
-        LOGGER.warn(ex.getMessage());
+        log.warn(ex.getMessage());
     }
 
 
@@ -30,7 +28,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ErrorMessage handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
-        LOGGER.warn(ex.getMessage());
+        log.warn(ex.getMessage());
         return new ErrorMessage(BAD_REQUEST, ex.getMessage());
     }
 

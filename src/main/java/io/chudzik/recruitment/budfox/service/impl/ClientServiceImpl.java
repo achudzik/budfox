@@ -6,19 +6,16 @@ import io.chudzik.recruitment.budfox.model.Client;
 import io.chudzik.recruitment.budfox.repository.ClientRepository;
 import io.chudzik.recruitment.budfox.service.ClientService;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class ClientServiceImpl implements ClientService {
 
-    private ClientRepository repository;
+    private final ClientRepository repository;
 
-    @Autowired
-    public ClientServiceImpl(ClientRepository repository) {
-        this.repository = repository;
-    }
 
     @Transactional(readOnly = true)
     @Override

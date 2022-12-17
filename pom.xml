@@ -28,7 +28,6 @@
 
         <!-- ... Dependencies versions ..................................... -->
         <!-- ....... compile ............................................... -->
-        <commons-lang3.version>3.12.0</commons-lang3.version>   <!-- newest -->
         <guava.version>23.0</guava.version> <!-- xxx-ach: update -->
         <joda-money.version>0.9.1</joda-money.version>  <!-- xxx-ach: update -->
         <usertype.core.version>6.0.1.GA</usertype.core.version> <!-- newest GA, xxx-ach: update to CR -->
@@ -255,13 +254,6 @@
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>${commons-lang3.version}</version>
-        </dependency>
-
 
         <!-- ... JDK version bumping related ............................... -->
         <dependency>

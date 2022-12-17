@@ -7,7 +7,7 @@ import io.chudzik.recruitment.budfox.repository.ActivityRepository;
 import io.chudzik.recruitment.budfox.repository.ClientRepository;
 import io.chudzik.recruitment.budfox.service.ActivityService;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,19 +18,16 @@ import static io.chudzik.recruitment.budfox.model.Activity.ActivityType.LOAN_EXT
 
 @Transactional
 @Service
+@RequiredArgsConstructor
 public class ActivityServiceImpl implements ActivityService {
 
-    private ActivityRepository activityRepository;
-    private ClientRepository clientRepository;
+    private final ActivityRepository activityRepository;
+    private final ClientRepository clientRepository;
 
-    @Autowired
-    public ActivityServiceImpl(ActivityRepository activityRepository, ClientRepository clientRepository) {
-        this.activityRepository = activityRepository;
-        this.clientRepository = clientRepository;
-    }
 
     @Override
     public void logLoanApplication(Long clientId, HttpServletRequest request) {
+        // FIXME-ach: Client client = clientRepository.getReferenceById(clientId);
         Client client = clientRepository.getOne(clientId);
         saveActivity(LOAN_APPLICATION, client, request);
     }
@@ -40,6 +37,7 @@ public class ActivityServiceImpl implements ActivityService {
         Client client = clientRepository.findByLoansId(loanId);
         saveActivity(LOAN_EXTENSION, client, request);
     }
+
 
     private void saveActivity(ActivityType type, Client client, HttpServletRequest request) {
         String ipAddress = request.getRemoteAddr();

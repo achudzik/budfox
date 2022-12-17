@@ -8,6 +8,7 @@ public class NoRiskNoGainEvaluator extends BaseRiskEvaluator {
 
     public static RiskEvaluator ACCEPT_ALL_EVALUATOR = new NoRiskNoGainEvaluator();
 
+
     @Override
     protected void doEvaluation(LoanApplication application) throws RiskyLoanApplicationException { }
 

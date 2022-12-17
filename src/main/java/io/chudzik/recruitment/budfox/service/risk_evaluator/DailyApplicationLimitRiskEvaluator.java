@@ -19,9 +19,10 @@ import javax.servlet.http.HttpServletRequest;
 @Scope(value = "request", proxyMode = ScopedProxyMode.INTERFACES)
 public class DailyApplicationLimitRiskEvaluator extends BaseRiskEvaluator {
 
-    private ActivityRepository activityRepository;
-    private String ipAddress;
-    private Integer applicationLimit;
+    private final ActivityRepository activityRepository;
+    private final String ipAddress;
+    private final Integer applicationLimit;
+
 
     @Autowired
     public DailyApplicationLimitRiskEvaluator(
@@ -32,6 +33,7 @@ public class DailyApplicationLimitRiskEvaluator extends BaseRiskEvaluator {
         this.ipAddress = request.getRemoteAddr();
         this.applicationLimit = applicationLimit;
     }
+
 
     @Transactional(readOnly = true)
     @Override

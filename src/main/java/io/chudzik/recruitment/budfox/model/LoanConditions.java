@@ -3,15 +3,17 @@ package io.chudzik.recruitment.budfox.model;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.Columns;
 import org.jadira.usertype.moneyandcurrency.joda.PersistentMoneyAmountAndCurrency;
 import org.joda.money.Money;
 import org.joda.time.DateTime;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -19,23 +21,30 @@ import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Objects;
-import java.util.Optional;
+import static java.util.Optional.ofNullable;
+import static javax.persistence.CascadeType.ALL;
 
-@Entity
 // XXX-ach: Move to package-info.java after fix to https://jira.spring.io/browse/SPR-10910
 @org.hibernate.annotations.TypeDefs({
     @org.hibernate.annotations.TypeDef(
             defaultForType = Money.class,
             typeClass = PersistentMoneyAmountAndCurrency.class)
 })
+@Entity
+@ToString
+@Getter
+@EqualsAndHashCode
+@NoArgsConstructor
 public class LoanConditions extends AbstractPersistable<Long> implements Serializable {
 
     private static final long serialVersionUID = 1823909710170076581L;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = ALL)
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @Setter
     private Loan loan;
     @NotNull
     private BigDecimal interest;
@@ -47,58 +56,12 @@ public class LoanConditions extends AbstractPersistable<Long> implements Seriali
     private DateTime maturityDate;
 
 
-    public LoanConditions() { }
-
-
-    public Loan getLoan() {
-        return loan;
-    }
-
-    public void setLoan(Loan loan) {
-        this.loan = loan;
-    }
-
-    public BigDecimal getInterest() {
-        return interest;
-    }
-
-    public Money getAmount() {
-        return amount;
-    }
-
-    public DateTime getMaturityDate() {
-        return maturityDate;
-    }
-
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(loanRef(loan), amount, interest, maturityDate);
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        if (this == other) return true;
-        if (other == null || getClass() != other.getClass()) return false;
-        LoanConditions otherConditions = (LoanConditions) other;
-        return Objects.equals(loanRef(loan), loanRef(otherConditions.loan))
-                && Objects.equals(amount, otherConditions.amount)
-                && Objects.equals(interest, otherConditions.interest)
-                && Objects.equals(maturityDate, otherConditions.maturityDate);
-    }
-
-    private Long loanRef(Loan loan) {
-        return Optional.ofNullable(loan)
-            .map(AbstractPersistable::getId)
-            .orElse(null);
-    }
-
-    @Override
-    public String toString() {
-        return new ReflectionToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-                .setExcludeFieldNames("creationTime", "loan")
-                .append("loan", loanRef(loan))
-                .toString();
+    @ToString.Include
+    @EqualsAndHashCode.Include  // FIXME-ach: rethink the whole approach; good enough for now
+    protected Long loanRef() {
+        return ofNullable(this.loan)
+                .map(AbstractPersistable::getId)
+                .orElse(null);
     }
 
 

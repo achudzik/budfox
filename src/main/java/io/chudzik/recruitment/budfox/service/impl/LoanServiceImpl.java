@@ -10,25 +10,18 @@ import io.chudzik.recruitment.budfox.repository.LoanRepository;
 import io.chudzik.recruitment.budfox.service.LoanConditionsService;
 import io.chudzik.recruitment.budfox.service.LoanService;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @Service
+@RequiredArgsConstructor
 public class LoanServiceImpl implements LoanService {
 
-    ClientRepository clientRepository;
-    LoanRepository loanRepository;
-    LoanConditionsService conditionsService;
-
-
-    @Autowired
-    public LoanServiceImpl(ClientRepository clientRepository, LoanRepository loanRepository, LoanConditionsService conditionsService) {
-        this.clientRepository = clientRepository;
-        this.loanRepository = loanRepository;
-        this.conditionsService = conditionsService;
-    }
+    private final ClientRepository clientRepository;
+    private final LoanRepository loanRepository;
+    private final LoanConditionsService conditionsService;
 
 
     @Override

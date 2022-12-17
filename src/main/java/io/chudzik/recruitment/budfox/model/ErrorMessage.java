@@ -1,9 +1,13 @@
 package io.chudzik.recruitment.budfox.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
 import org.springframework.http.HttpStatus;
 
-import java.util.Optional;
-
+@ToString
+@Getter
+@AllArgsConstructor
 public class ErrorMessage {
 
     private int code;
@@ -12,8 +16,7 @@ public class ErrorMessage {
 
 
     public ErrorMessage(int code, String message) {
-        this.code = code;
-        this.message = message;
+        this(code, message, null);
     }
 
     public ErrorMessage(HttpStatus badRequest, String message) {
@@ -21,38 +24,8 @@ public class ErrorMessage {
     }
 
 
-    public ErrorMessage(int code, String message, String details) {
-        this(code, message);
-        this.details = details;
-    }
-
     public ErrorMessage(HttpStatus httpStatus, String message, String details) {
         this(httpStatus.value(), message, details);
-    }
-
-
-
-    public int getCode() {
-        return code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public String getDetails() {
-        return Optional.ofNullable(details)
-            .orElseGet(String::new);
-    }
-
-
-    @Override
-    public String toString() {
-        String toStringMessage = String.format("[%d] %s", code, message);
-        if (details != null) {
-            toStringMessage = String.format("%s: %s", toStringMessage, details);
-        }
-        return toStringMessage;
     }
 
 }

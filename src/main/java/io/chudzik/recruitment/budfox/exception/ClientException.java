@@ -2,19 +2,17 @@ package io.chudzik.recruitment.budfox.exception;
 
 import io.chudzik.recruitment.budfox.model.Client;
 
+import lombok.Getter;
+
+@Getter
 public class ClientException extends BusinessException {
 
-    private Long clientId;
+    private final Long clientId;
 
 
     public ClientException(Long clientId, String message) {
         super(message);
         this.clientId = clientId;
-    }
-
-
-    public Long getClientId() {
-        return clientId;
     }
 
 

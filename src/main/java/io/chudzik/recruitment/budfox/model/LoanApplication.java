@@ -2,9 +2,11 @@ package io.chudzik.recruitment.budfox.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 import org.joda.money.Money;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
@@ -12,11 +14,13 @@ import org.joda.time.Period;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.util.Objects;
 import java.util.Optional;
 
 // Enables getClient
 @JsonAutoDetect(fieldVisibility = Visibility.ANY, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
+@ToString
+@EqualsAndHashCode
+@Getter
 public class LoanApplication {
 
     /* TODO-ach: in Jackson 2.4 will be added support for ObjectIdResolver, which will allow deserialization to objects solely on base of id (but ONLY with it).
@@ -39,59 +43,13 @@ public class LoanApplication {
     private DateTime applicationDate = DateTime.now();
 
 
-    public Long getClientId() {
-        return clientId;
-    }
-
     /**
      * @return client with only id property set
      */
+    @JsonIgnore
     public Client getClient() {
         // TODO-ach: replace with client constructed internally by Jackson
         return Client.builder().id(clientId).build();
-    }
-
-    public Money getAmount() {
-        return amount;
-    }
-
-    public DateTime getMaturityDate() {
-        return maturityDate;
-    }
-
-    public Period getTerm() {
-        return term;
-    }
-
-    public DateTime getApplicationDate() {
-        return applicationDate;
-    }
-
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(clientId, amount, maturityDate, term, applicationDate);
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        if (this == other) {
-            return true;
-        }
-        if (other == null || getClass() != other.getClass()) {
-            return false;
-        }
-        LoanApplication otherApplication = (LoanApplication) other;
-        return Objects.equals(clientId, otherApplication.clientId)
-                && Objects.equals(amount, otherApplication.amount)
-                && Objects.equals(maturityDate, otherApplication.maturityDate)
-                && Objects.equals(term, otherApplication.term)
-                && Objects.equals(applicationDate, otherApplication.applicationDate);
-    }
-
-    @Override
-    public String toString() {
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
 

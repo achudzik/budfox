@@ -5,7 +5,7 @@ import io.chudzik.recruitment.budfox.model.Client;
 import io.chudzik.recruitment.budfox.model.Loan;
 import io.chudzik.recruitment.budfox.repository.ClientRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,14 +24,10 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RequestMapping(produces = APPLICATION_JSON_VALUE)
 @RestController
+@RequiredArgsConstructor
 public class ClientsController {
 
     private final ClientRepository clientRepository;
-
-    @Autowired
-    public ClientsController(ClientRepository clientRepository) {
-        this.clientRepository = clientRepository;
-    }
 
 
     @ResponseStatus(CREATED)
@@ -43,6 +39,7 @@ public class ClientsController {
         Client addedClient = clientRepository.save(clientToAdd);
         return addedClient;
     }
+
 
     @ResponseStatus(OK)
     @GetMapping(path = "/clients/{id}/loans")

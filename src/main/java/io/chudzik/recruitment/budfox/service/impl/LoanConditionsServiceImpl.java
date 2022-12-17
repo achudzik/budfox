@@ -16,9 +16,10 @@ import java.math.BigDecimal;
 @Service
 public class LoanConditionsServiceImpl implements LoanConditionsService {
 
-    private BigDecimal basicInterest;
-    private BigDecimal interestMultiplier;
-    private Period extensionPeriod;
+    private final BigDecimal basicInterest;
+    private final BigDecimal interestMultiplier;
+    private final Period extensionPeriod;
+
 
     @Autowired
     public LoanConditionsServiceImpl(
@@ -33,23 +34,21 @@ public class LoanConditionsServiceImpl implements LoanConditionsService {
     // FIXME-ach: test that!
     @Override
     public LoanConditions calculateInitialLoanConditions(LoanApplication application) {
-        LoanConditions conditions = LoanConditions.builder()
+        return LoanConditions.builder()
                 .amount(application.getAmount())
                 .maturityDate(application.getMaturityDate())
                 .interest(basicInterest)
                 .build();
-        return conditions;
     }
 
     @Override
     public LoanConditions loanExtensionConditions(Loan loan) {
         LoanConditions currentConditions = loan.getConditions();
-        LoanConditions newConditions = LoanConditions.builder()
+        return LoanConditions.builder()
                 .amount(currentConditions.getAmount())
                 .interest(increaseInterest(currentConditions.getInterest()))
                 .maturityDate(extendMaturityDate(currentConditions.getMaturityDate()))
                 .build();
-        return newConditions;
     }
 
     // XXX-ach: move to helper

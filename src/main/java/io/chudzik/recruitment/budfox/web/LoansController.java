@@ -12,9 +12,8 @@ import io.chudzik.recruitment.budfox.service.LoanService;
 import io.chudzik.recruitment.budfox.service.RiskAssessmentService;
 
 import com.google.common.base.Joiner;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,25 +35,14 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RequestMapping(path = "/loans", produces = APPLICATION_JSON_VALUE)
 @RestController
+@Slf4j
+@RequiredArgsConstructor
 public class LoansController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(LoansController.class);
-
-    private ActivityService activityService;
-    private ClientService clientService;
-    private LoanService loanService;
-    private RiskAssessmentService riskAssessmentService;
-
-    @Autowired
-    public LoansController(ActivityService activityService,
-            ClientService clientService,
-            LoanService loanService,
-            RiskAssessmentService riskAssessmentService) {
-        this.activityService = activityService;
-        this.clientService = clientService;
-        this.loanService = loanService;
-        this.riskAssessmentService = riskAssessmentService;
-    }
+    private final ActivityService activityService;
+    private final ClientService clientService;
+    private final LoanService loanService;
+    private final RiskAssessmentService riskAssessmentService;
 
 
     @ResponseStatus(CREATED)
@@ -81,7 +69,7 @@ public class LoansController {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(BAD_REQUEST)
     public ErrorMessage handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
-        LOGGER.warn("Handling MethodArgumentNotValidException exception", ex);
+        log.warn("Handling MethodArgumentNotValidException exception", ex);
         String details = Joiner.on("\n").join(ex.getBindingResult().getAllErrors());
         return new ErrorMessage(BAD_REQUEST, "Invalid request", details);
     }
@@ -90,7 +78,7 @@ public class LoansController {
     @ExceptionHandler(RiskyLoanApplicationException.class)
     @ResponseStatus(BAD_REQUEST)
     public ErrorMessage handleRiskyLoanApplicationException(RiskyLoanApplicationException ex) {
-        LOGGER.warn("Handling RiskyLoanApplicationException exception", ex);
+        log.warn("Handling RiskyLoanApplicationException exception", ex);
         return new ErrorMessage(BAD_REQUEST, ex.getMessage(), ex.getReason());
     }
 
@@ -98,7 +86,7 @@ public class LoansController {
     @ExceptionHandler(LoanNotFoundException.class)
     @ResponseStatus(NOT_FOUND)
     public ErrorMessage handleLoanNotFoundException(LoanNotFoundException ex) {
-        LOGGER.warn("Handling LoanNotFoundException exception", ex);
+        log.warn("Handling LoanNotFoundException exception", ex);
         String details = String.format("Loan ID: %d", ex.getLoanId());
         return new ErrorMessage(NOT_FOUND, ex.getMessage(), details);
     }

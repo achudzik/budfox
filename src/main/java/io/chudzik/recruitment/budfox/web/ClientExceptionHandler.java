@@ -5,8 +5,7 @@ import io.chudzik.recruitment.budfox.exception.ClientException.ClientAlreadyExis
 import io.chudzik.recruitment.budfox.exception.ClientException.ClientNotFoundException;
 import io.chudzik.recruitment.budfox.model.ErrorMessage;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,16 +17,14 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Import(GlobalExceptionHandler.class)
 @ControllerAdvice(basePackageClasses = ClientExceptionHandler.class)
+@Slf4j
 class ClientExceptionHandler {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(ClientExceptionHandler.class);
-
 
     @ResponseBody
     @ResponseStatus(NOT_FOUND)
     @ExceptionHandler(ClientNotFoundException.class)
     public ErrorMessage handleClientNotFoundException(ClientNotFoundException ex) {
-        LOGGER.warn("Handling ClientNotFoundException [clientId={}, exceptionMessage={}]",
+        log.warn("Handling ClientNotFoundException [clientId={}, exceptionMessage={}]",
                 ex.getClientId(), ex.getMessage());
         return new ErrorMessage(NOT_FOUND, ex.getMessage());
     }
@@ -37,7 +34,7 @@ class ClientExceptionHandler {
     @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler(ClientAlreadyExistsException.class)
     public ErrorMessage handleClientAlreadyExistsException(ClientAlreadyExistsException ex) {
-        LOGGER.warn("Handling ClientAlreadyExistsException [clientId={}, exceptionMessage={}]",
+        log.warn("Handling ClientAlreadyExistsException [clientId={}, exceptionMessage={}]",
                 ex.getClientId(), ex.getMessage());
         return new ErrorMessage(BAD_REQUEST, ex.getMessage());
     }

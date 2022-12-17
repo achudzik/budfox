@@ -1,8 +1,10 @@
 package io.chudzik.recruitment.budfox.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.joda.time.DateTime;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
@@ -14,11 +16,14 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
-import java.util.Objects;
 
-@Entity
-@Table(name = "activities")
 @JsonIgnoreProperties("new")
+@Table(name = "activities")
+@Entity
+@ToString
+@Getter
+@EqualsAndHashCode
+@NoArgsConstructor
 public class Activity extends AbstractPersistable<Long> {
 
     private static final long serialVersionUID = -115892659003310229L;
@@ -33,50 +38,9 @@ public class Activity extends AbstractPersistable<Long> {
     private DateTime eventTime;
 
 
-    public Activity() { }
-
-
-    public Client getClient() {
-        return client;
-    }
-
-    public ActivityType getType() {
-        return type;
-    }
-
-    public String getIpAddress() {
-        return ipAddress;
-    }
-
-    public DateTime getEventTime() {
-        return eventTime;
-    }
-
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(client, type, ipAddress, eventTime);
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        if (this == other) return true;
-        if (other == null || getClass() != other.getClass()) return false;
-        Activity otherActivity = (Activity) other;
-        return Objects.equals(client, otherActivity.client)
-                && Objects.equals(type, otherActivity.type)
-                && Objects.equals(ipAddress, otherActivity.ipAddress)
-                && Objects.equals(eventTime, otherActivity.eventTime);
-    }
-
     @PrePersist
     public void prePersist() {
         eventTime = DateTime.now();
-    }
-
-    @Override
-    public String toString() {
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
 

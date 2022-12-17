@@ -8,10 +8,11 @@ public interface RiskAssessmentService {
     void validateApplicationSafety(LoanApplication application) throws RiskyLoanApplicationException;
 
 
-    public interface RiskEvaluator {
+    interface RiskEvaluator {
 
         void evaluate(LoanApplication application) throws RiskyLoanApplicationException;
         void setNext(RiskEvaluator evaluator);
 
     }
+
 }

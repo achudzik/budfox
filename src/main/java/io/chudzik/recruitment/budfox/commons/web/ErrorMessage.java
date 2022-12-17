@@ -1,4 +1,4 @@
-package io.chudzik.recruitment.budfox.model;
+package io.chudzik.recruitment.budfox.commons.web;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

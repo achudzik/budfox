@@ -1,6 +1,6 @@
 package io.chudzik.recruitment.budfox.loans.dto;
 
-import io.chudzik.recruitment.budfox.exception.BusinessException;
+import io.chudzik.recruitment.budfox.commons.dto.BusinessException;
 
 import lombok.Getter;
 

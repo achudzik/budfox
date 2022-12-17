@@ -1,4 +1,4 @@
-package io.chudzik.recruitment.budfox.exception;
+package io.chudzik.recruitment.budfox.commons.dto;
 
 public abstract class BusinessException extends RuntimeException {
 

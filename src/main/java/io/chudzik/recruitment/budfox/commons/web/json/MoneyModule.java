@@ -1,4 +1,4 @@
-package io.chudzik.recruitment.budfox.support.json;
+package io.chudzik.recruitment.budfox.commons.web.json;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;

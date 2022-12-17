@@ -1,7 +1,8 @@
 package io.chudzik.recruitment.budfox.configuration;
 
+import io.chudzik.recruitment.budfox.commons.web.GlobalExceptionHandler;
+import io.chudzik.recruitment.budfox.commons.web.json.MoneyModule;
 import io.chudzik.recruitment.budfox.configuration.WebLayerConfiguration.JsonMappingConfiguration;
-import io.chudzik.recruitment.budfox.support.json.MoneyModule;
 
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;

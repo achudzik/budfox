@@ -1,6 +1,7 @@
 package io.chudzik.recruitment.budfox.support.json
 
 import io.chudzik.recruitment.budfox.BaseUnitSpec
+import io.chudzik.recruitment.budfox.commons.web.json.MoneyModule
 import io.chudzik.recruitment.budfox.configuration.WebLayerConfiguration.JsonMappingConfiguration
 
 import com.fasterxml.jackson.databind.ObjectMapper

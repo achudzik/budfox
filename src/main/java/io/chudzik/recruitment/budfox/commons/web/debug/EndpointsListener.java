@@ -1,4 +1,4 @@
-package io.chudzik.recruitment.budfox.configuration;
+package io.chudzik.recruitment.budfox.commons.web.debug;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;

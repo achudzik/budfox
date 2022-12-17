@@ -3,13 +3,13 @@ package io.chudzik.recruitment.budfox.loans.web;
 import io.chudzik.recruitment.budfox.activities.ActivityService;
 import io.chudzik.recruitment.budfox.clients.ClientService;
 import io.chudzik.recruitment.budfox.clients.dto.ClientException.ClientNotFoundException;
+import io.chudzik.recruitment.budfox.commons.web.ErrorMessage;
 import io.chudzik.recruitment.budfox.loans.Loan;
 import io.chudzik.recruitment.budfox.loans.LoanApplication;
 import io.chudzik.recruitment.budfox.loans.LoanService;
 import io.chudzik.recruitment.budfox.loans.RiskAssessmentService;
 import io.chudzik.recruitment.budfox.loans.dto.LoanNotFoundException;
 import io.chudzik.recruitment.budfox.loans.dto.RiskyLoanApplicationException;
-import io.chudzik.recruitment.budfox.model.ErrorMessage;
 
 import com.google.common.base.Joiner;
 import lombok.RequiredArgsConstructor;

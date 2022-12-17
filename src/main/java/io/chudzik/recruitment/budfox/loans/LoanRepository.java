@@ -2,6 +2,4 @@ package io.chudzik.recruitment.budfox.loans;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface LoanRepository extends JpaRepository<Loan, Long> {
-
-}
+interface LoanRepository extends JpaRepository<Loan, Long> { }

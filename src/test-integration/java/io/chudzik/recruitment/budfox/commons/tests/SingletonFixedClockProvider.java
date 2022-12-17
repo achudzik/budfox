@@ -1,4 +1,4 @@
-package io.chudzik.recruitment.budfox.commons;
+package io.chudzik.recruitment.budfox.commons.tests;
 
 import org.joda.time.DateTime;
 

@@ -5,5 +5,5 @@
             http://xmlns.jcp.org/xml/ns/validation/configuration/validation-configuration-2.0.xsd"
         version="2.0"
 >
-    <clock-provider>io.chudzik.recruitment.budfox.commons.SingletonFixedClockProvider</clock-provider>
+    <clock-provider>io.chudzik.recruitment.budfox.commons.tests.SingletonFixedClockProvider</clock-provider>
 </validation-config>

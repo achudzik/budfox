@@ -1,7 +1,6 @@
 package io.chudzik.recruitment.budfox.commons.web;
 
 import io.chudzik.recruitment.budfox.BudfoxApplication;
-import io.chudzik.recruitment.budfox.commons.web.ErrorMessage;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.converter.HttpMessageNotReadableException;

@@ -1,6 +1,6 @@
 package io.chudzik.recruitment.budfox.config.tests
 
-import io.chudzik.recruitment.budfox.commons.SingletonFixedClockProvider
+import io.chudzik.recruitment.budfox.commons.tests.SingletonFixedClockProvider
 
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.context.annotation.Bean
@@ -8,8 +8,8 @@ import org.springframework.context.annotation.Profile
 
 import javax.validation.ClockProvider
 
-import static io.chudzik.recruitment.budfox.utils.BudFoxTestProfiles.CLOCK_ADJUSTED
-import static io.chudzik.recruitment.budfox.utils.BudFoxTestProfiles.TEST_INTEGRATION
+import static io.chudzik.recruitment.budfox.commons.tests.BudFoxTestProfiles.CLOCK_ADJUSTED
+import static io.chudzik.recruitment.budfox.commons.tests.BudFoxTestProfiles.TEST_INTEGRATION
 
 @Profile([ TEST_INTEGRATION, CLOCK_ADJUSTED ])
 @TestConfiguration

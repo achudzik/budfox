@@ -5,7 +5,7 @@ import io.chudzik.recruitment.budfox.config.tests.SingletonFixedClockProviderTCo
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.ContextConfiguration
 
-import static io.chudzik.recruitment.budfox.utils.BudFoxTestProfiles.CLOCK_ADJUSTED
+import static io.chudzik.recruitment.budfox.commons.tests.BudFoxTestProfiles.CLOCK_ADJUSTED
 
 @ActiveProfiles(CLOCK_ADJUSTED)
 @ContextConfiguration(classes = SingletonFixedClockProviderTConfig)

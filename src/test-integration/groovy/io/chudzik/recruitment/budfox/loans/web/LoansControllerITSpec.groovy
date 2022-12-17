@@ -6,13 +6,13 @@ import io.chudzik.recruitment.budfox.activities.ActivityService
 import io.chudzik.recruitment.budfox.clients.ClientService
 import io.chudzik.recruitment.budfox.clients.dto.ClientException
 import io.chudzik.recruitment.budfox.clients.web.ClientExceptionHandler
+import io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities
 import io.chudzik.recruitment.budfox.loans.Loan
 import io.chudzik.recruitment.budfox.loans.LoanApplication
 import io.chudzik.recruitment.budfox.loans.LoanConditions
 import io.chudzik.recruitment.budfox.loans.LoanService
 import io.chudzik.recruitment.budfox.loans.RiskAssessmentService
 import io.chudzik.recruitment.budfox.loans.dto.RiskyLoanApplicationException
-import io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.joda.time.DateTime

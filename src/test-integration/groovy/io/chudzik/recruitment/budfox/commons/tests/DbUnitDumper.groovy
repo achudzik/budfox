@@ -1,4 +1,4 @@
-package io.chudzik.recruitment.budfox.utils
+package io.chudzik.recruitment.budfox.commons.tests
 
 import org.dbunit.DatabaseUnitException
 import org.dbunit.database.DatabaseConnection

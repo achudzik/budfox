@@ -18,6 +18,6 @@ ij_java_imports_layout = io.chudzik.**,|,*,|,javax.**,java.**,$java.**,$javax.**
 ij_groovy_insert_inner_class_imports = true
 ij_groovy_class_count_to_use_import_on_demand = 999
 ij_groovy_names_count_to_use_import_on_demand = 999
-ij_groovy_imports_layout = io.chudzik.**,|,*,|,javax.**,java.**,$java.**,$javax.**,|,$*,|,$io.chudzik.**
+ij_groovy_imports_layout = io.chudzik.**,|,*,|,groovy.**,javax.**,java.**,|,$java.**,$javax.**,$groovy.**,|,$*,|,$io.chudzik.**
 # labels
 ij_groovy_indent_label_blocks = true

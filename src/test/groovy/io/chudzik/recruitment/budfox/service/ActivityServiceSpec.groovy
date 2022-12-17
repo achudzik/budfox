@@ -1,9 +1,9 @@
 package io.chudzik.recruitment.budfox.service
 
 import io.chudzik.recruitment.budfox.BaseUnitSpec
+import io.chudzik.recruitment.budfox.clients.ClientService
 import io.chudzik.recruitment.budfox.model.Activity
 import io.chudzik.recruitment.budfox.repository.ActivityRepository
-import io.chudzik.recruitment.budfox.repository.ClientRepository
 
 import org.springframework.mock.web.MockHttpServletRequest
 import spock.lang.Subject
@@ -21,17 +21,17 @@ import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.validId
 class ActivityServiceSpec extends BaseUnitSpec {
 
     ActivityRepository activityRepositoryMock = Mock()
-    ClientRepository clientRepositoryMock = Mock()
+    ClientService clientServiceMock = Mock()
     HttpServletRequest httpServletRequestMock = new MockHttpServletRequest().tap {
         it.remoteAddr = LOCAL_IP_ADDRESS
     }
 
-    @Subject def sut = new ActivityService(activityRepositoryMock, clientRepositoryMock)
+    @Subject def sut = new ActivityService(activityRepositoryMock, clientServiceMock)
 
 
     def "should persist info about applying for a loan"() {
         given:
-            clientRepositoryMock.getOne(validId()) >> client()
+            clientServiceMock.getOne(validId()) >> client()
         when:
             sut.logLoanApplication(validId(), httpServletRequestMock)
         then:
@@ -47,7 +47,7 @@ class ActivityServiceSpec extends BaseUnitSpec {
 
     def "should persist info about extending loan"() {
         given:
-            clientRepositoryMock.findByLoansId(validId()) >> client()
+            clientServiceMock.getReferenceId(validId()) >> client()
         when:
             sut.logLoanExtension(validId(), httpServletRequestMock)
         then:

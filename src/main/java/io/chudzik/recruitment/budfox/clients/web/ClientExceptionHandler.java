@@ -1,9 +1,10 @@
-package io.chudzik.recruitment.budfox.web;
+package io.chudzik.recruitment.budfox.clients.web;
 
+import io.chudzik.recruitment.budfox.clients.dto.ClientException.ClientAlreadyExistsException;
+import io.chudzik.recruitment.budfox.clients.dto.ClientException.ClientNotFoundException;
 import io.chudzik.recruitment.budfox.configuration.GlobalExceptionHandler;
-import io.chudzik.recruitment.budfox.exception.ClientException.ClientAlreadyExistsException;
-import io.chudzik.recruitment.budfox.exception.ClientException.ClientNotFoundException;
 import io.chudzik.recruitment.budfox.model.ErrorMessage;
+import io.chudzik.recruitment.budfox.web.LoansController;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Import;
@@ -16,9 +17,10 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Import(GlobalExceptionHandler.class)
-@ControllerAdvice(basePackageClasses = ClientExceptionHandler.class)
+// FIXME-ach: workaround; move somewhere else? for now it waits until more mature code layout
+@ControllerAdvice(basePackageClasses = { ClientsController.class, LoansController.class })
 @Slf4j
-class ClientExceptionHandler {
+public class ClientExceptionHandler {
 
     @ResponseBody
     @ResponseStatus(NOT_FOUND)

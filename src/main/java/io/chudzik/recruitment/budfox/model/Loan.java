@@ -1,5 +1,7 @@
 package io.chudzik.recruitment.budfox.model;
 
+import io.chudzik.recruitment.budfox.clients.Client;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

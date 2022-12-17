@@ -1,9 +1,10 @@
-package io.chudzik.recruitment.budfox.web
+package io.chudzik.recruitment.budfox.clients.web
 
 import io.chudzik.recruitment.budfox.BaseITSpec
 import io.chudzik.recruitment.budfox.BudfoxApplication
-import io.chudzik.recruitment.budfox.model.Client
-import io.chudzik.recruitment.budfox.repository.ClientRepository
+import io.chudzik.recruitment.budfox.clients.Client
+import io.chudzik.recruitment.budfox.clients.ClientService
+import io.chudzik.recruitment.budfox.clients.dto.ClientException
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.spockframework.spring.SpringBean
@@ -13,12 +14,14 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.mock.web.MockHttpServletResponse
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.MvcResult
+import spock.lang.Subject
 
 import groovy.json.JsonSlurper
 
 import static org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrint.LOG_DEBUG
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK
 import static org.springframework.http.HttpStatus.BAD_REQUEST
+import static org.springframework.http.HttpStatus.CREATED
 import static org.springframework.http.HttpStatus.NOT_FOUND
 import static org.springframework.http.HttpStatus.OK
 import static org.springframework.http.MediaType.APPLICATION_JSON
@@ -33,9 +36,10 @@ import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.validId
 @AutoConfigureMockMvc(print = LOG_DEBUG)
 @SpringBootTest(classes = BudfoxApplication, webEnvironment = MOCK)
 // XXX-ach: redo as @WebMvcTest(controllers = ClientsController)
+@Subject(ClientsController)
 class ClientsControllerITSpec extends BaseITSpec {
 
-    @SpringBean ClientRepository clientRepositoryMock = Mock()
+    @SpringBean ClientService clientServiceMock = Mock()
 
     @Autowired ObjectMapper objectMapper
     @Autowired MockMvc mockMvc
@@ -53,7 +57,8 @@ class ClientsControllerITSpec extends BaseITSpec {
                     //.andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
                     .andReturn().response
         then:
-            1 * clientRepositoryMock.save(_ as Client)
+            createdClientResponse.status == CREATED.value()
+            1 * clientServiceMock.create(_ as Client)
     }
 
 
@@ -63,6 +68,8 @@ class ClientsControllerITSpec extends BaseITSpec {
                 .id(validId())
                 .identificationNumber(VALID_PESEL)
                 .build()
+        and:
+            clientServiceMock.create(_ as Client) >> { throw ClientException.alreadyExists(client) }
         when:
             MvcResult result = mockMvc.perform(
                         post("/clients")
@@ -79,7 +86,7 @@ class ClientsControllerITSpec extends BaseITSpec {
     def "should allow listing clients loans"() {
         given:
             final Long clientId = CLIENT_WITH_LOANS.getId()
-            clientRepositoryMock.getClientLoans(clientId) >> CLIENT_WITH_LOANS
+            clientServiceMock.loansOf(clientId) >> CLIENT_WITH_LOANS.getLoans()
         when:
             MockHttpServletResponse clientLoansResponse = mockMvc.perform(
                         get("/clients/{id}/loans", clientId)
@@ -104,7 +111,7 @@ class ClientsControllerITSpec extends BaseITSpec {
     def "should throw exception on fetching loans of non existing client"() {
         given:
             final Long clientId = CLIENT_WITH_LOANS.getId()
-            clientRepositoryMock.getClientLoans(clientId) >> null
+            clientServiceMock.loansOf(clientId) >> { throw ClientException.notFound(clientId) }
         when:
             MockHttpServletResponse loansOfNotExistingClientResponse = mockMvc.perform(
                             get("/clients/{id}/loans", clientId)
@@ -114,7 +121,6 @@ class ClientsControllerITSpec extends BaseITSpec {
                     .andReturn().response
         then:
             loansOfNotExistingClientResponse.status == NOT_FOUND.value()
-            loansOfNotExistingClientResponse.contentType == APPLICATION_JSON_VALUE
             loansOfNotExistingClientResponse.contentType == APPLICATION_JSON_VALUE
             verifyAll (new JsonSlurper().parseText(loansOfNotExistingClientResponse.contentAsString)) {
                 it.code == NOT_FOUND.value()

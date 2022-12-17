@@ -1,8 +1,7 @@
-package io.chudzik.recruitment.budfox.acceptance_test
+package io.chudzik.recruitment.budfox.clients
 
 import io.chudzik.recruitment.budfox.BaseITSpec
 import io.chudzik.recruitment.budfox.BudfoxApplication
-import io.chudzik.recruitment.budfox.model.Client
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.springtestdbunit.annotation.ExpectedDatabase

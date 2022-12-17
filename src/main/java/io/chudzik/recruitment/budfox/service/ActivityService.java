@@ -1,10 +1,10 @@
 package io.chudzik.recruitment.budfox.service;
 
+import io.chudzik.recruitment.budfox.clients.Client;
+import io.chudzik.recruitment.budfox.clients.ClientService;
 import io.chudzik.recruitment.budfox.model.Activity;
 import io.chudzik.recruitment.budfox.model.Activity.ActivityType;
-import io.chudzik.recruitment.budfox.model.Client;
 import io.chudzik.recruitment.budfox.repository.ActivityRepository;
-import io.chudzik.recruitment.budfox.repository.ClientRepository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,18 +21,18 @@ import static io.chudzik.recruitment.budfox.model.Activity.ActivityType.LOAN_EXT
 public class ActivityService {
 
     private final ActivityRepository activityRepository;
-    private final ClientRepository clientRepository;
+    private final ClientService clientService;
 
 
     public void logLoanApplication(Long clientId, HttpServletRequest request) {
         // FIXME-ach: Client client = clientRepository.getReferenceById(clientId);
-        Client client = clientRepository.getOne(clientId);
+        Client client = clientService.getOne(clientId);
         saveActivity(LOAN_APPLICATION, client, request);
     }
 
 
     public void logLoanExtension(Long loanId, HttpServletRequest request) {
-        Client client = clientRepository.findByLoansId(loanId);
+        Client client = clientService.getReferenceId(loanId);
         saveActivity(LOAN_EXTENSION, client, request);
     }
 

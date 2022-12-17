@@ -1,6 +1,4 @@
-package io.chudzik.recruitment.budfox.repository;
-
-import io.chudzik.recruitment.budfox.model.Client;
+package io.chudzik.recruitment.budfox.clients;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

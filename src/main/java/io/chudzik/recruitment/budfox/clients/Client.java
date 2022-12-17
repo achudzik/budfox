@@ -1,4 +1,6 @@
-package io.chudzik.recruitment.budfox.model;
+package io.chudzik.recruitment.budfox.clients;
+
+import io.chudzik.recruitment.budfox.model.Loan;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.common.base.Preconditions;

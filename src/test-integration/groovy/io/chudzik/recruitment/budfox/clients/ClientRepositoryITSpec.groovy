@@ -1,36 +1,29 @@
-package io.chudzik.recruitment.budfox.repository
+package io.chudzik.recruitment.budfox.clients
 
 import io.chudzik.recruitment.budfox.BaseClockFixedITSpec
 import io.chudzik.recruitment.budfox.BudfoxApplication
-import io.chudzik.recruitment.budfox.model.Client
 import io.chudzik.recruitment.budfox.model.Loan
 
 import com.github.springtestdbunit.TransactionDbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.TestExecutionListeners
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener
-import org.springframework.test.context.web.ServletTestExecutionListener
-import org.springframework.transaction.annotation.Transactional
 import spock.lang.Subject
 
 import javax.persistence.EntityManager
 
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.NONE
 
 import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.CLIENT_WITH_LOANS
 
-@Transactional
 @DatabaseSetup("clientWithLoansData.xml")
 @TestExecutionListeners([
-    ServletTestExecutionListener,
-    DependencyInjectionTestExecutionListener,
-    DirtiesContextTestExecutionListener,
-    TransactionDbUnitTestExecutionListener
+        SpringBootDependencyInjectionTestExecutionListener,
+        TransactionDbUnitTestExecutionListener,
 ])
-@SpringBootTest(classes = BudfoxApplication, webEnvironment = MOCK)
+@SpringBootTest(classes = BudfoxApplication, webEnvironment = NONE)
 class ClientRepositoryITSpec extends BaseClockFixedITSpec {
 
     @Autowired EntityManager em

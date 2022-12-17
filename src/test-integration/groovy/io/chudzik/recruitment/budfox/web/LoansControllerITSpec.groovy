@@ -2,13 +2,14 @@ package io.chudzik.recruitment.budfox.web
 
 import io.chudzik.recruitment.budfox.BaseClockFixedITSpec
 import io.chudzik.recruitment.budfox.BudfoxApplication
-import io.chudzik.recruitment.budfox.exception.ClientException
+import io.chudzik.recruitment.budfox.clients.ClientService
+import io.chudzik.recruitment.budfox.clients.dto.ClientException
+import io.chudzik.recruitment.budfox.clients.web.ClientExceptionHandler
 import io.chudzik.recruitment.budfox.exception.RiskyLoanApplicationException
 import io.chudzik.recruitment.budfox.model.Loan
 import io.chudzik.recruitment.budfox.model.LoanApplication
 import io.chudzik.recruitment.budfox.model.LoanConditions
 import io.chudzik.recruitment.budfox.service.ActivityService
-import io.chudzik.recruitment.budfox.service.ClientService
 import io.chudzik.recruitment.budfox.service.LoanService
 import io.chudzik.recruitment.budfox.service.RiskAssessmentService
 import io.chudzik.recruitment.budfox.utils.PreExistingEntities
@@ -20,7 +21,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.mock.web.MockHttpServletResponse
+import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
+import spock.lang.Subject
 
 import groovy.json.JsonSlurper
 import javax.servlet.http.HttpServletRequest
@@ -43,9 +46,11 @@ import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.VALID_LOAN
 import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.YESTERDAY
 
 // TODO-ach: replace all .andExpect(jsonPath("conditions.interest").value(...) with custom assertions
+@ContextConfiguration(classes = ClientExceptionHandler)
 @AutoConfigureMockMvc(print = LOG_DEBUG)
 @SpringBootTest(classes = BudfoxApplication, webEnvironment = MOCK)
 // XXX-ach: redo as @WebMvcTest(controllers = LoansController)
+@Subject(LoansController)
 class LoansControllerITSpec extends BaseClockFixedITSpec {
 
     @SpringBean ActivityService activityServiceMock = Mock()
@@ -95,10 +100,9 @@ class LoansControllerITSpec extends BaseClockFixedITSpec {
                     .maturityDate(MONTH_LATER)
                     .term(THREE_WEEKS_PERIOD)
                     .build()
-
-            clientServiceMock.validateClientExistence(nonExistingClientId)
+        and:
+            clientServiceMock.validateClientExistence(_ as Long)
                     >> { throw ClientException.notFound(nonExistingClientId) }
-
         when:
             MockHttpServletResponse response = mockMvc.perform(
                             post("/loans")
@@ -107,7 +111,6 @@ class LoansControllerITSpec extends BaseClockFixedITSpec {
                     )
                     //.andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
                     .andReturn().response
-
         then:
             response.status == NOT_FOUND.value()
             response.contentType == APPLICATION_JSON_VALUE

@@ -1,5 +1,7 @@
 package io.chudzik.recruitment.budfox.model
 
+import io.chudzik.recruitment.budfox.clients.Client
+
 import com.fasterxml.jackson.databind.ObjectMapper
 import groovy.json.JsonSlurper
 import io.chudzik.recruitment.budfox.BaseUnitSpec

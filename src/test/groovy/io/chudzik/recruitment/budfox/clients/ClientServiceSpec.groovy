@@ -1,8 +1,7 @@
-package io.chudzik.recruitment.budfox.service
+package io.chudzik.recruitment.budfox.clients
 
 import io.chudzik.recruitment.budfox.BaseUnitSpec
-import io.chudzik.recruitment.budfox.exception.ClientException.ClientNotFoundException
-import io.chudzik.recruitment.budfox.repository.ClientRepository
+import io.chudzik.recruitment.budfox.clients.dto.ClientException.ClientNotFoundException
 
 import spock.lang.Subject
 

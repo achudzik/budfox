@@ -1,7 +1,7 @@
 package io.chudzik.recruitment.budfox.utils;
 
 import io.chudzik.recruitment.budfox.model.Activity;
-import io.chudzik.recruitment.budfox.model.Client;
+import io.chudzik.recruitment.budfox.clients.Client;
 import io.chudzik.recruitment.budfox.model.Loan;
 import io.chudzik.recruitment.budfox.model.LoanApplication;
 import io.chudzik.recruitment.budfox.model.LoanConditions;

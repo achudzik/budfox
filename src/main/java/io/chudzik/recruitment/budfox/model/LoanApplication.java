@@ -1,5 +1,7 @@
 package io.chudzik.recruitment.budfox.model;
 
+import io.chudzik.recruitment.budfox.clients.Client;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonIgnore;

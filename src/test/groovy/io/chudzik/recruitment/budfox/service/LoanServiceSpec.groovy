@@ -1,10 +1,10 @@
 package io.chudzik.recruitment.budfox.service
 
 import io.chudzik.recruitment.budfox.BaseUnitSpec
+import io.chudzik.recruitment.budfox.clients.ClientService
 import io.chudzik.recruitment.budfox.exception.LoanNotFoundException
 import io.chudzik.recruitment.budfox.model.Loan
 import io.chudzik.recruitment.budfox.model.LoanApplication
-import io.chudzik.recruitment.budfox.repository.ClientRepository
 import io.chudzik.recruitment.budfox.repository.LoanRepository
 
 import spock.lang.Subject
@@ -20,10 +20,10 @@ import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.validId
 class LoanServiceSpec extends BaseUnitSpec {
 
     LoanRepository loanRepoMock = Mock()
-    ClientRepository clientRepoMock = Mock()
+    ClientService clientServiceMock = Mock()
     LoanConditionsService conditionsServiceMock = Mock()
 
-    @Subject def sut = new LoanService(clientRepoMock, loanRepoMock, conditionsServiceMock)
+    @Subject def sut = new LoanService(clientServiceMock, loanRepoMock, conditionsServiceMock)
 
 
     def "should operate on client entity fetched from db"() {
@@ -32,7 +32,7 @@ class LoanServiceSpec extends BaseUnitSpec {
         when:
             sut.issueALoan(loanApplication())
         then:
-            1 * clientRepoMock.getOne(loanApplication().getClientId()) >> client()
+            1 * clientServiceMock.getOne(loanApplication().getClientId()) >> client()
     }
 
 
@@ -40,7 +40,7 @@ class LoanServiceSpec extends BaseUnitSpec {
         given:
             conditionsServiceMock.calculateInitialLoanConditions(_ as LoanApplication) >> basicConditions()
         and:
-            clientRepoMock.getOne(validId()) >> client()
+            clientServiceMock.getOne(validId()) >> client()
         when:
             sut.issueALoan(loanApplication())
         then:

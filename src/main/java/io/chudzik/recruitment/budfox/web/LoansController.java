@@ -1,13 +1,13 @@
 package io.chudzik.recruitment.budfox.web;
 
-import io.chudzik.recruitment.budfox.exception.ClientException.ClientNotFoundException;
+import io.chudzik.recruitment.budfox.clients.ClientService;
+import io.chudzik.recruitment.budfox.clients.dto.ClientException.ClientNotFoundException;
 import io.chudzik.recruitment.budfox.exception.LoanNotFoundException;
 import io.chudzik.recruitment.budfox.exception.RiskyLoanApplicationException;
 import io.chudzik.recruitment.budfox.model.ErrorMessage;
 import io.chudzik.recruitment.budfox.model.Loan;
 import io.chudzik.recruitment.budfox.model.LoanApplication;
 import io.chudzik.recruitment.budfox.service.ActivityService;
-import io.chudzik.recruitment.budfox.service.ClientService;
 import io.chudzik.recruitment.budfox.service.LoanService;
 import io.chudzik.recruitment.budfox.service.RiskAssessmentService;
 
@@ -52,8 +52,7 @@ public class LoansController {
         clientService.validateClientExistence(application.getClientId());
         activityService.logLoanApplication(application.getClientId(), request);
         riskAssessmentService.validateApplicationSafety(application);
-        Loan loan = loanService.issueALoan(application);
-        return loan;
+        return loanService.issueALoan(application);
     }
 
     @ResponseStatus(OK)
@@ -61,8 +60,7 @@ public class LoansController {
     public Loan extendLoan(@PathVariable("id") Long loanId, HttpServletRequest request)
             throws LoanNotFoundException {
         activityService.logLoanExtension(loanId, request);
-        Loan loan = loanService.extendLoan(loanId);
-        return loan;
+        return loanService.extendLoan(loanId);
     }
 
 

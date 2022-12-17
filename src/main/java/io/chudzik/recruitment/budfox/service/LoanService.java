@@ -1,11 +1,11 @@
 package io.chudzik.recruitment.budfox.service;
 
+import io.chudzik.recruitment.budfox.clients.Client;
+import io.chudzik.recruitment.budfox.clients.ClientService;
 import io.chudzik.recruitment.budfox.exception.LoanNotFoundException;
-import io.chudzik.recruitment.budfox.model.Client;
 import io.chudzik.recruitment.budfox.model.Loan;
 import io.chudzik.recruitment.budfox.model.LoanApplication;
 import io.chudzik.recruitment.budfox.model.LoanConditions;
-import io.chudzik.recruitment.budfox.repository.ClientRepository;
 import io.chudzik.recruitment.budfox.repository.LoanRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -17,13 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class LoanService {
 
-    private final ClientRepository clientRepository;
+    private final ClientService clientService;
     private final LoanRepository loanRepository;
     private final LoanConditionsService conditionsService;
 
 
     public Loan issueALoan(LoanApplication application) {
-        Client client = clientRepository.getOne(application.getClientId());
+        Client client = clientService.getOne(application.getClientId());
         LoanConditions conditions = conditionsService.calculateInitialLoanConditions(application);
         Loan loan = Loan.builder().conditions(conditions).build();
         client.addLoan(loan);

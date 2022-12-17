@@ -1,6 +1,7 @@
-package io.chudzik.recruitment.budfox.exception;
+package io.chudzik.recruitment.budfox.clients.dto;
 
-import io.chudzik.recruitment.budfox.model.Client;
+import io.chudzik.recruitment.budfox.clients.Client;
+import io.chudzik.recruitment.budfox.exception.BusinessException;
 
 import lombok.Getter;
 

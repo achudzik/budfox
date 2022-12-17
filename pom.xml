@@ -396,6 +396,11 @@
                 <version>${maven-surefire-plugin.version}</version>
                 <dependencies>
                     <dependency>
+                        <groupId>me.fabriciorby</groupId>
+                        <artifactId>maven-surefire-junit5-tree-reporter</artifactId>
+                        <version>1.1.0</version>
+                    </dependency>
+                    <dependency>
                         <groupId>org.apache.maven.surefire</groupId>
                         <artifactId>surefire-junit-platform</artifactId>
                         <version>${maven-surefire-plugin.version}</version>
@@ -412,14 +417,12 @@
                         <exclude>**/*ITSpec.class</exclude>
                         <exclude>**/*ITest.class</exclude>
                     </excludes>
-                    <statelessTestsetReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5Xml30StatelessReporter">
-                        <disable>false</disable>
-                        <version>3.0</version>
-                        <usePhrasedFileName>false</usePhrasedFileName>
-                        <usePhrasedTestSuiteClassName>true</usePhrasedTestSuiteClassName>
-                        <usePhrasedTestCaseClassName>true</usePhrasedTestCaseClassName>
-                        <usePhrasedTestCaseMethodName>true</usePhrasedTestCaseMethodName>
-                    </statelessTestsetReporter>
+                    <!-- tests report tree view -->
+                    <consoleOutputReporter><disable>true</disable></consoleOutputReporter>
+                    <reportFormat>plain</reportFormat>
+                    <statelessTestsetInfoReporter
+                            implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5StatelessTestsetInfoTreeReporter">
+                    </statelessTestsetInfoReporter>
                 </configuration>
             </plugin>
 
@@ -429,6 +432,12 @@
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>${maven-failsafe-plugin.version}</version>
                 <dependencies>
+                    <dependency>
+                        <groupId>me.fabriciorby</groupId>
+                        <artifactId>maven-surefire-junit5-tree-reporter</artifactId>
+                        <version>1.1.0</version>
+                    </dependency>
+                    <!-- spock src/test-integration/groovy -->
                     <dependency>
                         <groupId>org.apache.maven.surefire</groupId>
                         <artifactId>surefire-junit-platform</artifactId>
@@ -457,6 +466,12 @@
                         <include>**/*IT.class</include>
                         <include>**/*ITest.class</include>
                     </includes>
+                    <!-- ... tests report tree view ........................ -->
+                    <consoleOutputReporter><disable>true</disable></consoleOutputReporter>
+                    <reportFormat>plain</reportFormat>
+                    <statelessTestsetInfoReporter
+                            implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5StatelessTestsetInfoTreeReporter">
+                    </statelessTestsetInfoReporter>
                 </configuration>
             </plugin>
 

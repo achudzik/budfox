@@ -1,8 +1,5 @@
 package io.chudzik.recruitment.budfox.utils
 
-import groovy.transform.CompileStatic
-import groovy.transform.TypeChecked
-import groovy.util.logging.Slf4j
 import org.dbunit.DatabaseUnitException
 import org.dbunit.database.DatabaseConnection
 import org.dbunit.database.IDatabaseConnection
@@ -11,6 +8,9 @@ import org.dbunit.dataset.xml.FlatXmlDataSet
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
+import groovy.transform.CompileStatic
+import groovy.transform.TypeChecked
+import groovy.util.logging.Slf4j
 import javax.sql.DataSource
 import java.sql.SQLException
 

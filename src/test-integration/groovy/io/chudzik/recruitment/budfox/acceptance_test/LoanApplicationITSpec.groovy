@@ -7,7 +7,6 @@ import io.chudzik.recruitment.budfox.model.LoanApplication
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.springtestdbunit.TransactionDbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
-import groovy.json.JsonSlurper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -15,6 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.TestExecutionListeners
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.MvcResult
+
+import groovy.json.JsonSlurper
 
 import static org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrint.LOG_DEBUG
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK

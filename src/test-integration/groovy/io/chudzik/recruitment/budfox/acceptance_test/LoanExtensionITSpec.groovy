@@ -10,23 +10,20 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.SpringBootDependencyInjectionTestExecutionListener
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.mock.web.MockHttpServletResponse
 import org.springframework.test.context.TestExecutionListeners
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.ResultActions
+
+import groovy.json.JsonSlurper
 
 import static org.springframework.boot.test.autoconfigure.web.servlet.MockMvcPrint.LOG_DEBUG
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK
-import static org.springframework.http.MediaType.APPLICATION_JSON
+import static org.springframework.http.HttpStatus.OK
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.THREE_PLN
 import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.VALID_CLIENT
 import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.validId
-import static io.chudzik.recruitment.budfox.utils.matchers.JsonPathMatchers.hasIdAs
-import static io.chudzik.recruitment.budfox.utils.matchers.JsonPathMatchers.isEqualTo
 
 @DatabaseSetup("loanExtensionData.xml")
 @TestExecutionListeners([
@@ -49,32 +46,35 @@ class LoanExtensionITSpec extends BaseClockFixedITSpec {
             BigDecimal interestAfterSecondExtension = interestAfterFirstExtension * businessConf.interestMultiplier()
 
         when:
-            ResultActions result = mockMvc.perform(
+            MockHttpServletResponse extendLoanResponse = mockMvc.perform(
                             put("/loans/{id}?extend=true", validId())
                     )
                     //.andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
-
+                    .andReturn().response
         then:
-            result
-                    .andExpect(status().isOk())
-                    .andExpect(content().contentType(APPLICATION_JSON))
-                    .andExpect(jsonPath("id").value(validId()))
-                    .andExpect(jsonPath("client", hasIdAs(VALID_CLIENT)))
-            // current conditions
-                    .andExpect(jsonPath("conditions.amount", isEqualTo(THREE_PLN)))
-                    .andExpect(jsonPath("conditions.interest", isEqualTo(interestAfterSecondExtension)))
-//                .andExpect(jsonPath("conditions.maturityDate", isEqualTo(MONTH_AND_A_TWO_WEEKS_LATER)))
-            // previous conditions
-                    .andExpect(jsonPath("previousConditions").isArray())
-            // basic conditions
-                    .andExpect(jsonPath("previousConditions[1].amount", isEqualTo(THREE_PLN)))
-                    .andExpect(jsonPath("previousConditions[1].interest", isEqualTo(interestAfterFirstExtension)))
-//                .andExpect(jsonPath("previousConditions[1].maturityDate", isEqualTo(MONTH_AND_A_WEEK_LATER)))
-            // conditions after first extension
-                    .andExpect(jsonPath("previousConditions[0].amount", isEqualTo(THREE_PLN)))
-                    .andExpect(jsonPath("previousConditions[0].interest", isEqualTo(businessConf.basicInterest())))
-//                .andExpect(jsonPath("previousConditions[0].maturityDate", isEqualTo(MONTH_LATER)))
-
+            extendLoanResponse.status == OK.value()
+            extendLoanResponse.contentType == APPLICATION_JSON_VALUE
+            verifyAll (new JsonSlurper().parseText(extendLoanResponse.contentAsString)) {
+                it.id == validId()
+                it.client == VALID_CLIENT.id
+                // ... current conditions
+                it.conditions.amount == 'PLN 3.00'
+                it.conditions.interest == interestAfterSecondExtension
+                // FIXME-ach: compare actual dates
+                //it.conditions.maturityDate == MONTH_AND_A_TWO_WEEKS_LATER
+                // ... previous conditions
+                it.previousConditions instanceof List
+                // ...... conditions after first extension
+                it.previousConditions[0].amount == 'PLN 3.00'
+                // ......... interest == interestAfterFirstExtension * businessConf.interestMultiplier()
+                it.previousConditions[0].interest == BigDecimal.valueOf(15)
+                //it.previousConditions[0].maturityDate == MONTH_AND_A_WEEK_LATER
+                // ....... basic conditions
+                it.previousConditions[1].amount == 'PLN 3.00'
+                // ......... interest == businessConf.basicInterest() * businessConf.interestMultiplier()
+                it.previousConditions[1].interest == BigDecimal.valueOf(10)
+                //it.previousConditions[1].maturityDate == MONTH_LATER
+            }
     }
 
 }

@@ -2,7 +2,7 @@ package io.chudzik.recruitment.budfox.activities;
 
 import io.chudzik.recruitment.budfox.clients.Client;
 import io.chudzik.recruitment.budfox.clients.ClientService;
-import io.chudzik.recruitment.budfox.model.LoanApplication;
+import io.chudzik.recruitment.budfox.loans.LoanApplication;
 
 import lombok.RequiredArgsConstructor;
 import org.joda.time.DateTime;

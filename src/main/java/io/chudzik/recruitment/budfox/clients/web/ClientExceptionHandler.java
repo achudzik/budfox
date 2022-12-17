@@ -3,8 +3,8 @@ package io.chudzik.recruitment.budfox.clients.web;
 import io.chudzik.recruitment.budfox.clients.dto.ClientException.ClientAlreadyExistsException;
 import io.chudzik.recruitment.budfox.clients.dto.ClientException.ClientNotFoundException;
 import io.chudzik.recruitment.budfox.configuration.GlobalExceptionHandler;
+import io.chudzik.recruitment.budfox.loans.web.LoansController;
 import io.chudzik.recruitment.budfox.model.ErrorMessage;
-import io.chudzik.recruitment.budfox.web.LoansController;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Import;

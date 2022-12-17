@@ -3,7 +3,7 @@ package io.chudzik.recruitment.budfox.clients.web;
 import io.chudzik.recruitment.budfox.clients.Client;
 import io.chudzik.recruitment.budfox.clients.ClientService;
 import io.chudzik.recruitment.budfox.clients.dto.ClientException;
-import io.chudzik.recruitment.budfox.model.Loan;
+import io.chudzik.recruitment.budfox.loans.Loan;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

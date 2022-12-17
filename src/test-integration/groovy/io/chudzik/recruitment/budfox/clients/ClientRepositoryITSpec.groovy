@@ -2,7 +2,7 @@ package io.chudzik.recruitment.budfox.clients
 
 import io.chudzik.recruitment.budfox.BaseClockFixedITSpec
 import io.chudzik.recruitment.budfox.BudfoxApplication
-import io.chudzik.recruitment.budfox.model.Loan
+import io.chudzik.recruitment.budfox.loans.Loan
 
 import com.github.springtestdbunit.TransactionDbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup

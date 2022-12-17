@@ -3,9 +3,9 @@ package io.chudzik.recruitment.budfox.utils;
 import io.chudzik.recruitment.budfox.activities.Activity;
 import io.chudzik.recruitment.budfox.activities.ActivityType;
 import io.chudzik.recruitment.budfox.clients.Client;
-import io.chudzik.recruitment.budfox.model.Loan;
-import io.chudzik.recruitment.budfox.model.LoanApplication;
-import io.chudzik.recruitment.budfox.model.LoanConditions;
+import io.chudzik.recruitment.budfox.loans.Loan;
+import io.chudzik.recruitment.budfox.loans.LoanApplication;
+import io.chudzik.recruitment.budfox.loans.LoanConditions;
 
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;

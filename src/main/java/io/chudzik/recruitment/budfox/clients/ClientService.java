@@ -2,7 +2,7 @@ package io.chudzik.recruitment.budfox.clients;
 
 import io.chudzik.recruitment.budfox.clients.dto.ClientException;
 import io.chudzik.recruitment.budfox.clients.dto.ClientException.ClientNotFoundException;
-import io.chudzik.recruitment.budfox.model.Loan;
+import io.chudzik.recruitment.budfox.loans.Loan;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.AbstractPersistable;

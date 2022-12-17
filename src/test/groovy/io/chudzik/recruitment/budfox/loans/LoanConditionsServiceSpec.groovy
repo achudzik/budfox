@@ -4,10 +4,10 @@ import io.chudzik.recruitment.budfox.BaseUnitSpec
 
 import spock.lang.Subject
 
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.EXTENSION_PERIOD
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.basicInterest
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.interestMultiplier
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.loan
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.EXTENSION_PERIOD
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.basicInterest
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.interestMultiplier
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.loan
 
 class LoanConditionsServiceSpec extends BaseUnitSpec {
 

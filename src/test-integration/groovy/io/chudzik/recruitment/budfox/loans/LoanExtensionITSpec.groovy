@@ -2,7 +2,7 @@ package io.chudzik.recruitment.budfox.loans
 
 import io.chudzik.recruitment.budfox.BaseClockFixedITSpec
 import io.chudzik.recruitment.budfox.BudfoxApplication
-import io.chudzik.recruitment.budfox.configuration.BusinessConfiguration
+import io.chudzik.recruitment.budfox.config.BusinessConfiguration
 
 import com.github.springtestdbunit.TransactionDbUnitTestExecutionListener
 import com.github.springtestdbunit.annotation.DatabaseSetup
@@ -22,8 +22,8 @@ import static org.springframework.http.HttpStatus.OK
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.VALID_CLIENT
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.validId
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.VALID_CLIENT
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.validId
 
 @DatabaseSetup("loanExtensionData.xml")
 @TestExecutionListeners([

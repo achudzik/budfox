@@ -10,11 +10,11 @@ import javax.servlet.http.HttpServletRequest
 
 import static io.chudzik.recruitment.budfox.activities.ActivityType.LOAN_APPLICATION
 import static io.chudzik.recruitment.budfox.activities.ActivityType.LOAN_EXTENSION
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.LOCAL_IP_ADDRESS
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.client
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.loanApplicationActivity
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.loanExtensionActivity
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.validId
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.LOCAL_IP_ADDRESS
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.client
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.loanApplicationActivity
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.loanExtensionActivity
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.validId
 
 class ActivityServiceSpec extends BaseUnitSpec {
 

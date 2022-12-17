@@ -1,5 +1,6 @@
-package io.chudzik.recruitment.budfox.configuration
+package io.chudzik.recruitment.budfox.config.tests
 
+import io.chudzik.recruitment.budfox.commons.SingletonFixedClockProvider
 
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.context.annotation.Bean

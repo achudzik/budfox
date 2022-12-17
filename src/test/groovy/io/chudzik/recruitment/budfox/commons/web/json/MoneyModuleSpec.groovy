@@ -1,8 +1,8 @@
-package io.chudzik.recruitment.budfox.support.json
+package io.chudzik.recruitment.budfox.commons.web.json
 
 import io.chudzik.recruitment.budfox.BaseUnitSpec
 import io.chudzik.recruitment.budfox.commons.web.json.MoneyModule
-import io.chudzik.recruitment.budfox.configuration.WebLayerConfiguration.JsonMappingConfiguration
+import io.chudzik.recruitment.budfox.config.WebLayerConfiguration.JsonMappingConfiguration
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.joda.money.CurrencyUnit

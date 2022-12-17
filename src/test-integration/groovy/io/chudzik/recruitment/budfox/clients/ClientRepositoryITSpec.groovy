@@ -16,7 +16,7 @@ import javax.persistence.EntityManager
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.NONE
 
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.CLIENT_WITH_LOANS
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.CLIENT_WITH_LOANS
 
 @DatabaseSetup("clientWithLoansData.xml")
 @TestExecutionListeners([

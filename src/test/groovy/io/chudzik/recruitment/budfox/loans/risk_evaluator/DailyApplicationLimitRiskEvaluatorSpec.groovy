@@ -11,7 +11,7 @@ import spock.lang.Subject
 
 import javax.servlet.http.HttpServletRequest
 
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.VALID_LOAN_APPLICATION
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.VALID_LOAN_APPLICATION
 
 @Rollup
 class DailyApplicationLimitRiskEvaluatorSpec extends BaseUnitSpec {

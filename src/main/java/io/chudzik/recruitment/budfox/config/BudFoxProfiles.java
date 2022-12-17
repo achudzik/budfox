@@ -1,4 +1,4 @@
-package io.chudzik.recruitment.budfox.configuration;
+package io.chudzik.recruitment.budfox.config;
 
 public interface BudFoxProfiles {
 

@@ -5,8 +5,8 @@ import io.chudzik.recruitment.budfox.clients.dto.ClientException.ClientNotFoundE
 
 import spock.lang.Subject
 
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.VALID_CLIENT
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.validId
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.VALID_CLIENT
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.validId
 
 class ClientServiceSpec extends BaseUnitSpec {
 

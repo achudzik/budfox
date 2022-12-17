@@ -29,9 +29,9 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.CLIENT_WITH_LOANS
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.VALID_PESEL
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.validId
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.CLIENT_WITH_LOANS
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.VALID_PESEL
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.validId
 
 @AutoConfigureMockMvc(print = LOG_DEBUG)
 @SpringBootTest(classes = BudfoxApplication, webEnvironment = MOCK)

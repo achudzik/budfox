@@ -6,13 +6,13 @@ import io.chudzik.recruitment.budfox.loans.dto.LoanNotFoundException
 
 import spock.lang.Subject
 
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.basicConditions
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.client
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.conditionsAfterFirstExtension
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.invalidId
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.loan
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.loanApplication
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.validId
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.basicConditions
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.client
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.conditionsAfterFirstExtension
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.invalidId
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.loan
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.loanApplication
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.validId
 
 class LoanServiceSpec extends BaseUnitSpec {
 

@@ -1,7 +1,7 @@
 package io.chudzik.recruitment.budfox.utils;
 
-import io.chudzik.recruitment.budfox.configuration.BudFoxProfiles;
-import io.chudzik.recruitment.budfox.configuration.SingletonFixedClockProvider;
+import io.chudzik.recruitment.budfox.commons.SingletonFixedClockProvider;
+import io.chudzik.recruitment.budfox.config.BudFoxProfiles;
 
 public interface BudFoxTestProfiles extends BudFoxProfiles {
 

@@ -1,4 +1,4 @@
-package io.chudzik.recruitment.budfox.utils;
+package io.chudzik.recruitment.budfox.commons.tests;
 
 import io.chudzik.recruitment.budfox.activities.Activity;
 import io.chudzik.recruitment.budfox.activities.ActivityType;

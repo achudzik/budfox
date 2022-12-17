@@ -2,16 +2,16 @@ package io.chudzik.recruitment.budfox.loans
 
 import io.chudzik.recruitment.budfox.BaseUnitSpec
 import io.chudzik.recruitment.budfox.clients.Client
-import io.chudzik.recruitment.budfox.configuration.WebLayerConfiguration.JsonMappingConfiguration
+import io.chudzik.recruitment.budfox.config.WebLayerConfiguration.JsonMappingConfiguration
 
 import com.fasterxml.jackson.databind.ObjectMapper
 
 import groovy.json.JsonSlurper
 
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.THREE_PLN
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.THREE_WEEKS_PERIOD
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.VALID_PESEL
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.validId
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.THREE_PLN
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.THREE_WEEKS_PERIOD
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.VALID_PESEL
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.validId
 
 class LoanApplicationSpec extends BaseUnitSpec {
 

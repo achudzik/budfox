@@ -10,8 +10,8 @@ import org.joda.time.LocalTime
 import spock.lang.Rollup
 import spock.lang.Subject
 
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.THREE_PLN
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.VALID_CLIENT
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.THREE_PLN
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.VALID_CLIENT
 
 // TODO-ach: replace LoanApplication.Builder with LoanApplication.TestDataBuilder
 @Rollup

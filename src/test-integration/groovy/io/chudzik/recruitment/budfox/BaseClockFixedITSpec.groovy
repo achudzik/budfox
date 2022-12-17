@@ -1,6 +1,6 @@
 package io.chudzik.recruitment.budfox
 
-import io.chudzik.recruitment.budfox.configuration.SingletonFixedClockProviderTConfig
+import io.chudzik.recruitment.budfox.config.tests.SingletonFixedClockProviderTConfig
 
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.ContextConfiguration

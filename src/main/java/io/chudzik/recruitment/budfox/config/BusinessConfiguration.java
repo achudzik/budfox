@@ -1,4 +1,4 @@
-package io.chudzik.recruitment.budfox.configuration;
+package io.chudzik.recruitment.budfox.config;
 
 import org.joda.money.Money;
 import org.joda.time.LocalTime;

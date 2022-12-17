@@ -8,7 +8,7 @@ import spock.lang.Subject
 
 import java.util.concurrent.atomic.AtomicInteger
 
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.VALID_LOAN_APPLICATION
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.VALID_LOAN_APPLICATION
 
 @Subject(RiskAssessmentService)
 class RiskAssessmentServiceSpec extends BaseUnitSpec {

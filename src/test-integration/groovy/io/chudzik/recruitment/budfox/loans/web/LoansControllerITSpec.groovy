@@ -12,7 +12,7 @@ import io.chudzik.recruitment.budfox.loans.LoanConditions
 import io.chudzik.recruitment.budfox.loans.LoanService
 import io.chudzik.recruitment.budfox.loans.RiskAssessmentService
 import io.chudzik.recruitment.budfox.loans.dto.RiskyLoanApplicationException
-import io.chudzik.recruitment.budfox.utils.PreExistingEntities
+import io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.joda.time.DateTime
@@ -37,13 +37,13 @@ import static org.springframework.http.MediaType.APPLICATION_JSON
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.MONTH_LATER
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.THREE_PLN
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.THREE_WEEKS_PERIOD
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.TODAY
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.VALID_CLIENT
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.VALID_LOAN_APPLICATION
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.YESTERDAY
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.MONTH_LATER
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.THREE_PLN
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.THREE_WEEKS_PERIOD
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.TODAY
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.VALID_CLIENT
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.VALID_LOAN_APPLICATION
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.YESTERDAY
 
 // TODO-ach: replace all .andExpect(jsonPath("conditions.interest").value(...) with custom assertions
 @ContextConfiguration(classes = ClientExceptionHandler)

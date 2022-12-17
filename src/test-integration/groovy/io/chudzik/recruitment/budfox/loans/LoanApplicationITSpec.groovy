@@ -23,10 +23,10 @@ import static org.springframework.http.MediaType.APPLICATION_JSON
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.MONTH_LATER
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.THREE_PLN
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.THREE_WEEKS_PERIOD
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.VALID_CLIENT
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.MONTH_LATER
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.THREE_PLN
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.THREE_WEEKS_PERIOD
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.VALID_CLIENT
 
 @DatabaseSetup("loanData.xml")
 @TestExecutionListeners([

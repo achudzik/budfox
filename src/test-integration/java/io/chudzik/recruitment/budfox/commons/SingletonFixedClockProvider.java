@@ -1,4 +1,4 @@
-package io.chudzik.recruitment.budfox.configuration;
+package io.chudzik.recruitment.budfox.commons;
 
 import org.joda.time.DateTime;
 
@@ -7,8 +7,8 @@ import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneId;
 
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.DEFAULT_ZONE_ID;
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.TODAY;
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.DEFAULT_ZONE_ID;
+import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.TODAY;
 
 /**
  * Workaround for failing tests, helping the project to pass the whole build without major refactoring.

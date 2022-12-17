@@ -1,9 +1,8 @@
-package io.chudzik.recruitment.budfox.risk_evaluator
+package io.chudzik.recruitment.budfox.service.risk_evaluator
 
 import io.chudzik.recruitment.budfox.BaseUnitSpec
 import io.chudzik.recruitment.budfox.exception.RiskyLoanApplicationException
 import io.chudzik.recruitment.budfox.model.LoanApplication
-import io.chudzik.recruitment.budfox.service.risk_evaluator.ApplicationTimeAndAmountRiskEvaluator
 
 import org.joda.money.Money
 import org.joda.time.DateTime

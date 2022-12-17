@@ -7,7 +7,7 @@ import io.chudzik.recruitment.budfox.exception.RiskyLoanApplicationException;
 import io.chudzik.recruitment.budfox.model.ErrorMessage;
 import io.chudzik.recruitment.budfox.model.Loan;
 import io.chudzik.recruitment.budfox.model.LoanApplication;
-import io.chudzik.recruitment.budfox.service.ActivityService;
+import io.chudzik.recruitment.budfox.activities.ActivityService;
 import io.chudzik.recruitment.budfox.service.LoanService;
 import io.chudzik.recruitment.budfox.service.RiskAssessmentService;
 

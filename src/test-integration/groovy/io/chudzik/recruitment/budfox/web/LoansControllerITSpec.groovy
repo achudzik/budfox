@@ -9,7 +9,7 @@ import io.chudzik.recruitment.budfox.exception.RiskyLoanApplicationException
 import io.chudzik.recruitment.budfox.model.Loan
 import io.chudzik.recruitment.budfox.model.LoanApplication
 import io.chudzik.recruitment.budfox.model.LoanConditions
-import io.chudzik.recruitment.budfox.service.ActivityService
+import io.chudzik.recruitment.budfox.activities.ActivityService
 import io.chudzik.recruitment.budfox.service.LoanService
 import io.chudzik.recruitment.budfox.service.RiskAssessmentService
 import io.chudzik.recruitment.budfox.utils.PreExistingEntities

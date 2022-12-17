@@ -1,6 +1,7 @@
 package io.chudzik.recruitment.budfox.utils;
 
-import io.chudzik.recruitment.budfox.model.Activity;
+import io.chudzik.recruitment.budfox.activities.Activity;
+import io.chudzik.recruitment.budfox.activities.ActivityType;
 import io.chudzik.recruitment.budfox.clients.Client;
 import io.chudzik.recruitment.budfox.model.Loan;
 import io.chudzik.recruitment.budfox.model.LoanApplication;
@@ -89,7 +90,7 @@ public class PreExistingEntities {
     public static Activity loanApplicationActivity() {
         return Activity.builder()
                 .client(client())
-                .type(Activity.ActivityType.LOAN_APPLICATION)
+                .type(ActivityType.LOAN_APPLICATION)
                 .ipAddress(LOCAL_IP_ADDRESS)
                 .build();
     }
@@ -97,7 +98,7 @@ public class PreExistingEntities {
     public static Activity loanExtensionActivity() {
         return Activity.builder()
                 .client(client())
-                .type(Activity.ActivityType.LOAN_EXTENSION)
+                .type(ActivityType.LOAN_EXTENSION)
                 .ipAddress(LOCAL_IP_ADDRESS)
                 .build();
     }

@@ -1,17 +1,15 @@
-package io.chudzik.recruitment.budfox.service
+package io.chudzik.recruitment.budfox.activities
 
 import io.chudzik.recruitment.budfox.BaseUnitSpec
 import io.chudzik.recruitment.budfox.clients.ClientService
-import io.chudzik.recruitment.budfox.model.Activity
-import io.chudzik.recruitment.budfox.repository.ActivityRepository
 
 import org.springframework.mock.web.MockHttpServletRequest
 import spock.lang.Subject
 
 import javax.servlet.http.HttpServletRequest
 
-import static io.chudzik.recruitment.budfox.model.Activity.ActivityType.LOAN_APPLICATION
-import static io.chudzik.recruitment.budfox.model.Activity.ActivityType.LOAN_EXTENSION
+import static io.chudzik.recruitment.budfox.activities.ActivityType.LOAN_APPLICATION
+import static io.chudzik.recruitment.budfox.activities.ActivityType.LOAN_EXTENSION
 import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.LOCAL_IP_ADDRESS
 import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.client
 import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.loanApplicationActivity

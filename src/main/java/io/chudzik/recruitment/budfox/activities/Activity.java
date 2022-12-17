@@ -1,4 +1,4 @@
-package io.chudzik.recruitment.budfox.model;
+package io.chudzik.recruitment.budfox.activities;
 
 import io.chudzik.recruitment.budfox.clients.Client;
 
@@ -80,14 +80,6 @@ public class Activity extends AbstractPersistable<Long> {
             activity.type = this.type;
             return activity;
         }
-
-    }
-
-
-    public enum ActivityType {
-
-        LOAN_APPLICATION,
-        LOAN_EXTENSION
 
     }
 

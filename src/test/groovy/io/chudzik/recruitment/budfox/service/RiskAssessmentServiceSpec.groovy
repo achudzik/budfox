@@ -3,15 +3,15 @@ package io.chudzik.recruitment.budfox.service
 import io.chudzik.recruitment.budfox.BaseUnitSpec
 import io.chudzik.recruitment.budfox.exception.RiskyLoanApplicationException
 import io.chudzik.recruitment.budfox.model.LoanApplication
-import io.chudzik.recruitment.budfox.service.impl.RiskAssessmentServiceImpl
 import io.chudzik.recruitment.budfox.service.risk_evaluator.BaseRiskEvaluator
+
 import spock.lang.Subject
 
 import java.util.concurrent.atomic.AtomicInteger
 
 import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.VALID_LOAN_APPLICATION
 
-@Subject([ RiskAssessmentService, RiskAssessmentServiceImpl ])
+@Subject(RiskAssessmentService)
 class RiskAssessmentServiceSpec extends BaseUnitSpec {
 
     def "should go through all evaluators if no exceptions"() {
@@ -21,7 +21,7 @@ class RiskAssessmentServiceSpec extends BaseUnitSpec {
                     new CountingNoOpRiskEvaluator(),
                     new CountingNoOpRiskEvaluator()
             ]
-            def sut = new RiskAssessmentServiceImpl(evaluators)
+            def sut = new RiskAssessmentService(evaluators)
         when:
             sut.validateApplicationSafety(VALID_LOAN_APPLICATION)
         then:
@@ -36,7 +36,7 @@ class RiskAssessmentServiceSpec extends BaseUnitSpec {
                     new CountingExceptionThrowingRiskEvaluator(),
                     new CountingNoOpRiskEvaluator()
             ]
-            def sut = new RiskAssessmentServiceImpl(evaluators)
+            def sut = new RiskAssessmentService(evaluators)
         when:
             sut.validateApplicationSafety(VALID_LOAN_APPLICATION)
         then:

@@ -3,14 +3,17 @@ package io.chudzik.recruitment.budfox.service
 import io.chudzik.recruitment.budfox.BaseUnitSpec
 import io.chudzik.recruitment.budfox.model.Loan
 import io.chudzik.recruitment.budfox.model.LoanConditions
-import io.chudzik.recruitment.budfox.service.impl.LoanConditionsServiceImpl
+
 import spock.lang.Subject
 
-import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.*
+import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.EXTENSION_PERIOD
+import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.basicInterest
+import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.interestMultiplier
+import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.loan
 
 class LoanConditionsServiceSpec extends BaseUnitSpec {
 
-    @Subject LoanConditionsService sut = new LoanConditionsServiceImpl(
+    @Subject def sut = new LoanConditionsService(
             basicInterest(),
             interestMultiplier(),
             EXTENSION_PERIOD

@@ -6,7 +6,6 @@ import io.chudzik.recruitment.budfox.model.Loan
 import io.chudzik.recruitment.budfox.model.LoanApplication
 import io.chudzik.recruitment.budfox.repository.ClientRepository
 import io.chudzik.recruitment.budfox.repository.LoanRepository
-import io.chudzik.recruitment.budfox.service.impl.LoanServiceImpl
 
 import spock.lang.Subject
 
@@ -18,14 +17,13 @@ import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.loan
 import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.loanApplication
 import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.validId
 
-@Subject([ LoanService, LoanServiceImpl ])
 class LoanServiceSpec extends BaseUnitSpec {
 
     LoanRepository loanRepoMock = Mock()
     ClientRepository clientRepoMock = Mock()
     LoanConditionsService conditionsServiceMock = Mock()
 
-    LoanService sut = new LoanServiceImpl(clientRepoMock, loanRepoMock, conditionsServiceMock)
+    @Subject def sut = new LoanService(clientRepoMock, loanRepoMock, conditionsServiceMock)
 
 
     def "should operate on client entity fetched from db"() {

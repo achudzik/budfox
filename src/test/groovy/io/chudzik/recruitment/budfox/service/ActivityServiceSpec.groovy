@@ -4,7 +4,6 @@ import io.chudzik.recruitment.budfox.BaseUnitSpec
 import io.chudzik.recruitment.budfox.model.Activity
 import io.chudzik.recruitment.budfox.repository.ActivityRepository
 import io.chudzik.recruitment.budfox.repository.ClientRepository
-import io.chudzik.recruitment.budfox.service.impl.ActivityServiceImpl
 
 import org.springframework.mock.web.MockHttpServletRequest
 import spock.lang.Subject
@@ -19,7 +18,6 @@ import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.loanApplic
 import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.loanExtensionActivity
 import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.validId
 
-@Subject([ ActivityService, ActivityServiceImpl ])
 class ActivityServiceSpec extends BaseUnitSpec {
 
     ActivityRepository activityRepositoryMock = Mock()
@@ -28,7 +26,7 @@ class ActivityServiceSpec extends BaseUnitSpec {
         it.remoteAddr = LOCAL_IP_ADDRESS
     }
 
-    ActivityService sut = new ActivityServiceImpl(activityRepositoryMock, clientRepositoryMock)
+    @Subject def sut = new ActivityService(activityRepositoryMock, clientRepositoryMock)
 
 
     def "should persist info about applying for a loan"() {

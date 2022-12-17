@@ -28,7 +28,7 @@ public class SingletonFixedClockProvider implements ClockProvider {
 
     public static class FixedClockProvider implements ClockProvider {
 
-        private Clock clock;
+        private final Clock clock;
 
 
         public FixedClockProvider(DateTime dateTime, ZoneId zoneId) {

@@ -12,7 +12,7 @@ class MoneyModuleSpec extends BaseUnitSpec {
     @Subject ObjectMapper sut = JsonMappingConfiguration.objectMapper()
 
 
-    def "should serialize nulls to nulls"() throws Exception {
+    def "should serialize nulls to nulls"() {
         given:
             MoneyWrappingObject nullValuedWrapper = new MoneyWrappingObject()
         when:

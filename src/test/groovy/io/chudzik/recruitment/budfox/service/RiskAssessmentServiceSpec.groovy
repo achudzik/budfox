@@ -14,7 +14,7 @@ import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.VALID_LOAN
 @Subject([ RiskAssessmentService, RiskAssessmentServiceImpl ])
 class RiskAssessmentServiceSpec extends BaseUnitSpec {
 
-    def "shouldGoThroughAllEvaluatorsIfNoExceptions"() {
+    def "should go through all evaluators if no exceptions"() {
         given:
             List<CountingNoOpRiskEvaluator> evaluators = [
                     new CountingNoOpRiskEvaluator(),

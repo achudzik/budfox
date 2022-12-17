@@ -4,15 +4,18 @@ import io.chudzik.recruitment.budfox.BaseUnitSpec
 import io.chudzik.recruitment.budfox.exception.RiskyLoanApplicationException
 import io.chudzik.recruitment.budfox.model.LoanApplication
 import io.chudzik.recruitment.budfox.service.risk_evaluator.ApplicationTimeAndAmountRiskEvaluator
+
 import org.joda.money.Money
 import org.joda.time.DateTime
 import org.joda.time.LocalTime
+import spock.lang.Rollup
 import spock.lang.Subject
 
 import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.THREE_PLN
 import static io.chudzik.recruitment.budfox.utils.PreExistingEntities.VALID_CLIENT
 
 // TODO-ach: replace LoanApplication.Builder with LoanApplication.TestDataBuilder
+@Rollup
 class ApplicationTimeAndAmountRiskEvaluatorSpec extends BaseUnitSpec {
 
     static final Money MAX_AMOUNT = THREE_PLN
@@ -28,7 +31,7 @@ class ApplicationTimeAndAmountRiskEvaluatorSpec extends BaseUnitSpec {
     @Subject def sut = new ApplicationTimeAndAmountRiskEvaluator(MAX_AMOUNT, RISKY_PERIOD_START, RISKY_PERIOD_END)
 
 
-    def "should pass application with amount below limit"(Money amount, DateTime date) {
+    def "should pass application with amount [#amount] below limit"(Money amount, DateTime date) {
         given:
             LoanApplication application = LoanApplication.builder()
                 .client(VALID_CLIENT)

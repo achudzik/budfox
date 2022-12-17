@@ -93,9 +93,10 @@ class ClientsControllerITSpec extends BaseITSpec {
             verifyAll (new JsonSlurper().parseText(clientLoansResponse.contentAsString)) {
                 it instanceof List
                 it[0].id != null
-                it[0].id != id[1].id
                 it[1].id != null
-                it[0].client == it[1].client == clientId
+                it[0].id != it[1].id
+                it[0].client == it[1].client
+                // TODO-ach: validate other items' values
             }
     }
 

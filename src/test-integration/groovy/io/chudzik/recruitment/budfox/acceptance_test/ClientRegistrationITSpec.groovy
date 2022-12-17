@@ -39,7 +39,7 @@ class ClientRegistrationITSpec extends BaseITSpec {
         given:
             Client client = Client.builder().identificationNumber("68092005286").build()
         when:
-            MockHttpServletResponse response = mockMvc.perform(
+            MockHttpServletResponse registeredClientResponse = mockMvc.perform(
                         post("/clients")
                             .content(objectMapper.writeValueAsBytes(client))
                             .contentType(APPLICATION_JSON)
@@ -47,9 +47,9 @@ class ClientRegistrationITSpec extends BaseITSpec {
                     //.andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
                     .andReturn().response
         then:
-            response.status == CREATED.value()
-            response.contentType == APPLICATION_JSON_VALUE
-            verifyAll (new JsonSlurper().parseText(extendLoanResponse.contentAsString) as Client) {
+            registeredClientResponse.status == CREATED.value()
+            registeredClientResponse.contentType == APPLICATION_JSON_VALUE
+            verifyAll (new JsonSlurper().parseText(registeredClientResponse.contentAsString) as Client) {
                 it.id != null
                 it.identificationNumber == client.identificationNumber
             }

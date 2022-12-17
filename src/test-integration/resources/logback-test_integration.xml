@@ -22,6 +22,7 @@
 
     <logger name="org.springframework" level="${log.level:-WARN}"/>
     <logger name="org.hibernate.tool.hbm2ddl.SchemaExport" level="OFF"/>
+    <logger name="io.chudzik.recruitment.budfox.configuration.EndpoitntsListener" level="${log.level:-WARN}"/>
 
     <root level="${log.level:-WARN}">
         <appender-ref ref="CONSOLE" />

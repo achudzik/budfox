@@ -1,6 +1,6 @@
 package io.chudzik.recruitment.budfox.loans.risk_evaluator;
 
-import io.chudzik.recruitment.budfox.activities.ActivityService;
+import io.chudzik.recruitment.budfox.activities.ActivitiesFacade;
 import io.chudzik.recruitment.budfox.loans.LoanApplication;
 import io.chudzik.recruitment.budfox.loans.dto.RiskyLoanApplicationException;
 
@@ -17,17 +17,17 @@ import javax.servlet.http.HttpServletRequest;
 @Component
 public class DailyApplicationLimitRiskEvaluator extends BaseRiskEvaluator {
 
-    private final ActivityService activityService;
+    private final ActivitiesFacade activitiesFacade;
     private final String ipAddress;
     private final int applicationLimit;
 
 
     @Autowired
     public DailyApplicationLimitRiskEvaluator(
-            ActivityService activityService,
+            ActivitiesFacade activitiesFacade,
             HttpServletRequest request,
             @Qualifier("maxApplicationLimit") int applicationLimit) {
-        this.activityService = activityService;
+        this.activitiesFacade = activitiesFacade;
         this.ipAddress = request.getRemoteAddr();
         this.applicationLimit = applicationLimit;
     }
@@ -36,7 +36,7 @@ public class DailyApplicationLimitRiskEvaluator extends BaseRiskEvaluator {
     @Transactional(readOnly = true)
     @Override
     protected void doEvaluation(LoanApplication application) throws RiskyLoanApplicationException {
-        int applicationsFromIpInLast24Hours = activityService
+        long applicationsFromIpInLast24Hours = activitiesFacade
                 .countLoanApplicationsByIpAddressAndEventTimeAfter(application, ipAddress);
         if (applicationsFromIpInLast24Hours >= applicationLimit) {
             throw new RiskyLoanApplicationException("Max applications limit per day reached."); 

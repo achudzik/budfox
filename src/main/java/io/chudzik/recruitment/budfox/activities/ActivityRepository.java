@@ -1,11 +1,13 @@
 package io.chudzik.recruitment.budfox.activities;
 
 import org.joda.time.DateTime;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.Repository;
 
-interface ActivityRepository extends JpaRepository<Activity, Long> {
+interface ActivityRepository extends Repository<Activity, Long> {
 
+    Activity save(Activity activity);
+    long count();
     // TODO-ach: replace with countLoanApplicationsBy...
-    int countByTypeAndIpAddressAndEventTimeAfter(ActivityType type, String ipAddress, DateTime eventTime);
+    long countByTypeAndIpAddressAndEventTimeAfter(ActivityType type, String ipAddress, DateTime eventTime);
 
 }

@@ -1,6 +1,6 @@
 package io.chudzik.recruitment.budfox.loans.web;
 
-import io.chudzik.recruitment.budfox.activities.ActivityService;
+import io.chudzik.recruitment.budfox.activities.ActivitiesFacade;
 import io.chudzik.recruitment.budfox.clients.ClientService;
 import io.chudzik.recruitment.budfox.clients.dto.ClientException.ClientNotFoundException;
 import io.chudzik.recruitment.budfox.commons.web.ErrorMessage;
@@ -39,7 +39,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequiredArgsConstructor
 public class LoansController {
 
-    private final ActivityService activityService;
+    private final ActivitiesFacade activitiesFacade;
     private final ClientService clientService;
     private final LoanService loanService;
     private final RiskAssessmentService riskAssessmentService;
@@ -50,7 +50,7 @@ public class LoansController {
     public Loan issueLoan(@RequestBody @Valid LoanApplication application, HttpServletRequest request)
             throws ClientNotFoundException, RiskyLoanApplicationException {
         clientService.validateClientExistence(application.getClientId());
-        activityService.logLoanApplication(application.getClientId(), request);
+        activitiesFacade.logLoanApplication(application.getClientId(), request);
         riskAssessmentService.validateApplicationSafety(application);
         return loanService.issueALoan(application);
     }
@@ -59,7 +59,7 @@ public class LoansController {
     @PutMapping(value = "/{id}", params = "extend=true")
     public Loan extendLoan(@PathVariable("id") Long loanId, HttpServletRequest request)
             throws LoanNotFoundException {
-        activityService.logLoanExtension(loanId, request);
+        activitiesFacade.logLoanExtension(loanId, request);
         return loanService.extendLoan(loanId);
     }
 

@@ -7,6 +7,7 @@ public interface BudFoxProfiles {
     String TEST = "test";
     String DEMO = "demo";
     String PROD = "prod";
+    String NOT_ON_PROD = "!" + PROD;
 
 
 }

@@ -1,12 +1,12 @@
 package io.chudzik.recruitment.budfox.activities;
 
+import io.chudzik.recruitment.budfox.activities.dto.LogActivityRequest;
 import io.chudzik.recruitment.budfox.clients.Client;
 import io.chudzik.recruitment.budfox.clients.ClientService;
 import io.chudzik.recruitment.budfox.loans.LoanApplication;
 
 import lombok.RequiredArgsConstructor;
 import org.joda.time.DateTime;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,9 +15,8 @@ import static io.chudzik.recruitment.budfox.activities.ActivityType.LOAN_APPLICA
 import static io.chudzik.recruitment.budfox.activities.ActivityType.LOAN_EXTENSION;
 
 @Transactional
-@Service
 @RequiredArgsConstructor
-public class ActivityService {
+class ActivityService {
 
     private final ActivityRepository activityRepository;
     private final ClientService clientService;
@@ -47,11 +46,20 @@ public class ActivityService {
         activityRepository.save(activity);
     }
 
-    public int countLoanApplicationsByIpAddressAndEventTimeAfter(LoanApplication application, String ipAddress) {
-        // XXX-ach: lenght of given period can also be a injectable parameter
+    public long countLoanApplicationsByIpAddressAndEventTimeAfter(LoanApplication application, String ipAddress) {
+        // XXX-ach: length of given period can also be an injectable parameter
         DateTime twentyFourHoursEarlier = application.getApplicationDate().minusDays(1);
         return activityRepository
                 .countByTypeAndIpAddressAndEventTimeAfter(LOAN_APPLICATION, ipAddress, twentyFourHoursEarlier);
+    }
+
+    public void logActivity(LogActivityRequest request) {
+        Activity newActivity = ActivityCreator.from(request);
+        activityRepository.save(newActivity);
+    }
+
+    public long count() {
+        return activityRepository.count();
     }
 
 }

@@ -107,6 +107,12 @@
             <artifactId>jackson-datatype-joda-money</artifactId>
         </dependency>
 
+        <!-- ... Misc ...................................................... -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
         <!-- ... Persistence ............................................... -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -1,7 +1,7 @@
 package io.chudzik.recruitment.budfox.loans.risk_evaluator
 
 import io.chudzik.recruitment.budfox.BaseUnitSpec
-import io.chudzik.recruitment.budfox.activities.ActivityService
+import io.chudzik.recruitment.budfox.activities.ActivitiesFacade
 import io.chudzik.recruitment.budfox.loans.LoanApplication
 import io.chudzik.recruitment.budfox.loans.dto.RiskyLoanApplicationException
 
@@ -19,19 +19,19 @@ class DailyApplicationLimitRiskEvaluatorSpec extends BaseUnitSpec {
     static final int DAILY_APPLICATION_LIMIT = 4
     static final String IP_ADDRESS = "127.0.0.1"
 
-    ActivityService activityServiceMock = Mock()
+    ActivitiesFacade activitiesFacadeMock = Mock()
     HttpServletRequest requestMock = new MockHttpServletRequest().tap {
         it.remoteAddr = IP_ADDRESS
     }
 
-    @Subject def sut = new DailyApplicationLimitRiskEvaluator(activityServiceMock, requestMock, DAILY_APPLICATION_LIMIT)
+    @Subject def sut = new DailyApplicationLimitRiskEvaluator(activitiesFacadeMock, requestMock, DAILY_APPLICATION_LIMIT)
 
 
     def "should pass last applications matching application limit"() {
         when:
             sut.evaluate(VALID_LOAN_APPLICATION)
         then:
-            1 * activityServiceMock.countLoanApplicationsByIpAddressAndEventTimeAfter(_ as LoanApplication, IP_ADDRESS)
+            1 * activitiesFacadeMock.countLoanApplicationsByIpAddressAndEventTimeAfter(_ as LoanApplication, IP_ADDRESS)
                     >> loanApplicationsCount
         and:
             noExceptionThrown() // no error == it pass
@@ -42,7 +42,7 @@ class DailyApplicationLimitRiskEvaluatorSpec extends BaseUnitSpec {
 
     def "should throw exception on limit matching and/or exceeded LoanApplication"() {
         given:
-            activityServiceMock.countLoanApplicationsByIpAddressAndEventTimeAfter(_ as LoanApplication, IP_ADDRESS)
+            activitiesFacadeMock.countLoanApplicationsByIpAddressAndEventTimeAfter(_ as LoanApplication, IP_ADDRESS)
                     >> loanApplicationsCount
         when:
             sut.evaluate(VALID_LOAN_APPLICATION)

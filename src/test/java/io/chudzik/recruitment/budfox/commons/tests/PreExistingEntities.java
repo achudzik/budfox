@@ -30,7 +30,7 @@ public class PreExistingEntities {
     }
 
     public static Long invalidId() {
-        return new Long(-7312L);
+        return Long.valueOf(-7312L);
     }
 
 

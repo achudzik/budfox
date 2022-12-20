@@ -8,10 +8,8 @@ import com.github.springtestdbunit.annotation.ExpectedDatabase
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.core.env.Environment
 import org.springframework.mock.web.MockHttpServletResponse
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.web.context.WebApplicationContext
 
 import groovy.json.JsonSlurper
 
@@ -29,8 +27,6 @@ class ClientRegistrationITSpec extends BaseITSpec {
 
     @Autowired ObjectMapper objectMapper
     @Autowired MockMvc mockMvc
-    @Autowired Environment environment
-    @Autowired WebApplicationContext webApplicationContext
 
 
     @ExpectedDatabase(value = "clientData-add-expected.xml", assertionMode = NON_STRICT)

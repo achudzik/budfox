@@ -2,7 +2,7 @@ package io.chudzik.recruitment.budfox.loans.web
 
 import io.chudzik.recruitment.budfox.BaseClockFixedITSpec
 import io.chudzik.recruitment.budfox.BudfoxApplication
-import io.chudzik.recruitment.budfox.activities.ActivityService
+import io.chudzik.recruitment.budfox.activities.ActivitiesFacade
 import io.chudzik.recruitment.budfox.clients.ClientService
 import io.chudzik.recruitment.budfox.clients.dto.ClientException
 import io.chudzik.recruitment.budfox.clients.web.ClientExceptionHandler
@@ -45,7 +45,6 @@ import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.VA
 import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.VALID_LOAN_APPLICATION
 import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.YESTERDAY
 
-// TODO-ach: replace all .andExpect(jsonPath("conditions.interest").value(...) with custom assertions
 @ContextConfiguration(classes = ClientExceptionHandler)
 @AutoConfigureMockMvc(print = LOG_DEBUG)
 @SpringBootTest(classes = BudfoxApplication, webEnvironment = MOCK)
@@ -53,7 +52,9 @@ import static io.chudzik.recruitment.budfox.commons.tests.PreExistingEntities.YE
 @Subject(LoansController)
 class LoansControllerITSpec extends BaseClockFixedITSpec {
 
-    @SpringBean ActivityService activityServiceMock = Mock()
+    final JsonSlurper jsonSlurper = new JsonSlurper()
+
+    @SpringBean ActivitiesFacade activitiesFacadeMock = Mock()
     @SpringBean ClientService ClientServiceMock = Mock()
     @SpringBean LoanService loanServiceMock = Mock()
     @SpringBean RiskAssessmentService riskAssessmentServiceMock = Mock()
@@ -83,7 +84,7 @@ class LoansControllerITSpec extends BaseClockFixedITSpec {
         then:
             response.status == BAD_REQUEST.value()
             response.contentType == APPLICATION_JSON_VALUE
-            verifyAll (new JsonSlurper().parseText(response.contentAsString)) {
+            verifyAll (jsonSlurper.parseText(response.contentAsString)) {
                 it.code == BAD_REQUEST.value()
                 it.message == 'Invalid request'
                 it.details == 'Field error in object \'loanApplication\' on field \'maturityDate\': rejected value [2014-04-06T21:37:00.000Z]; codes [Future.loanApplication.maturityDate,Future.maturityDate,Future.org.joda.time.DateTime,Future]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [loanApplication.maturityDate,maturityDate]; arguments []; default message [maturityDate]]; default message [must be a future date]'
@@ -114,7 +115,7 @@ class LoansControllerITSpec extends BaseClockFixedITSpec {
         then:
             response.status == NOT_FOUND.value()
             response.contentType == APPLICATION_JSON_VALUE
-            verifyAll (new JsonSlurper().parseText(response.contentAsString)) {
+            verifyAll (jsonSlurper.parseText(response.contentAsString)) {
                 it.code == NOT_FOUND.value()
                 it.message == 'Client with given ID not found.'
                 it.details == null
@@ -132,7 +133,7 @@ class LoansControllerITSpec extends BaseClockFixedITSpec {
                             .contentType(APPLICATION_JSON))
             //.andDo(org.springframework.test.web.servlet.result.MockMvcResultHandlers.print())
         then:
-            1 * activityServiceMock.logLoanApplication(clientId, _ as HttpServletRequest)
+            1 * activitiesFacadeMock.logLoanApplication(clientId, _ as HttpServletRequest)
     }
 
 
@@ -168,7 +169,7 @@ class LoansControllerITSpec extends BaseClockFixedITSpec {
         then:
             response.status == BAD_REQUEST.value()
             response.contentType == APPLICATION_JSON_VALUE
-            verifyAll (new JsonSlurper().parseText(response.contentAsString)) {
+            verifyAll (jsonSlurper.parseText(response.contentAsString)) {
                 it.code == BAD_REQUEST.value()
                 it.message == 'Risk associated with loan application is too high.'
                 it.details == loanRefusalReason
@@ -193,7 +194,7 @@ class LoansControllerITSpec extends BaseClockFixedITSpec {
         then:
             response.status == CREATED.value()
             response.contentType == APPLICATION_JSON_VALUE
-            verifyAll (new JsonSlurper().parseText(response.contentAsString)) {
+            verifyAll (jsonSlurper.parseText(response.contentAsString)) {
                 it.id == loan.getId()
                 it.client == loan.client.id
                 it.conditions.interest == conditions.getInterest()

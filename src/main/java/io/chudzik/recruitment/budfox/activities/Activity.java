@@ -3,10 +3,12 @@ package io.chudzik.recruitment.budfox.activities;
 import io.chudzik.recruitment.budfox.clients.Client;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
@@ -18,6 +20,7 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import java.util.Objects;
 
 @JsonIgnoreProperties("new")
 @Table(name = "activities")
@@ -25,6 +28,8 @@ import javax.persistence.Table;
 @ToString
 @Getter
 @EqualsAndHashCode
+@Slf4j
+@AllArgsConstructor
 @NoArgsConstructor
 public class Activity extends AbstractPersistable<Long> {
 
@@ -34,6 +39,7 @@ public class Activity extends AbstractPersistable<Long> {
     private Client client;
     @Enumerated(EnumType.STRING)
     private ActivityType type;
+    private String methodCall;
     @Column(name = "ip_address", nullable = false)
     private String ipAddress;
     @Column(name = "event_time", nullable = false)
@@ -43,6 +49,15 @@ public class Activity extends AbstractPersistable<Long> {
     @PrePersist
     public void prePersist() {
         eventTime = DateTime.now();
+    }
+
+
+    @Override
+    protected void setId(Long id) {
+        if (!Objects.equals(this.getId(), id)) {
+            super.setId(id);
+            log.trace("Id set for Activity [activity={}]", this);
+        }
     }
 
 
